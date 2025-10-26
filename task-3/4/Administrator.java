@@ -41,13 +41,13 @@ public class Administrator {
 
     public void settle(int number, Guest guest) {
         Room room = rooms.get(number);
-        if (room.getStatus().equals("занята")) {
+        if (room.getStatus() == Status.OCCUPIED) {
             System.out.println("В данный момент комната занята.");
-        } else if (room.getStatus().equals("обслуживается")) {
+        } else if (room.getStatus() == Status.IN_SERVICE) {
             System.out.println("В данный момент комната на обслуживании.");
         } else {
             room.setGuest(guest);
-            setStatus(room.getNumber(), "занята");
+            setStatus(room.getNumber(), Status.OCCUPIED);
             guest.setRentRoom(room);
             rooms.put(room.getNumber(), room);
         }
@@ -56,17 +56,17 @@ public class Administrator {
     public void evict(int number) {
         Room room = rooms.get(number);
         Guest guest = room.getGuest();
-        if (room.getStatus().equals("свободна")) {
+        if (room.getStatus() == Status.AVAILABLE) {
             System.out.println("В данный момент комната свободна.");
         } else {
             guest.setRentRoom(null);
             room.setGuest(null);
-            setStatus(room.getNumber(), "свободна");
+            setStatus(room.getNumber(), Status.AVAILABLE);
             rooms.put(room.getNumber(), room);
         }
     }
 
-    public void setStatus(int number, String status) {
+    public void setStatus(int number, Status status) {
         Room room = rooms.get(number);
         room.setStatus(status);
     }

@@ -1,10 +1,10 @@
 public class Room {
     private int number;
     private double price;
-    private String status;
+    private Status status;
     private Guest guest;
 
-    public Room(int number, double price, String status) {
+    public Room(int number, double price, Status status) {
         this.number = number;
         this.price = price;
         this.status = status;
@@ -30,16 +30,16 @@ public class Room {
         this.price = price;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status.toLowerCase();
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override
     public String toString() {
-        return "Комната номер " + number + ", стоимость " + price + ", " + status;
+        return "Комната номер " + number + ", стоимость " + price + ", " + status.toString();
     }
 }
