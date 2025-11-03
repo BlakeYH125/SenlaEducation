@@ -1,15 +1,15 @@
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.text.SimpleDateFormat;
 
-public class Room{
+public class Room implements Priceable {
     private int number;
     private double price;
     private int capacity;
     private int stars;
     private Status status;
-    private Guest guest;
+    private List<Guest> guests;
     private Date releasedIn;
     private List<Guest> previousGuests;
 
@@ -26,14 +26,15 @@ public class Room{
         return number;
     }
 
-    public Guest getGuest() {
-        return guest;
+    public List<Guest> getGuests() {
+        return guests;
     }
 
-    public void setGuest(Guest guest) {
-        this.guest = guest;
+    public void setGuest(List<Guest> guests) {
+        this.guests = guests;
     }
 
+    @Override
     public double getPrice() {
         return price;
     }
@@ -67,8 +68,10 @@ public class Room{
     }
 
     public void addToPrevGuestsList() {
-        previousGuests.add(guest);
-        guest = null;
+        for (Guest guest : guests) {
+            previousGuests.add(guest);
+        }
+        guests = null;
     }
 
     public List<Guest> getPrevGuests() {
@@ -86,5 +89,6 @@ public class Room{
         return "Комната номер " + number + ", стоимость: " + price + ", вместимость: " + capacity + ", звезды: "
                 + stars + ", " + status.toString() + ", освободится " + sdf.format(releasedIn);
     }
+
 
 }

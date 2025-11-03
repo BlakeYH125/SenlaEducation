@@ -1,11 +1,20 @@
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class HotelMain {
     public static void main(String[] args) {
+        List<Guest> guests1 = new ArrayList<>();
+        List<Guest> guests2 = new ArrayList<>();
+        List<Guest> guests3 = new ArrayList<>();
+
         Administrator administrator = new Administrator();
         Guest guest1 = new Guest("Василий Петров", 35);
+        guests1.add(guest1);
         Guest guest2 = new Guest("Василий Щукин", 45);
+        guests2.add(guest2);
         Guest guest3 = new Guest("Петр Иванов", 25);
+        guests3.add(guest3);
 
         administrator.addNewRoom(new Room(1, 3000, Status.AVAILABLE, 1, 3)); //проверка добавления комнаты
         administrator.addNewRoom(new Room(2, 4000, Status.AVAILABLE, 2, 3));
@@ -13,12 +22,12 @@ public class HotelMain {
         administrator.addNewRoom(new Room(4, 1500, Status.AVAILABLE, 2, 3));
         administrator.addNewRoom(new Room(5, 1700, Status.AVAILABLE, 2, 4));
 
-        System.out.println(administrator.getRooms().get(1));
-        administrator.settle(1, guest1, 1);
-        System.out.println(administrator.getRooms().get(1).getGuest()); //проверяем гостя у заселенной комнаты
-        System.out.println(administrator.getRooms().get(1));
+        System.out.println(administrator.getRoom(1));
+        administrator.settle(1, guests1, 1);
+        System.out.println(administrator.getRoom(1).getGuests()); //проверяем гостя у заселенной комнаты
+        System.out.println(administrator.getRoom(1));
         administrator.evict(1);
-        System.out.println(administrator.getRooms().get(1).getGuest()); //проверяем что после выселенного гостя нет
+        System.out.println(administrator.getRoom(1).getGuests()); //проверяем что после выселенного гостя нет
         System.out.println();
 
         administrator.addNewService(new Service("Завтрак", 300, ServiceSection.FOOD)); //проверяем добавление услуг
@@ -32,14 +41,14 @@ public class HotelMain {
         administrator.setInService(2, 3); //проверяем установку статуса на количество дней и смены стоимости
         administrator.setNewRoomPrice(2, 5500);
         administrator.setNewServicePrice("Завтрак", 250);
-        System.out.println(administrator.getRooms().get(2));
-        System.out.println(administrator.getServices().get("Завтрак"));
+        System.out.println(administrator.getRoom(2));
+        System.out.println(administrator.getService("Завтрак"));
         System.out.println();
 
         System.out.println("___2 этап___");
 
-        administrator.settle(1, guest2, 3);
-        administrator.settle(3, guest1, 5);
+        administrator.settle(1, guests2, 3);
+        administrator.settle(3, guests1, 5);
 
         System.out.println(administrator.getAllRoomsWithSort(SortType.PRICE)); //вывод комнат по стоимости
         System.out.println(administrator.getAllRoomsWithSort(SortType.CAPACITY)); //вывод комнат по вместимости
@@ -67,11 +76,11 @@ public class HotelMain {
         System.out.println(administrator.getTotalCost(1));  //проверка подсчета стоимости за комнату
         System.out.println();
 
-        administrator.settle(4, guest1, 1); //проверка вывода трех последних постояльцев комнаты
+        administrator.settle(4, guests1, 1); //проверка вывода трех последних постояльцев комнаты
         administrator.evict(4);
-        administrator.settle(4, guest2, 1);
+        administrator.settle(4, guests2, 1);
         administrator.evict(4);
-        administrator.settle(4, guest3, 1);
+        administrator.settle(4, guests3, 1);
         administrator.evict(4);
         System.out.println(administrator.getThreePrevGuests(4));
         System.out.println();

@@ -1,5 +1,5 @@
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.text.SimpleDateFormat;
 
 public class Guest extends Person{
     private Room rentRoom;

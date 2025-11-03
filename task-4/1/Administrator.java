@@ -1,4 +1,9 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Administrator {
     private static final long MSEC_IN_DAY = 86400000;
@@ -41,36 +46,39 @@ public class Administrator {
     }
 
 
-    public void settle(int number, Guest guest, int daysCount) {
+    public void settle(int number, List<Guest> guests, int daysCount) {
         Room room = rooms.get(number);
         if (room.getStatus() == Status.OCCUPIED) {
             System.out.println("В данный момент комната занята.");
         } else if (room.getStatus() == Status.IN_SERVICE) {
             System.out.println("В данный момент комната на обслуживании.");
         } else {
-            room.setGuest(guest);
+            room.setGuest(guests);
             setOccupied(number, daysCount);
-            guest.setRentRoom(room);
-            guest.setArriveDate(new Date(System.currentTimeMillis()));
-            guest.setDepartureDate(new Date(System.currentTimeMillis() + daysCount * MSEC_IN_DAY));
-            addGuest(guest);
+            for (Guest guest : guests) {
+                guest.setRentRoom(room);
+                guest.setArriveDate(new Date(System.currentTimeMillis()));
+                guest.setDepartureDate(new Date(System.currentTimeMillis() + daysCount * MSEC_IN_DAY));
+                addGuest(guest);
+            }
             rooms.put(room.getNumber(), room);
         }
     }
 
     public void evict(int number) {
         Room room = rooms.get(number);
-        Guest guest = room.getGuest();
+        List<Guest> guests = room.getGuests();
         if (room.getStatus() == Status.AVAILABLE) {
             System.out.println("В данный момент комната свободна.");
         } else {
             room.addToPrevGuestsList();
-            guest.setRentRoom(null);
-            guest.setDepartureDate(new Date(System.currentTimeMillis()));
-
+            for (Guest guest : guests) {
+                guest.setRentRoom(null);
+                guest.setDepartureDate(new Date(System.currentTimeMillis()));
+                removeGuest(guest);
+            }
             setAvailable(number);
             rooms.put(room.getNumber(), room);
-            removeGuest(guest);
         }
     }
 
@@ -154,8 +162,8 @@ public class Administrator {
 
     public double getTotalCost(int number) {
         Room room = rooms.get(number);
-        Guest guest = room.getGuest();
-        return (guest.getDepartureDate().getTime() - guest.getArriveDate().getTime()) / MSEC_IN_DAY * room.getPrice();
+        List<Guest> guests = room.getGuests();
+        return (guests.get(0).getDepartureDate().getTime() - guests.get(0).getArriveDate().getTime()) / MSEC_IN_DAY * room.getPrice();
     }
 
     public List<Room> getAllRoomsWithSort(SortType sortType) {
@@ -192,32 +200,18 @@ public class Administrator {
         return listGuests;
     }
 
-    public List<Object> getPriceOfRoomsAndServicesWithSort(SortType sortType) {
-        List<Object> catalog = new ArrayList<>();
-        catalog.addAll(rooms.values());
-        catalog.addAll(services.values());
+    public List<Priceable> getPriceOfRoomsAndServicesWithSort(SortType sortType) {
+        List<Priceable> catalog = new ArrayList<>();
         if (sortType == SortType.PRICE) {
-            catalog.sort((o1, o2) -> {
-                double price1 = (o1 instanceof Room) ? ((Room)o1).getPrice() : ((Service)o1).getPrice();
-                double price2 = (o2 instanceof Room) ? ((Room)o2).getPrice() : ((Service)o2).getPrice();
-                return Double.compare(price1, price2);
-            });
+            catalog.addAll(rooms.values());
+            catalog.addAll(services.values());
+            catalog.sort(Comparator.comparing(Priceable::getPrice));
         } else if (sortType == SortType.SECTION) {
-            catalog.sort((o1, o2) -> {
-                if (o1 instanceof Room && o2 instanceof Service) return -1;
-                if (o1 instanceof Service && o2 instanceof Room) return 1;
-                if (o1 instanceof Room) {
-                    return Double.compare(((Room)o1).getPrice(), ((Room)o2).getPrice());
-                }
-                Service s1 = (Service)o1;
-                Service s2 = (Service)o2;
-
-                int sectionCompare = s1.getServiceSection().compareTo(s2.getServiceSection());
-                if (sectionCompare != 0) {
-                    return sectionCompare;
-                }
-                return Double.compare(s1.getPrice(), s2.getPrice());
-            });
+            catalog.addAll(rooms.values());
+            List<Service> tempCatalog = new ArrayList<>(services.values());
+            catalog.sort(Comparator.comparing(Priceable::getPrice));
+            tempCatalog.sort(Comparator.comparing(Service::getServiceSection));
+            catalog.addAll(tempCatalog);
         }
         return catalog;
     }
@@ -230,5 +224,13 @@ public class Administrator {
             listServices.sort(Comparator.comparing(Service::getServiceSection));
         }
         return listServices;
+    }
+
+    public Room getRoom(int number) {
+        return rooms.get(number);
+    }
+
+    public Service getService(String name) {
+        return services.get(name);
     }
 }

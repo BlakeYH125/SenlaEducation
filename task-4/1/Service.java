@@ -1,4 +1,4 @@
-public class Service {
+public class Service implements Priceable{
     private String name;
     private double price;
     private ServiceSection serviceSection;
@@ -13,6 +13,7 @@ public class Service {
         return name;
     }
 
+    @Override
     public double getPrice() {
         return price;
     }
