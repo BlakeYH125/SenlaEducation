@@ -1,3 +1,7 @@
+package education.task5.view;
+
+import education.task5.model.*;
+
 import java.util.List;
 import java.util.Scanner;
 
