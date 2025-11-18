@@ -1,3 +1,5 @@
+package model;
+
 public class Service implements Priceable {
     private String id;
     private String name;

@@ -1,3 +1,7 @@
+package view;
+
+import model.*;
+
 import java.util.List;
 import java.util.Scanner;
 

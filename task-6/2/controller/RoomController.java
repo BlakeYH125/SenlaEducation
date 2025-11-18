@@ -1,3 +1,8 @@
+package controller;
+
+import model.*;
+import view.Console;
+
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

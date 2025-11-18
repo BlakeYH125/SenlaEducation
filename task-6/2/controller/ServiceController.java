@@ -1,3 +1,8 @@
+package controller;
+
+import model.*;
+import view.Console;
+
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -43,7 +48,6 @@ public class ServiceController {
             console.showMessage("1. Питание;\n2. Транспортные услуги;\n3. Уборка;\n4. Здоровье;\n5. Бизнес;\n6. Дети.");
             int sectionType = console.readInt("Введите номер типа услуги: ");
             switch (sectionType) {
-
                 case 1:
                     serviceManagement.addNewService(new Service(id, newServiceName, console.readDouble("Введите стоимость услуги: "), ServiceSection.FOOD));
                     break;

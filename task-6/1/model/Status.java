@@ -1,3 +1,5 @@
+package model;
+
 public enum Status {
     AVAILABLE("свободный"),
     OCCUPIED("занят"),

@@ -1,3 +1,8 @@
+package controller;
+
+import model.*;
+import view.*;
+
 public class MainMenuController {
     private GuestController guestController;
     private RoomController roomController;
