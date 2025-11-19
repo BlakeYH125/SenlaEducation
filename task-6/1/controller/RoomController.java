@@ -3,15 +3,17 @@ package controller;
 import model.*;
 import view.Console;
 
-import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.util.Date;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class RoomController {
@@ -72,7 +74,7 @@ public class RoomController {
             } else {
                 console.showMessage("Ошибка при выселении.");
             }
-        } catch (RoomNotFoundException e){
+        } catch (RoomNotFoundException e) {
             console.showMessage(e.getMessage());
         }
     }
@@ -91,7 +93,7 @@ public class RoomController {
                 roomManagement.setAvailable(id);
                 console.showMessage("Установка статуса успешна.");
             }
-        } catch (RoomNotFoundException e){
+        } catch (RoomNotFoundException e) {
             console.showMessage(e.getMessage());
         }
     }
@@ -111,7 +113,7 @@ public class RoomController {
                 roomManagement.setOccupied(id, daysCount);
                 console.showMessage("Установка статуса успешна.");
             }
-        } catch (RoomNotFoundException e){
+        } catch (RoomNotFoundException e) {
             console.showMessage(e.getMessage());
         }
     }
@@ -131,7 +133,7 @@ public class RoomController {
                 roomManagement.setInService(id, daysCount);
                 console.showMessage("Установка статуса успешна.");
             }
-        } catch (RoomNotFoundException e){
+        } catch (RoomNotFoundException e) {
             console.showMessage(e.getMessage());
         }
     }
@@ -160,7 +162,7 @@ public class RoomController {
             int number = console.readInt("Введите номер комнаты: ");
             roomManagement.addNewRoom(new Room(id, number, console.readDouble("Введите суточную стоимость номера: "), Status.AVAILABLE, console.readInt("Введите вместимость номера: "), console.readInt("Введите количество звезд: ")));
             console.showMessage("Добавление успешно.");
-        } catch (RoomNotFoundException e){
+        } catch (RoomNotFoundException e) {
             console.showMessage(e.getMessage());
         }
     }
@@ -221,7 +223,7 @@ public class RoomController {
                 throw new RoomNotFoundException();
             }
             console.showGuests((List<Guest>) roomManagement.getThreePrevRoomGuests(id));
-        } catch (RoomNotFoundException e){
+        } catch (RoomNotFoundException e) {
             console.showMessage(e.getMessage());
         }
     }
@@ -241,22 +243,25 @@ public class RoomController {
 
     public void importRoomData(Console console, RoomManagement roomManagement) {
         String filePath = console.readString("Введите абсолютный путь к файлу: ");
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader br = Files.newBufferedReader(Paths.get(filePath), Charset.forName("windows-1251"))) {
             String str;
             while ((str = br.readLine()) != null) {
                 String[] parts = str.split(";");
-                roomManagement.addNewRoom(new Room(parts[0], Integer.parseInt(parts[1]), Double.parseDouble(parts[2]), Status.valueOf(parts[3]), Integer.parseInt(parts[4]), Integer.parseInt(parts[5])));
+                if (parts.length == 6) {
+                    roomManagement.addNewRoom(new Room(parts[0], Integer.parseInt(parts[1]), Double.parseDouble(parts[2]), Status.valueOf(parts[3]), Integer.parseInt(parts[4]), Integer.parseInt(parts[5])));
+                } else {
+                    console.showMessage("Ошибка при импорте, неверное количество параметров в записи.");
+                }
             }
-            console.showMessage("Импорт успешен.");
-        } catch (FileNotFoundException e) {
+            console.showMessage("Импорт завершен.");
+        } catch (NoSuchFileException e) {
             console.showMessage("Файл не найден.");
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void exportRoomData(Console console, RoomManagement roomManagement){
+    public void exportRoomData(Console console, RoomManagement roomManagement) {
         String id = console.readString("Введите id комнаты для экспорта: ");
         if (roomManagement.getRooms().containsKey(id)) {
             String dirPath = console.readString("Введите абсолютный путь к папке для экспорта: ");

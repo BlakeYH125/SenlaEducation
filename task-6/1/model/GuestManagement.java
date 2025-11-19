@@ -43,4 +43,13 @@ public class GuestManagement {
         }
         return listGuests;
     }
+
+    public List<UsedService> getUsedServicesByGuestWithSort(List<UsedService> usedServices, SortType sortType) {
+        if (sortType == SortType.PRICE) {
+            usedServices.sort(Comparator.comparing(UsedService::getPrice));
+        } else if (sortType == SortType.DATE) {
+            usedServices.sort(Comparator.comparing(UsedService::getDate));
+        }
+        return usedServices;
+    }
 }

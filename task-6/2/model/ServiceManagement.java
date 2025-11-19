@@ -21,6 +21,14 @@ public class ServiceManagement {
         return services.get(id);
     }
 
+    public String getServiceName(String id) {
+        return services.get(id).getName();
+    }
+
+    public double getServicePrice(String id) {
+        return services.get(id).getPrice();
+    }
+
     public Map<String, Service> getServices() {
         return services;
     }
@@ -31,7 +39,7 @@ public class ServiceManagement {
     }
 
     public List<Service> getServicesWithSort(SortType sortType) {
-        List<Service> listServices = new ArrayList<>(services.values());
+        List<Service> listServices = new ArrayList<>(getServices().values());
         if (sortType == SortType.PRICE) {
             listServices.sort(Comparator.comparing(Service::getPrice));
         } else if (sortType == SortType.SECTION) {

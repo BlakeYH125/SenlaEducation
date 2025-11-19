@@ -1,6 +1,8 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.text.SimpleDateFormat;
 
 public class Guest extends Person {
@@ -8,11 +10,21 @@ public class Guest extends Person {
     private Room rentRoom;
     private Date arriveDate;
     private Date departureDate;
+    private List<UsedService> usedServices;
 
     public Guest(String id, String fullName, int age) {
         this.id = id;
         this.fullName = fullName;
         this.age = age;
+        this.usedServices = new ArrayList<>();
+    }
+
+    public void addUsedService(String serviceId, String name, double price) {
+        usedServices.add(new UsedService(serviceId, name, price, new Date()));
+    }
+
+    public List<UsedService> getUsedServices() {
+        return usedServices;
     }
 
     public Date getArriveDate() {

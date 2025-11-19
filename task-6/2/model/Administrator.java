@@ -67,6 +67,11 @@ public class Administrator {
         }
     }
 
+    public void useServiceByGuest(String guestId, String serviceId) {
+        Guest guest = guestManagement.getGuest(guestId);
+        guest.addUsedService(serviceId, serviceManagement.getServiceName(serviceId), serviceManagement.getServicePrice(serviceId));
+    }
+
     public List<Priceable> getPriceOfRoomsAndServicesWithSort(SortType sortType) {
         List<Priceable> catalog = new ArrayList<>();
         if (sortType == SortType.PRICE) {

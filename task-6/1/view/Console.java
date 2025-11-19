@@ -70,13 +70,15 @@ public class Console {
         System.out.println("17. Посмотреть 3-х последних постояльцев номера и даты их пребывания;");
         System.out.println("18. Просмотреть список услуг и их цену;");
         System.out.println("19. Просмотреть список цен на услуги и номера;");
-        System.out.println("20. Посмотреть детали отдельного номера.");
-        System.out.println("21. Сделать импорт данных о комнате(ах).");
-        System.out.println("22. Сделать экспорт данных о комнате.");
-        System.out.println("23. Сделать импорт данных о услуге(ах).");
-        System.out.println("24. Сделать экспорт данных о услуге.");
-        System.out.println("25. Сделать импорт данных об госте(ях).");
-        System.out.println("26. Сделать экспорт данных об госте.\n");
+        System.out.println("20. Посмотреть детали отдельного номера;");
+        System.out.println("21. Сделать импорт данных о комнате(ах);");
+        System.out.println("22. Сделать экспорт данных о комнате;");
+        System.out.println("23. Сделать импорт данных о услуге(ах);");
+        System.out.println("24. Сделать экспорт данных о услуге;");
+        System.out.println("25. Сделать импорт данных об госте(ях);");
+        System.out.println("26. Сделать экспорт данных об госте;");
+        System.out.println("27. Воспользоваться услугой.");
+        System.out.println("28. Посмотреть список услуг, которыми воспользовался гость.\n");
     }
 
     public void showRooms(List<Room> rooms) {
@@ -115,6 +117,16 @@ public class Console {
         } else {
             for (Service service : services) {
                 System.out.println(service);
+            }
+        }
+    }
+
+    public void showUsedServices(List<UsedService> usedServices) {
+        if (usedServices == null || usedServices.isEmpty()) {
+            System.out.println("Список использованных услуг пуст.");
+        } else {
+            for (UsedService usedService : usedServices) {
+                System.out.println(usedService);
             }
         }
     }

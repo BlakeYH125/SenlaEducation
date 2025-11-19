@@ -131,6 +131,14 @@ public class MainMenuController {
                     guestController.exportServiceData(console, administrator.getGuestManagement());
                     break;
 
+                case 27:
+                    guestController.useService(console, administrator);
+                    break;
+
+                case 28:
+                    guestController.showServicesUsedByGuest(console, administrator);
+                    break;
+
                 default:
                     console.showMessage("Введено некорректное значение! Попробуйте снова.");
             }

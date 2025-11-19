@@ -3,14 +3,16 @@ package controller;
 import model.*;
 import view.Console;
 
-import java.util.ArrayList;
+import java.nio.file.Paths;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -99,14 +101,18 @@ public class ServiceController {
 
     public void importServiceData(Console console, ServiceManagement serviceManagement) {
         String filePath = console.readString("Введите абсолютный путь к файлу: ");
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader br = Files.newBufferedReader(Paths.get(filePath), Charset.forName("windows-1251"))) {
             String str;
             while ((str = br.readLine()) != null) {
                 String[] parts = str.split(";");
-                serviceManagement.addNewService(new Service(parts[0], parts[1], Double.parseDouble(parts[2]), ServiceSection.valueOf(parts[3])));
+                if (parts.length == 4) {
+                    serviceManagement.addNewService(new Service(parts[0], parts[1], Double.parseDouble(parts[2]), ServiceSection.valueOf(parts[3])));
+                } else {
+                    console.showMessage("Ошибка при импорте, неверное количество параметров в записи.");
+                }
             }
-            console.showMessage("Импорт успешен.");
-        } catch (FileNotFoundException e) {
+            console.showMessage("Импорт завершен.");
+        } catch (NoSuchFileException e) {
             console.showMessage("Файл не найден.");
         }
         catch (IOException e) {
