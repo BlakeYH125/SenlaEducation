@@ -7,11 +7,9 @@ public class RoomManagement implements Serializable {
     private static final long MSEC_IN_DAY = 86400000;
 
     private Map<String, Room> rooms;
-    private transient Properties settings;
 
-    public RoomManagement(Properties settings) {
+    public RoomManagement() {
         this.rooms = new HashMap<>();
-        this.settings = settings;
     }
 
     public Map<String, Room> getRooms() {
@@ -23,9 +21,7 @@ public class RoomManagement implements Serializable {
     }
 
     public boolean setAvailable(String id) {
-        String allowChange = settings.getProperty("hotel.room.status.changing");
-        boolean isAllowChange = Boolean.parseBoolean(allowChange);
-        if (isAllowChange) {
+        if (PropertySettings.isIsAllowChange()) {
             Room room = rooms.get(id);
             room.setReleasedIn(null);
             room.setStatus(Status.AVAILABLE);
@@ -41,9 +37,7 @@ public class RoomManagement implements Serializable {
     }
 
     public boolean setOccupied(String id, int daysCount) {
-        String allowChange = settings.getProperty("hotel.room.status.changing");
-        boolean isAllowChange = Boolean.parseBoolean(allowChange);
-        if (isAllowChange) {
+        if (PropertySettings.isIsAllowChange()) {
             Room room = rooms.get(id);
             room.setReleasedIn(new Date(System.currentTimeMillis() + daysCount * MSEC_IN_DAY));
             room.setStatus(Status.OCCUPIED);
@@ -59,9 +53,7 @@ public class RoomManagement implements Serializable {
     }
 
     public boolean setInService(String id, int daysCount) {
-        String allowChange = settings.getProperty("hotel.room.status.changing");
-        boolean isAllowChange = Boolean.parseBoolean(allowChange);
-        if (isAllowChange) {
+        if (PropertySettings.isIsAllowChange()) {
             Room room = rooms.get(id);
             room.setReleasedIn(new Date(System.currentTimeMillis() + daysCount * MSEC_IN_DAY));
             room.setStatus(Status.IN_SERVICE);

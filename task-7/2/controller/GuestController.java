@@ -15,7 +15,63 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class GuestController {
-    public void showGuests(Console console, GuestManagement guestManagement) {
+    private Console console;
+    private boolean running = true;
+    private Administrator administrator;
+    private GuestManagement guestManagement;
+
+    public GuestController(Administrator administrator, Console console) {
+        this.console = console;
+        this.administrator = administrator;
+        this.guestManagement = administrator.getGuestManagement();
+    }
+
+    public void run() {
+        running = true;
+        while (running) {
+            console.printGuestMenu();
+            int command = console.readInt("Введите номер команды: ");
+            switch (command) {
+                case 0:
+                    running = false;
+                    break;
+
+                case 1:
+                    showGuests();
+                    break;
+
+                case 2:
+                    getGuestsCount();
+                    break;
+
+                case 3:
+                    getTotalCost();
+                    break;
+
+                case 4:
+                    useService();
+                    break;
+
+                case 5:
+                    showServicesUsedByGuest();
+                    break;
+
+                case 6:
+                    importGuestData();
+                    break;
+
+                case 7:
+                    exportGuestData();
+                    break;
+
+                default:
+                    console.showMessage("Введено некорректное значение! Попробуйте снова.");
+            }
+        }
+    }
+
+
+    public void showGuests() {
         console.showMessage("1. Алфавит;\n2. Дата освобождения номера.");
         int sortType = console.readInt("Выберите вид сортировки: ");
         if (sortType == 1) {
@@ -27,11 +83,11 @@ public class GuestController {
         }
     }
 
-    public void getGuestsCount(Console console, GuestManagement guestManagement) {
+    public void getGuestsCount() {
         console.showMessage(String.valueOf(guestManagement.getGuestsCount()));
     }
 
-    public void importServiceData(Console console, GuestManagement guestManagement) {
+    public void importGuestData() {
         String filePath = console.readString("Введите абсолютный путь к файлу: ");
         try (BufferedReader br = Files.newBufferedReader(Paths.get(filePath), Charset.forName("windows-1251"))) {
             String str;
@@ -51,7 +107,7 @@ public class GuestController {
         }
     }
 
-    public void exportServiceData(Console console, GuestManagement guestManagement) {
+    public void exportGuestData() {
         String id = console.readString("Введите id гостя для экспорта: ");
         if (guestManagement.getGuests().containsKey(id)) {
             String dirPath = console.readString("Введите абсолютный путь к папке для экспорта: ");
@@ -82,24 +138,7 @@ public class GuestController {
         }
     }
 
-    public void useService(Console console, Administrator administrator) {
-        GuestManagement guestManagement = administrator.getGuestManagement();
-        ServiceManagement serviceManagement = administrator.getServiceManagement();
-        String guestId = console.readString("Введите id гостя: ");
-        if (guestManagement.getGuests().containsKey(guestId)) {
-            String serviceId = console.readString("Введите id услуги: ");
-            if (serviceManagement.getServices().containsKey(serviceId)) {
-                administrator.useServiceByGuest(guestId, serviceId);
-                console.showMessage("Использование услуги успешно.");
-            } else {
-                console.showMessage("Услуги в таким id нет.");
-            }
-        } else {
-            console.showMessage("Гостя с таким id нет.");
-        }
-    }
-
-    public void showServicesUsedByGuest(Console console, Administrator administrator) {
+    public void showServicesUsedByGuest() {
         GuestManagement guestManagement = administrator.getGuestManagement();
         String guestId = console.readString("Введите id гостя: ");
         if (guestManagement.getGuests().containsKey(guestId)) {
@@ -112,6 +151,36 @@ public class GuestController {
                 console.showUsedServices(guestManagement.getUsedServicesByGuestWithSort(usedServices, SortType.DATE));
             } else {
                 console.showMessage("Неверный номер команды.");
+            }
+        } else {
+            console.showMessage("Гостя с таким id нет.");
+        }
+    }
+
+    public void getTotalCost() {
+        RoomManagement roomManagement = administrator.getRoomManagement();
+        String id = console.readString("Введите id комнаты: ");
+        if (!roomManagement.getRooms().containsKey(id)) {
+            throw new RoomNotFoundException();
+        }
+        if (roomManagement.isOccupied(id) && roomManagement.getRoom(id).getGuests() != null && !roomManagement.getRoom(id).getGuests().isEmpty()) {
+            console.showMessage(String.valueOf(roomManagement.getTotalRoomCost(id)));
+        } else {
+            console.showMessage("В номере никто не живет.");
+        }
+    }
+
+    public void useService() {
+        GuestManagement guestManagement = administrator.getGuestManagement();
+        ServiceManagement serviceManagement = administrator.getServiceManagement();
+        String guestId = console.readString("Введите id гостя: ");
+        if (guestManagement.getGuests().containsKey(guestId)) {
+            String serviceId = console.readString("Введите id услуги: ");
+            if (serviceManagement.getServices().containsKey(serviceId)) {
+                administrator.useServiceByGuest(guestId, serviceId);
+                console.showMessage("Использование услуги успешно.");
+            } else {
+                console.showMessage("Услуги в таким id нет.");
             }
         } else {
             console.showMessage("Гостя с таким id нет.");

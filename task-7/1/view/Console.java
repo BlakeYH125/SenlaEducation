@@ -49,36 +49,52 @@ public class Console {
         System.out.println(message);
     }
 
-    public void printMenu() {
+    public void printMainMenu() {
         System.out.println("\n0. Выход;");
-        System.out.println("1. Заселить в номер;");
-        System.out.println("2. Выселить из номера;");
-        System.out.println("3. Изменить статус номера на \"свободный\";");
-        System.out.println("4. Изменить статус номера на \"занят\";");
-        System.out.println("5. Изменить статус номера на \"на обслуживании\";");
-        System.out.println("6. Изменить цену номера;");
-        System.out.println("7. Изменить цену услуги;");
-        System.out.println("8. Добавить номер;");
-        System.out.println("9. Добавить услугу;");
-        System.out.println("10. Просмотреть список всех номеров;");
-        System.out.println("11. Просмотреть список всех свободных номеров;");
-        System.out.println("12. Просмотреть список постояльцев и их номеров;");
-        System.out.println("13. Просмотреть общее число всех свободных номеров;");
-        System.out.println("14. Просмотреть общее число постояльцев;");
-        System.out.println("15. Просмотреть список номеров, которые будут свободны к определенной дате;");
-        System.out.println("16. Просмотреть сумму, которую должен оплатить постоялец за номер;");
-        System.out.println("17. Посмотреть 3-х последних постояльцев номера и даты их пребывания;");
-        System.out.println("18. Просмотреть список услуг и их цену;");
-        System.out.println("19. Просмотреть список цен на услуги и номера;");
-        System.out.println("20. Посмотреть детали отдельного номера;");
-        System.out.println("21. Сделать импорт данных о комнате(ах);");
-        System.out.println("22. Сделать экспорт данных о комнате;");
-        System.out.println("23. Сделать импорт данных о услуге(ах);");
-        System.out.println("24. Сделать экспорт данных о услуге;");
-        System.out.println("25. Сделать импорт данных об госте(ях);");
-        System.out.println("26. Сделать экспорт данных об госте;");
-        System.out.println("27. Воспользоваться услугой.");
-        System.out.println("28. Посмотреть список услуг, которыми воспользовался гость.\n");
+        System.out.println("1. Меню управления номерами;");
+        System.out.println("2. Меню управления услугами;");
+        System.out.println("3. Меню управления гостями.\n");
+    }
+
+    public void printRoomMenu() {
+        System.out.println("\n0. Вернуться в главное меню;");
+        System.out.println("1. Добавить номер;");
+        System.out.println("2. Изменить цену номера;");
+        System.out.println("3. Просмотреть список всех номеров;");
+        System.out.println("4. Просмотреть список всех свободных номеров;");
+        System.out.println("5. Просмотреть общее число всех свободных номеров;");
+        System.out.println("6. Просмотреть список номеров, которые будут свободны к определенной дате;");
+        System.out.println("7. Посмотреть детали отдельного номера;");
+        System.out.println("8. Заселить в номер;");
+        System.out.println("9. Выселить из номера;");
+        System.out.println("10. Посмотреть 3-х последних постояльцев номера и даты их пребывания;");
+        System.out.println("11. Изменить статус номера на \"свободный\";");
+        System.out.println("12. Изменить статус номера на \"занят\";");
+        System.out.println("13. Изменить статус номера на \"на обслуживании\";");
+        System.out.println("14. Сделать импорт данных о комнате(ах);");
+        System.out.println("15. Сделать экспорт данных о комнате.\n");
+    }
+
+    public void printServiceMenu() {
+        System.out.println("\n0. Вернуться в главное меню;");
+        System.out.println("1. Добавить услугу;");
+        System.out.println("2. Изменить цену услуги;");
+        System.out.println("3. Просмотреть список услуг и их цену;");
+        System.out.println("4. Просмотреть список цен на услуги и номера;");
+        System.out.println("5. Сделать импорт данных о услуге(ах);");
+        System.out.println("6. Сделать экспорт данных о услуге.\n");
+    }
+
+    public void printGuestMenu() {
+        System.out.println("\n0. Вернуться в главное меню;");
+        System.out.println("1. Просмотреть список постояльцев и их номеров;");
+        System.out.println("2. Просмотреть общее число постояльцев;");
+        System.out.println("3. Просмотреть сумму, которую должен оплатить постоялец за номер;");
+        System.out.println("4. Воспользоваться услугой.");
+        System.out.println("5. Посмотреть список услуг, которыми воспользовался гость;");
+        System.out.println("6. Сделать импорт данных об госте(ях);");
+        System.out.println("7. Сделать экспорт данных об госте.\n");
+
     }
 
     public void showRooms(List<Room> rooms) {

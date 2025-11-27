@@ -17,10 +17,96 @@ import java.util.Date;
 import java.util.List;
 
 public class RoomController {
-    public void evict(Console console, Administrator administrator) {
-        RoomManagement roomManagement = administrator.getRoomManagement();
-        GuestManagement guestManagement = administrator.getGuestManagement();
+    private Console console;
+    private boolean running = true;
+    private Administrator administrator;
+    private RoomManagement roomManagement;
+
+    public RoomController(Administrator administrator, Console console) {
+        this.console = console;
+        this.administrator = administrator;
+        this.roomManagement = administrator.getRoomManagement();
+    }
+
+    public void run() {
+        running = true;
+        while (running) {
+            console.printRoomMenu();
+            int command = console.readInt("Введите номер команды: ");
+            switch (command) {
+                case 0:
+                    running = false;
+                    break;
+
+                case 1:
+                    addRoom();
+                    break;
+
+                case 2:
+                    changeRoomPrice();
+                    break;
+
+                case 3:
+                    showAllRooms();
+                    break;
+
+                case 4:
+                    showAllFreeRooms();
+                    break;
+
+                case 5:
+                    getFreeRoomsCount();
+                    break;
+
+                case 6:
+                    showFreeRoomsByDate();
+                    break;
+
+                case 7:
+                    getRoomDetails();
+                    break;
+
+                case 8:
+                    settle();
+                    break;
+
+                case 9:
+                    evict();
+                    break;
+
+                case 10:
+                    getThreePrevGuests();
+                    break;
+
+                case 11:
+                    setAvailable();
+                    break;
+
+                case 12:
+                    setOccupied();
+                    break;
+
+                case 13:
+                    setInService();
+                    break;
+
+                case 14:
+                    importRoomData();
+                    break;
+
+                case 15:
+                    exportRoomData();
+                    break;
+
+                default:
+                    console.showMessage("Введено некорректное значение! Попробуйте снова.");
+            }
+        }
+    }
+
+    public void settle() {
         try {
+            GuestManagement guestManagement = administrator.getGuestManagement();
             String id = console.readString("Введите id комнаты: ");
             if (!roomManagement.getRooms().containsKey(id)) {
                 throw new RoomNotFoundException();
@@ -58,8 +144,7 @@ public class RoomController {
         }
     }
 
-    public void settle(Console console, Administrator administrator) {
-        RoomManagement roomManagement = administrator.getRoomManagement();
+    public void evict() {
         try {
             String id = console.readString("Введите id комнаты: ");
             if (!roomManagement.getRooms().containsKey(id)) {
@@ -79,7 +164,7 @@ public class RoomController {
         }
     }
 
-    public void setAvailable(Console console, RoomManagement roomManagement) {
+    public void setAvailable() {
         String id = console.readString("Введите id комнаты: ");
         try {
             if (!roomManagement.getRooms().containsKey(id)) {
@@ -101,7 +186,7 @@ public class RoomController {
         }
     }
 
-    public void setOccupied(Console console, RoomManagement roomManagement) {
+    public void setOccupied() {
         String id = console.readString("Введите id комнаты: ");
         try {
             if (!roomManagement.getRooms().containsKey(id)) {
@@ -124,7 +209,7 @@ public class RoomController {
         }
     }
 
-    public void setInService(Console console, RoomManagement roomManagement) {
+    public void setInService() {
         String id = console.readString("Введите id комнаты: ");
         try {
             if (!roomManagement.getRooms().containsKey(id)) {
@@ -147,7 +232,7 @@ public class RoomController {
         }
     }
 
-    public void changeRoomPrice(Console console, RoomManagement roomManagement) {
+    public void changeRoomPrice() {
         String id = console.readString("Введите id комнаты: ");
         try {
             if (!roomManagement.getRooms().containsKey(id)) {
@@ -161,7 +246,7 @@ public class RoomController {
         }
     }
 
-    public void addRoom(Console console, RoomManagement roomManagement) {
+    public void addRoom() {
         String id = console.readString("Введите id комнаты: ");
         try {
             if (roomManagement.getRooms().containsKey(id)) {
@@ -176,7 +261,7 @@ public class RoomController {
         }
     }
 
-    public void showAllRooms(Console console, RoomManagement roomManagement) {
+    public void showAllRooms() {
         console.showMessage("1. Цена;\n2. Вместимость;\n3. Количество звезд.");
         int sortType = console.readInt("Выберите вид сортировки: ");
         if (sortType == 1) {
@@ -190,7 +275,7 @@ public class RoomController {
         }
     }
 
-    public void showAllFreeRooms(Console console, RoomManagement roomManagement) {
+    public void showAllFreeRooms() {
         console.showMessage("1. Цена;\n2. Вместимость;\n3. Количество звезд.");
         int sortType = console.readInt("Выберите вид сортировки: ");
         if (sortType == 1) {
@@ -204,40 +289,18 @@ public class RoomController {
         }
     }
 
-    public void getFreeRoomsCount(Console console, RoomManagement roomManagement) {
+    public void getFreeRoomsCount() {
         console.showMessage(String.valueOf(roomManagement.getFreeRoomsCount()));
     }
 
-    public void showFreeRoomsByDate(Console console, RoomManagement roomManagement) {
+    public void showFreeRoomsByDate() {
         int daysCount = console.readInt("Введите количество дней от текущей даты: ");
         console.showRooms(roomManagement.getFreeRoomsByDate(new Date(System.currentTimeMillis() + daysCount * RoomManagement.getMSecInDay())));
     }
 
-    public void getTotalCost(Console console, RoomManagement roomManagement) {
-        String id = console.readString("Введите id комнаты: ");
-        if (!roomManagement.getRooms().containsKey(id)) {
-            throw new RoomNotFoundException();
-        }
-        if (roomManagement.isOccupied(id) && roomManagement.getRoom(id).getGuests() != null && !roomManagement.getRoom(id).getGuests().isEmpty()) {
-            console.showMessage(String.valueOf(roomManagement.getTotalRoomCost(id)));
-        } else {
-            console.showMessage("В номере никто не живет.");
-        }
-    }
 
-    public void getThreePrevGuests(Console console, RoomManagement roomManagement) {
-        String id = console.readString("Введите id комнаты: ");
-        try {
-            if (!roomManagement.getRooms().containsKey(id)) {
-                throw new RoomNotFoundException();
-            }
-            console.showGuests((List<Guest>) roomManagement.getThreePrevRoomGuests(id));
-        } catch (RoomNotFoundException e) {
-            console.showMessage(e.getMessage());
-        }
-    }
 
-    public void getRoomDetails(Console console, RoomManagement roomManagement) {
+    public void getRoomDetails() {
         if (roomManagement.getRooms() == null) {
             console.showMessage("Список комнат пуст.");
             return;
@@ -250,7 +313,7 @@ public class RoomController {
         console.showMessage(roomManagement.getRoomDetails(id));
     }
 
-    public void importRoomData(Console console, RoomManagement roomManagement) {
+    public void importRoomData() {
         String filePath = console.readString("Введите абсолютный путь к файлу: ");
         try (BufferedReader br = Files.newBufferedReader(Paths.get(filePath), Charset.forName("windows-1251"))) {
             String str;
@@ -270,7 +333,7 @@ public class RoomController {
         }
     }
 
-    public void exportRoomData(Console console, RoomManagement roomManagement) {
+    public void exportRoomData() {
         String id = console.readString("Введите id комнаты для экспорта: ");
         if (roomManagement.getRooms().containsKey(id)) {
             String dirPath = console.readString("Введите абсолютный путь к папке для экспорта: ");
@@ -301,6 +364,19 @@ public class RoomController {
             }
         } else {
             console.showMessage("Комнаты с таким id нет.");
+        }
+    }
+
+    public void getThreePrevGuests() {
+        RoomManagement roomManagement = administrator.getRoomManagement();
+        String id = console.readString("Введите id комнаты: ");
+        try {
+            if (!roomManagement.getRooms().containsKey(id)) {
+                throw new RoomNotFoundException();
+            }
+            console.showGuests((List<Guest>) roomManagement.getThreePrevRoomGuests(id));
+        } catch (RoomNotFoundException e) {
+            console.showMessage(e.getMessage());
         }
     }
 }

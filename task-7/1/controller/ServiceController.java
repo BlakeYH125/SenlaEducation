@@ -17,7 +17,59 @@ import java.util.List;
 import java.util.Optional;
 
 public class ServiceController {
-    public void changeServicePrice(Console console, ServiceManagement serviceManagement) {
+    private Console console;
+    private boolean running = true;
+    private Administrator administrator;
+    private ServiceManagement serviceManagement;
+
+    public ServiceController(Administrator administrator, Console console) {
+        this.console = console;
+        this.administrator = administrator;
+        this.serviceManagement = administrator.getServiceManagement();
+    }
+
+    public void run() {
+        running = true;
+        while (running) {
+            console.printServiceMenu();
+            int command = console.readInt("Введите номер команды: ");
+            switch (command) {
+                case 0:
+                    running = false;
+                    break;
+
+                case 1:
+                    addService();
+                    break;
+
+                case 2:
+                    changeServicePrice();
+                    break;
+
+                case 3:
+                    showServices();
+                    break;
+
+                case 4:
+                    showCatalog();
+                    break;
+
+                case 5:
+                    importServiceData();
+                    break;
+
+                case 6:
+                    exportServiceData();
+                    break;
+
+                default:
+                    console.showMessage("Введено некорректное значение! Попробуйте снова.");
+            }
+        }
+    }
+
+
+    public void changeServicePrice() {
         if (serviceManagement.getServices() == null || serviceManagement.getServices().isEmpty()) {
             console.showMessage("Список услуг пуст.");
             return;
@@ -37,7 +89,7 @@ public class ServiceController {
         }
     }
 
-    public void addService(Console console, ServiceManagement serviceManagement) {
+    public void addService() {
         String id = console.readString("Введите id услуги: ");
         List<Service> services = new ArrayList<>(serviceManagement.getServices().values());
         Optional<Service> service = services.stream()
@@ -75,7 +127,7 @@ public class ServiceController {
         }
     }
 
-    public void showServices(Console console, ServiceManagement serviceManagement) {
+    public void showServices() {
         console.showMessage("1. Цена;\n2. Раздел.");
         int sortType = console.readInt("Выберите вид сортировки: ");
         if (sortType == 1) {
@@ -87,7 +139,7 @@ public class ServiceController {
         }
     }
 
-    public void showCatalog(Console console, Administrator administrator) {
+    public void showCatalog() {
         console.showMessage("1. Цена;\n2. Раздел.");
         int sortType = console.readInt("Выберите вид сортировки: ");
         if (sortType == 1) {
@@ -99,7 +151,7 @@ public class ServiceController {
         }
     }
 
-    public void importServiceData(Console console, ServiceManagement serviceManagement) {
+    public void importServiceData() {
         String filePath = console.readString("Введите абсолютный путь к файлу: ");
         try (BufferedReader br = Files.newBufferedReader(Paths.get(filePath), Charset.forName("windows-1251"))) {
             String str;
@@ -120,7 +172,7 @@ public class ServiceController {
         }
     }
 
-    public void exportServiceData(Console console, ServiceManagement serviceManagement){
+    public void exportServiceData(){
         String id = console.readString("Введите id услуги для экспорта: ");
         if (serviceManagement.getServices().containsKey(id)) {
             String dirPath = console.readString("Введите абсолютный путь к папке для экспорта: ");

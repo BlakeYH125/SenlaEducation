@@ -7,13 +7,11 @@ public class Administrator {
     private GuestManagement guestManagement;
     private RoomManagement roomManagement;
     private ServiceManagement serviceManagement;
-    transient private Properties settings;
 
     public Administrator(Properties settings) {
         this.guestManagement = new GuestManagement();
-        this.roomManagement = new RoomManagement(settings);
+        this.roomManagement = new RoomManagement();
         this.serviceManagement = new ServiceManagement();
-        this.settings = settings;
     }
 
     public void setGuestManagement(GuestManagement guestManagement) {
@@ -66,7 +64,7 @@ public class Administrator {
         if (room.getStatus() == Status.AVAILABLE || room.getStatus() == Status.IN_SERVICE) {
             return false;
         } else {
-            room.addToPrevGuestsList(settings);
+            room.addToPrevGuestsList();
             for (Guest guest : guests) {
                 guest.setRentRoom(null);
                 guest.setDepartureDate(new Date(System.currentTimeMillis()));

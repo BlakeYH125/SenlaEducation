@@ -77,11 +77,9 @@ public class Room implements Priceable, Serializable {
         this.releasedIn = releasedIn;
     }
 
-    public void addToPrevGuestsList(Properties settings) {
-        String previousGuestsLimitString = settings.getProperty("hotel.room.history.limit");
-        int previousGuestsLimit = Integer.parseInt(previousGuestsLimitString);
+    public void addToPrevGuestsList() {
         for (Guest guest : guests) {
-            if (previousGuests.size() == previousGuestsLimit) {
+            if (!previousGuests.isEmpty() && previousGuests.size() == PropertySettings.getPreviousGuestsLimit()) {
                 previousGuests.remove(0);
             }
             previousGuests.add(guest);

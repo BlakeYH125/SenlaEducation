@@ -13,9 +13,9 @@ public class MainMenuController {
 
     public MainMenuController(Administrator administrator, Console console) {
         this.console = console;
-        this.guestController = new GuestController();
-        this.roomController = new RoomController();
-        this.serviceController = new ServiceController();
+        this.guestController = new GuestController(administrator, console);
+        this.roomController = new RoomController(administrator, console);
+        this.serviceController = new ServiceController(administrator, console);
 
         HotelState state = DatabaseController.load();
         if (state != null) {
@@ -28,7 +28,7 @@ public class MainMenuController {
 
     public void run() {
         while (running) {
-            console.printMenu();
+            console.printMainMenu();
             int command = console.readInt("Введите номер команды: ");
             switch (command) {
                 case 0:
@@ -36,115 +36,15 @@ public class MainMenuController {
                     running = false;
                     break;
                 case 1:
-                    roomController.evict(console, administrator);
+                    roomController.run();
                     break;
 
                 case 2:
-                    roomController.settle(console, administrator);
+                    serviceController.run();
                     break;
 
                 case 3:
-                    roomController.setAvailable(console, administrator.getRoomManagement());
-                    break;
-
-                case 4:
-                    roomController.setOccupied(console, administrator.getRoomManagement());
-                    break;
-
-                case 5:
-                    roomController.setInService(console, administrator.getRoomManagement());
-                    break;
-
-                case 6:
-                    roomController.changeRoomPrice(console, administrator.getRoomManagement());
-                    break;
-
-                case 7:
-                    serviceController.changeServicePrice(console, administrator.getServiceManagement());
-                    break;
-
-                case 8:
-                    roomController.addRoom(console, administrator.getRoomManagement());
-                    break;
-
-                case 9:
-                    serviceController.addService(console, administrator.getServiceManagement());
-                    break;
-
-                case 10:
-                    roomController.showAllRooms(console, administrator.getRoomManagement());
-                    break;
-
-                case 11:
-                    roomController.showAllFreeRooms(console, administrator.getRoomManagement());
-                    break;
-
-                case 12:
-                    guestController.showGuests(console, administrator.getGuestManagement());
-                    break;
-
-                case 13:
-                    roomController.getFreeRoomsCount(console, administrator.getRoomManagement());
-                    break;
-
-                case 14:
-                    guestController.getGuestsCount(console, administrator.getGuestManagement());
-                    break;
-
-                case 15:
-                    roomController.showFreeRoomsByDate(console, administrator.getRoomManagement());
-                    break;
-
-                case 16:
-                    roomController.getTotalCost(console, administrator.getRoomManagement());
-                    break;
-
-                case 17:
-                    roomController.getThreePrevGuests(console, administrator.getRoomManagement());
-                    break;
-
-                case 18:
-                    serviceController.showServices(console, administrator.getServiceManagement());
-                    break;
-
-                case 19:
-                    serviceController.showCatalog(console, administrator);
-                    break;
-
-                case 20:
-                    roomController.getRoomDetails(console, administrator.getRoomManagement());
-                    break;
-
-                case 21:
-                    roomController.importRoomData(console, administrator.getRoomManagement());
-                    break;
-
-                case 22:
-                    roomController.exportRoomData(console, administrator.getRoomManagement());
-                    break;
-
-                case 23:
-                    serviceController.importServiceData(console, administrator.getServiceManagement());
-                    break;
-
-                case 24:
-                    serviceController.exportServiceData(console, administrator.getServiceManagement());
-                    break;
-
-                case 25:
-                    guestController.importServiceData(console, administrator.getGuestManagement());
-                    break;
-
-                case 26:
-                    guestController.exportServiceData(console, administrator.getGuestManagement());
-                    break;
-
-                case 27:
-                    guestController.useService(console, administrator);
-                    break;
-
-                case 28:
-                    guestController.showServicesUsedByGuest(console, administrator);
+                    guestController.run();
                     break;
 
                 default:
