@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.text.SimpleDateFormat;
-import java.util.Properties;
 
 public class Room implements Priceable, Serializable {
     private String id;
@@ -20,6 +19,7 @@ public class Room implements Priceable, Serializable {
     private List<Guest> guests;
     private Date releasedIn;
     private List<Guest> previousGuests;
+
     @ConfigProperty(propertyName = "hotel.room.history.limit")
     private int previousGuestsLimit;
 

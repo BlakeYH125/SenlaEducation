@@ -22,8 +22,10 @@ import java.util.Optional;
 public class ServiceController {
     @Inject
     private Administrator administrator;
+
     @Inject
     private Console console;
+
     private boolean running = true;
     private ServiceManagement serviceManagement;
 

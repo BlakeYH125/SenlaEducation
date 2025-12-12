@@ -1,20 +1,24 @@
 package model;
 
 import annotations.Component;
+import annotations.Inject;
 
 import java.util.*;
 
 @Component
 public class Administrator {
     private static final long MSEC_IN_DAY = 86400000;
+
+    @Inject
     private GuestManagement guestManagement;
+
+    @Inject
     private RoomManagement roomManagement;
+
+    @Inject
     private ServiceManagement serviceManagement;
 
     public Administrator() {
-        this.guestManagement = new GuestManagement();
-        this.roomManagement = new RoomManagement();
-        this.serviceManagement = new ServiceManagement();
     }
 
     public void setGuestManagement(GuestManagement guestManagement) {
@@ -99,6 +103,4 @@ public class Administrator {
         }
         return catalog;
     }
-
-
 }

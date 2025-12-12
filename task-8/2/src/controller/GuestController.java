@@ -20,8 +20,10 @@ import java.util.List;
 public class GuestController {
     @Inject
     private Administrator administrator;
+
     @Inject
     private Console console;
+
     private boolean running = true;
     private GuestManagement guestManagement;
 

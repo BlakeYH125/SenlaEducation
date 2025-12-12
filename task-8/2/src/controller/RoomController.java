@@ -25,6 +25,7 @@ public class RoomController {
 
     @Inject
     private Console console;
+
     private boolean running = true;
     private RoomManagement roomManagement;
 

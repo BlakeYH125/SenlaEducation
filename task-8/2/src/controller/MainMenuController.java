@@ -21,6 +21,7 @@ public class MainMenuController {
 
     @Inject
     private ServiceController serviceController;
+
     private boolean running = true;
 
     public MainMenuController() {};
