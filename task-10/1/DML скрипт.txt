@@ -1,0 +1,101 @@
+INSERT INTO Product
+VALUES ('Asus', 'L1', 'Laptop');
+
+INSERT INTO Product
+VALUES ('Honor', 'L2', 'Laptop');
+
+INSERT INTO Product
+VALUES ('Huawei', 'L3', 'Laptop');
+
+INSERT INTO Product
+VALUES ('Xiaomi', 'L4', 'Laptop');
+
+INSERT INTO Product
+VALUES ('Asus', 'L5', 'Laptop');
+
+INSERT INTO Product
+VALUES ('Hp', 'P1', 'Printer');
+
+INSERT INTO Product
+VALUES ('Brother', 'P2', 'Printer');
+
+INSERT INTO Product
+VALUES ('Hp', 'P3', 'Printer');
+
+INSERT INTO Product
+VALUES ('Kyosera', 'P4', 'Printer');
+
+INSERT INTO Product
+VALUES ('Acer', 'P5', 'Printer');
+
+INSERT INTO Product
+VALUES ('Hp', 'C1', 'PC');
+
+INSERT INTO Product
+VALUES ('Acer', 'C2', 'PC');
+
+INSERT INTO Product
+VALUES ('Lenovo', 'C3', 'PC');
+
+INSERT INTO Product
+VALUES ('Asus', 'C4', 'PC');
+
+INSERT INTO Product
+VALUES ('Asus', 'C5', 'PC');
+
+INSERT INTO Product
+VALUES ('Lenovo', 'C6', 'PC');
+
+INSERT INTO Product
+VALUES ('Asus', 'C8', 'PC');
+
+INSERT INTO Laptop
+VALUES (1, 'L1', 2000, 16, 1024, 350.00, 15);
+
+INSERT INTO Laptop
+VALUES (2, 'L2', 2400, 32, 2048, 650.00, 17);
+
+INSERT INTO Laptop
+VALUES (3, 'L3', 1800, 8, 512, 200.00, 15);
+
+INSERT INTO Laptop
+VALUES (4, 'L4', 2200, 16, 1536, 400.00, 14);
+
+INSERT INTO Laptop
+VALUES (5, 'L5', 3000, 32, 4096, 1200.00, 17);
+
+INSERT INTO PC
+VALUES (1, 'C1', 3200, 16, 2048, '4x', 400.00);
+
+INSERT INTO PC
+VALUES (2, 'C2', 2400, 8, 1024, '2x', 300.00);
+
+INSERT INTO PC
+VALUES (3, 'C3', 4800, 32, 4096, '8x', 700.00);
+
+INSERT INTO PC
+VALUES (4, 'C4', 3600, 16, 4096, '16x', 800.00);
+
+INSERT INTO PC
+VALUES (5, 'C5', 2800, 16, 2048, '12x', 400.00);
+
+INSERT INTO PC
+VALUES (6, 'C6', 4800, 32, 4096, '24x', 1300.00);
+
+INSERT INTO PC
+VALUES (7, 'C8', 3800, 16, 1024, '4x', 300.00);
+
+INSERT INTO Printer
+VALUES (1, 'P1', 'y', 'Laser', 30);
+
+INSERT INTO Printer
+VALUES (2, 'P2', 'n', 'Jet', 50);
+
+INSERT INTO Printer
+VALUES (3, 'P3', 'y', 'Matrix', 70);
+
+INSERT INTO Printer
+VALUES (4, 'P4', 'n', 'Laser', 40);
+
+INSERT INTO Printer
+Values (5, 'P5', 'y', 'Matrix', 45);

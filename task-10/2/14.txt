@@ -1,0 +1,3 @@
+SELECT speed, AVG(price::numeric)
+FROM PC
+GROUP BY speed;

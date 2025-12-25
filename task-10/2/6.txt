@@ -1,0 +1,4 @@
+SELECT p.maker, l.speed
+FROM Product as p
+JOIN Laptop as l ON l.model = p.model
+WHERE hd >= 100;

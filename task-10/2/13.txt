@@ -1,0 +1,5 @@
+--опять же, брал производителя не A, а Asus
+SELECT AVG(pc.speed)
+FROM Product as pro
+JOIN PC as pc ON pc.model = pro.model
+WHERE pro.maker = 'Asus';

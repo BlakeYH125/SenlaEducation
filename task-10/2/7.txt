@@ -1,0 +1,19 @@
+--т.к. у меня реальные названия, вместо производителя B я сделал Asus
+SELECT pro.model, l.price
+FROM Product as pro
+JOIN Laptop as l ON pro.model = l.model
+WHERE pro.maker = 'Asus'
+
+UNION
+
+SELECT pro.model, pc.price
+FROM Product as pro
+JOIN PC as pc ON pro.model = pc.model
+WHERE pro.maker = 'Asus'
+
+UNION
+
+SELECT pro.model, pri.price
+FROM Product as pro
+JOIN Printer as pri ON pro.model = pri.model
+WHERE pro.maker = 'Asus';
