@@ -3,7 +3,7 @@ FROM Product as pro
 JOIN PC as pc ON pro.model = pc.model
 WHERE pc.speed >= 750
 
-UNION
+INTERSECT
 
 SELECT DISTINCT pro.maker
 FROM Product as pro
