@@ -1,7 +1,7 @@
 CREATE TABLE Product (
 	maker varchar(10),
 	model varchar(50) PRIMARY KEY,
-	type varchar(50)
+	type varchar(50) CHECK (type IN ('Printer', 'PC', 'Laptop'))
 );
 
 CREATE TABLE PC (
@@ -27,7 +27,7 @@ CREATE TABLE Laptop (
 CREATE TABLE Printer (
 	code int,
 	model varchar(50) REFERENCES Product(model),
-	color char(1),
-	type varchar(10),
+	color char(1) CHECK (color IN ('y', 'n')),
+    	type varchar(10) CHECK (type IN ('Laser', 'Jet', 'Matrix')),
 	price money
 );
