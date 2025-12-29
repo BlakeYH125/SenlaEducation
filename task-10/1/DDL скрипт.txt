@@ -1,0 +1,33 @@
+CREATE TABLE Product (
+	maker varchar(10),
+	model varchar(50) PRIMARY KEY,
+	type varchar(50) CHECK (type IN ('Printer', 'PC', 'Laptop'))
+);
+
+CREATE TABLE PC (
+    code int PRIMARY KEY,
+    model varchar(50) REFERENCES Product(model),
+    speed smallint,
+    ram smallint,
+    hd real,
+    cd varchar(10),
+    price money
+);
+
+CREATE TABLE Laptop (
+	code int,
+	model varchar(50) REFERENCES Product(model),
+	speed smallint,
+	ram smallint,
+	hd real,
+	price money,
+	screen smallint
+);
+
+CREATE TABLE Printer (
+	code int,
+	model varchar(50) REFERENCES Product(model),
+	color char(1) CHECK (color IN ('y', 'n')),
+    	type varchar(10) CHECK (type IN ('Laser', 'Jet', 'Matrix')),
+	price money
+);

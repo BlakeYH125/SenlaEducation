@@ -1,0 +1,4 @@
+SELECT pro.type, l.model, l.speed
+FROM Product as pro
+JOIN Laptop as l ON pro.model = l.model
+WHERE l.speed < (SELECT MIN(speed) FROM PC);

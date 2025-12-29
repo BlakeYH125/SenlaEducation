@@ -1,0 +1,4 @@
+SELECT speed, AVG(price::numeric)
+FROM PC
+WHERE speed > 600
+GROUP BY speed;
