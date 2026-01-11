@@ -62,4 +62,27 @@ public class ServiceDao {
             e.printStackTrace();
         }
     }
+
+    public Service getService(String id) {
+        String sql = """
+                SELECT *
+                FROM services
+                WHERE serviceId = ?
+                """;
+        try (PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql)) {
+            preparedStatement.setString(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Service service = new Service();
+                service.setId(resultSet.getString("serviceId"));
+                service.setName(resultSet.getString("name"));
+                service.setPrice(resultSet.getBigDecimal("price"));
+                service.setServiceSection(ServiceSection.valueOf(resultSet.getString("serviceSection").toUpperCase()));
+                return service;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

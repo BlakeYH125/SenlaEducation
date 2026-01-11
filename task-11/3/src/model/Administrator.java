@@ -61,7 +61,6 @@ public class Administrator {
                     guestManagement.addGuest(guest);
                 }
                 guestManagement.setGuests(guests);
-                roomManagement.addNewRoom(room);
                 connection.commit();
                 return 0;
             } catch (Exception e) {
@@ -91,14 +90,9 @@ public class Administrator {
             try {
                 connection.setAutoCommit(false);
                 for (Guest guest : guests) {
-                    guestManagement.removeGuest(guest.getId());
-                    guest.setRentRoomId(null);
-                    guest.setDepartureDate(new Date(System.currentTimeMillis()));
-                    guestManagement.addGuest(guest);
+                    guestManagement.setEvicted(guest.getId());
                 }
-                roomManagement.addToPrevGuests(room, guests);
                 roomManagement.setAvailableToEvict(id);
-                roomManagement.addNewRoom(room);
                 connection.commit();
                 return true;
             } catch (Exception e) {
@@ -145,12 +139,12 @@ public class Administrator {
     public List<Priceable> getPriceOfRoomsAndServicesWithSort(SortType sortType) {
         List<Priceable> catalog = new ArrayList<>();
         if (sortType == SortType.PRICE) {
-            catalog.addAll(roomManagement.getRooms().values());
-            catalog.addAll(new ArrayList<>(serviceManagement.getServices().values()));
+            catalog.addAll(roomManagement.getRooms());
+            catalog.addAll(new ArrayList<>(serviceManagement.getServices()));
             catalog.sort(Comparator.comparing(Priceable::getPrice));
         } else if (sortType == SortType.SECTION) {
-            catalog.addAll(new ArrayList<>(roomManagement.getRooms().values()));
-            List<Service> tempCatalog = new ArrayList<>(serviceManagement.getServices().values());
+            catalog.addAll(new ArrayList<>(roomManagement.getRooms()));
+            List<Service> tempCatalog = new ArrayList<>(serviceManagement.getServices());
             catalog.sort(Comparator.comparing(Priceable::getPrice));
             tempCatalog.sort(Comparator.comparing(Service::getServiceSection));
             catalog.addAll(tempCatalog);

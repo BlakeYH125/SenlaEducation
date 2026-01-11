@@ -83,9 +83,9 @@ public class GuestController {
         console.showMessage("1. Алфавит;\n2. Дата освобождения номера.");
         int sortType = console.readInt("Выберите вид сортировки: ");
         if (sortType == 1) {
-            console.showGuests((List<Guest>) guestManagement.getGuestsWithSort(SortType.ALPHABET));
+            console.showGuests((List<Guest>) guestManagement.getActualGuestsWithSort(SortType.ALPHABET));
         } else if (sortType == 2) {
-            console.showGuests((List<Guest>) guestManagement.getGuestsWithSort(SortType.DATE));
+            console.showGuests((List<Guest>) guestManagement.getActualGuestsWithSort(SortType.DATE));
         } else {
             console.showMessage("Неверный номер команды.");
         }
@@ -117,7 +117,7 @@ public class GuestController {
 
     public void exportGuestData() {
         String id = console.readString("Введите id гостя для экспорта: ");
-        if (guestManagement.getGuests().containsKey(id)) {
+        if (guestManagement.isThereGuest(id)) {
             String dirPath = console.readString("Введите абсолютный путь к папке для экспорта: ");
             File directory = new File(dirPath);
             directory.mkdirs();
@@ -150,7 +150,7 @@ public class GuestController {
         GuestManagement guestManagement = administrator.getGuestManagement();
         UsedServiceManagement usedServiceManagement = administrator.getUsedServiceManagement();
         String guestId = console.readString("Введите id гостя: ");
-        if (guestManagement.getGuests().containsKey(guestId)) {
+        if (guestManagement.isThereGuest(guestId)) {
             List<UsedService> usedServices = usedServiceManagement.getUsedServices(guestManagement.getGuest(guestId));
             console.showMessage("1. Цена;\n2. Дата.");
             int sortType = console.readInt("Выберите вид сортировки: ");
@@ -170,7 +170,7 @@ public class GuestController {
         try {
             RoomManagement roomManagement = administrator.getRoomManagement();
             String id = console.readString("Введите id комнаты: ");
-            if (!roomManagement.getRooms().containsKey(id)) {
+            if (!roomManagement.isThereRoom(id)) {
                 throw new RoomNotFoundException();
             }
             if (roomManagement.isOccupied(id) && roomManagement.getCurrentGuests(roomManagement.getRoom(id)) != null && !roomManagement.getCurrentGuests(roomManagement.getRoom(id)).isEmpty()) {
@@ -186,11 +186,10 @@ public class GuestController {
     public void useService() {
         GuestManagement guestManagement = administrator.getGuestManagement();
         ServiceManagement serviceManagement = administrator.getServiceManagement();
-        UsedServiceManagement usedServiceManagement = administrator.getUsedServiceManagement();
         String guestId = console.readString("Введите id гостя: ");
-        if (guestManagement.getGuests().containsKey(guestId)) {
+        if (guestManagement.isThereGuest(guestId)) {
             String serviceId = console.readString("Введите id услуги: ");
-            if (serviceManagement.getServices().containsKey(serviceId)) {
+            if (serviceManagement.isThereService(serviceId)) {
                 administrator.useServiceByGuest(guestId, serviceId);
                 console.showMessage("Использование услуги успешно.");
             } else {

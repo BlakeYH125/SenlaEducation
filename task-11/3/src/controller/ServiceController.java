@@ -87,7 +87,7 @@ public class ServiceController {
             console.showMessage("Список услуг пуст.");
             return;
         }
-        List<Service> services = new ArrayList<>(serviceManagement.getServices().values());
+        List<Service> services = new ArrayList<>(serviceManagement.getServices());
         console.showServices(services);
         String id = console.readString("Введите id услуги: ");
         Optional<Service> service = services.stream()
@@ -105,7 +105,7 @@ public class ServiceController {
 
     public void addService() {
         String id = console.readString("Введите id услуги: ");
-        List<Service> services = new ArrayList<>(serviceManagement.getServices().values());
+        List<Service> services = new ArrayList<>(serviceManagement.getServices());
         Optional<Service> service = services.stream()
                 .filter(s -> s.getId().equals(id))
                 .findFirst();
@@ -201,7 +201,7 @@ public class ServiceController {
 
     public void exportServiceData(){
         String id = console.readString("Введите id услуги для экспорта: ");
-        if (serviceManagement.getServices().containsKey(id)) {
+        if (serviceManagement.isThereService(id)) {
             String dirPath = console.readString("Введите абсолютный путь к папке для экспорта: ");
             File directory = new File(dirPath);
             directory.mkdirs();

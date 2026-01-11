@@ -66,32 +66,35 @@ public class RoomDao {
     }
 
     public void setAvailable(Room room) {
-        String sql = "UPDATE rooms SET status = ? WHERE roomId = ?";
+        String sql = "UPDATE rooms SET status = ?, releasedIn = ? WHERE roomId = ?";
         try (PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql)) {
             preparedStatement.setString(1, "AVAILABLE");
-            preparedStatement.setString(2, room.getId());
+            preparedStatement.setDate(2, null);
+            preparedStatement.setString(3, room.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void setOccupied(Room room) {
-        String sql = "UPDATE rooms SET status = ? WHERE roomId = ?";
+    public void setOccupied(Room room, Date releadesIn) {
+        String sql = "UPDATE rooms SET status = ?, releasedIn = ? WHERE roomId = ?";
         try (PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql)) {
             preparedStatement.setString(1, "OCCUPIED");
-            preparedStatement.setString(2, room.getId());
+            preparedStatement.setDate(2, new java.sql.Date(releadesIn.getTime()));
+            preparedStatement.setString(3, room.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void setInService(Room room) {
-        String sql = "UPDATE rooms SET status = ? WHERE roomId = ?";
+    public void setInService(Room room, Date releasedIn) {
+        String sql = "UPDATE rooms SET status = ?, releasedIn = ? WHERE roomId = ?";
         try (PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql)) {
-            preparedStatement.setString(1, "INSERVICE");
-            preparedStatement.setString(2, room.getId());
+            preparedStatement.setString(1, "IN_SERVICE");
+            preparedStatement.setDate(2, new java.sql.Date(releasedIn.getTime()));
+            preparedStatement.setString(3, room.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -107,5 +110,31 @@ public class RoomDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public Room getRoom(String id) {
+        String sql = """
+                SELECT *
+                FROM rooms
+                WHERE roomId = ?
+                """;
+        try (PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql)) {
+            preparedStatement.setString(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Room room = new Room();
+                room.setId(resultSet.getString("roomId"));
+                room.setNumber(resultSet.getInt("number"));
+                room.setPrice(resultSet.getBigDecimal("price"));
+                room.setCapacity(resultSet.getInt("capacity"));
+                room.setStars(resultSet.getInt("stars"));
+                room.setStatus(Status.valueOf(resultSet.getString("status")));
+                room.setReleasedIn(resultSet.getDate("releasedIn"));
+                return room;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

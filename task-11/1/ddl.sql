@@ -35,11 +35,3 @@ CREATE TABLE guestUsedServices (
     FOREIGN KEY (guestId) REFERENCES guests(guestId),
     FOREIGN KEY (serviceId) REFERENCES services(serviceId)
 );
-
-CREATE TABLE roomGuestHistory (
-    roomGuestHistoryId BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    roomId VARCHAR(36) NOT NULL,
-    guestId VARCHAR(36) NOT NULL,
-    arriveDate DATE NOT NULL,
-    departureDate DATE NOT NULL
-);

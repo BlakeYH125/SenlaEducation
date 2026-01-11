@@ -2,10 +2,8 @@ package injector;
 
 import annotations.Component;
 import annotations.Inject;
-import annotations.PostConstruct;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,19 +22,6 @@ public class Injector {
                 } catch (IllegalAccessException e) {
                     System.err.println("Ошибка внедрения зависимости " + dependencyType.getName() + " в поле " + field.getName());
                     e.printStackTrace();
-                }
-            }
-        }
-        for (Method method : clazz.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(PostConstruct.class)) {
-                try {
-                    method.setAccessible(true);
-                    method.invoke(target);
-                } catch (Exception e) {
-                    throw new RuntimeException(
-                            "Ошибка вызова @PostConstruct метода " + method.getName() +
-                                    " в классе " + clazz.getName(), e
-                    );
                 }
             }
         }

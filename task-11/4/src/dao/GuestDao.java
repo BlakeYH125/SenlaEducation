@@ -64,7 +64,7 @@ public class GuestDao {
         return guests;
     }
 
-    public List<Guest> findCurrentGuests(Room room) {
+    public List<Guest> findCurrentGuestsInRoom(Room room) {
         List<Guest> guests = new ArrayList<>();
         String sql = """
                 SELECT g.*
@@ -91,5 +91,103 @@ public class GuestDao {
             e.printStackTrace();
         }
         return guests;
+    }
+
+    public List<Guest> findCurrentGuestsInHotel() {
+        List<Guest> guests = new ArrayList<>();
+        String sql = """
+                SELECT *
+                FROM guests
+                WHERE status = ?
+                """;
+        try (PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql)) {
+            preparedStatement.setString(1, "SETTLED");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Guest guest = new Guest();
+                guest.setId(resultSet.getString("guestId"));
+                guest.setFullName(resultSet.getString("fullName"));
+                guest.setAge(resultSet.getInt("age"));
+                guest.setRentRoomId(resultSet.getString("rentRoomId"));
+                guest.setArriveDate(resultSet.getDate("arriveDate"));
+                guest.setDepartureDate(resultSet.getDate("departureDate"));
+                guest.setStatus(GuestStatus.valueOf(resultSet.getString("status").toUpperCase()));
+                guests.add(guest);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return guests;
+    }
+
+    public Guest getGuest(String id) {
+        String sql = """
+                SELECT *
+                FROM guests
+                WHERE guestId = ?
+                """;
+        try (PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql)) {
+            preparedStatement.setString(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Guest guest = new Guest();
+                guest.setId(resultSet.getString("guestId"));
+                guest.setFullName(resultSet.getString("fullName"));
+                guest.setAge(resultSet.getInt("age"));
+                guest.setRentRoomId(resultSet.getString("rentRoomId"));
+                guest.setArriveDate(resultSet.getDate("arriveDate"));
+                guest.setDepartureDate(resultSet.getDate("departureDate"));
+                guest.setStatus(GuestStatus.valueOf(resultSet.getString("status").toUpperCase()));
+                return guest;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<Guest> findPreviousGuests(Room room, int limit) {
+        String sql = """
+                SELECT *
+                FROM GUESTS
+                WHERE rentRoomId = ? AND status = ?
+                limit ?
+                """;
+        List<Guest> guests = new ArrayList<>();
+        try (PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql)) {
+            preparedStatement.setString(1, room.getId());
+            preparedStatement.setString(2, "EVICTED");
+            preparedStatement.setInt(3, limit);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Guest guest = new Guest();
+                guest.setId(resultSet.getString("guestId"));
+                guest.setFullName(resultSet.getString("fullName"));
+                guest.setAge(resultSet.getInt("age"));
+                guest.setRentRoomId(resultSet.getString("rentRoomId"));
+                guest.setArriveDate(resultSet.getDate("arriveDate"));
+                guest.setDepartureDate(resultSet.getDate("departureDate"));
+                guest.setStatus(GuestStatus.valueOf(resultSet.getString("status").toUpperCase()));
+                guests.add(guest);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return guests;
+    }
+
+    public void setEvicted(Guest guest) {
+        String sql = """
+                    UPDATE guests
+                    SET status = ?
+                    WHERE guestId = ?;
+                    """;
+        try (PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql)) {
+            preparedStatement.setString(1, "EVICTED");
+            preparedStatement.setString(2, guest.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

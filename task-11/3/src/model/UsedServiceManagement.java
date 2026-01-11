@@ -8,24 +8,14 @@ import java.util.*;
 
 @Component
 public class UsedServiceManagement {
-    private Map<String, UsedService> usedServices;
 
     @Inject
     UsedServiceDao usedServiceDao;
 
     public UsedServiceManagement() {
-        this.usedServices = new HashMap<>();
-    }
-
-    public UsedServiceManagement(List<UsedService> usedServiceList) {
-        this.usedServices = new HashMap<>();
-        for (UsedService usedService : usedServiceList) {
-            usedServices.put(usedService.getId(), usedService);
-        }
     }
 
     public void addUsedService(UsedService usedService) {
-        usedServices.put(usedService.getUsedServiceId(), usedService);
         usedServiceDao.save(usedService);
     }
 
