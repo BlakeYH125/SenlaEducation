@@ -111,13 +111,7 @@ public class RoomManagement {
     }
 
     public List<Room> getFreeRoomsByDate(Date date) {
-        List<Room> filteredRoom = new ArrayList<>();
-        for (Room room : roomDao.findAll()) {
-            if (room.getReleasedIn() == null || room.getReleasedIn().before(date)) {
-                filteredRoom.add(room);
-            }
-        }
-        return filteredRoom;
+        return roomDao.findFreeRoomsByDate(new java.sql.Date(date.getTime()));
     }
 
     public String getRoomDetails(String id) {

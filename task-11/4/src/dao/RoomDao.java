@@ -6,6 +6,7 @@ import model.GuestStatus;
 import model.Room;
 import model.Status;
 
+import javax.imageio.plugins.jpeg.JPEGImageReadParam;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
@@ -125,5 +126,32 @@ public class RoomDao {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<Room> findFreeRoomsByDate(Date date) {
+        List<Room> rooms = new ArrayList<>();
+        String sql = """
+                SELECT *
+                FROM rooms
+                WHERE releasedIn < ? OR status = 'AVAILABLE'
+                """;
+        try (PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql)) {
+            preparedStatement.setDate(1, new java.sql.Date(date.getTime()));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Room room = new Room();
+                room.setId(resultSet.getString("roomId"));
+                room.setNumber(resultSet.getInt("number"));
+                room.setPrice(resultSet.getBigDecimal("price"));
+                room.setCapacity(resultSet.getInt("capacity"));
+                room.setStars(resultSet.getInt("stars"));
+                room.setStatus(Status.valueOf(resultSet.getString("status")));
+                room.setReleasedIn(resultSet.getDate("releasedIn"));
+                rooms.add(room);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rooms;
     }
 }
