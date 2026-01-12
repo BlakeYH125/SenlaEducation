@@ -222,7 +222,7 @@ public class RoomController {
                 console.showMessage("Комната уже занята.");
             } else {
                 int daysCount = console.readInt("Введите, на сколько дней установить статус \"занят\": ");
-                if (roomManagement.setOccupied(id, daysCount)) {
+                if (roomManagement.setStatus(id, daysCount, Status.OCCUPIED)) {
                     roomDao.save(roomManagement.getRoom(id));
                     console.showMessage("Установка статуса успешна.");
                 } else {
@@ -246,7 +246,7 @@ public class RoomController {
                 console.showMessage("Комната уже на обслуживании");
             } else {
                 int daysCount = console.readInt("Введите, на сколько дней установить статус \"на обслуживании\": ");
-                if (roomManagement.setInService(id, daysCount)) {
+                if (roomManagement.setStatus(id, daysCount, Status.IN_SERVICE)) {
                     roomDao.save(roomManagement.getRoom(id));
                     console.showMessage("Установка статуса успешна.");
                 } else {

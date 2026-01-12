@@ -2,6 +2,7 @@ package dao;
 
 import annotations.Component;
 import database.DBConnection;
+import model.GuestStatus;
 import model.Room;
 import model.Status;
 
@@ -77,22 +78,10 @@ public class RoomDao {
         }
     }
 
-    public void setOccupied(Room room, Date releadesIn) {
+    public void setStatus(Room room, Date releasedIn, Status status) {
         String sql = "UPDATE rooms SET status = ?, releasedIn = ? WHERE roomId = ?";
         try (PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql)) {
-            preparedStatement.setString(1, "OCCUPIED");
-            preparedStatement.setDate(2, new java.sql.Date(releadesIn.getTime()));
-            preparedStatement.setString(3, room.getId());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setInService(Room room, Date releasedIn) {
-        String sql = "UPDATE rooms SET status = ?, releasedIn = ? WHERE roomId = ?";
-        try (PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql)) {
-            preparedStatement.setString(1, "IN_SERVICE");
+            preparedStatement.setString(1, status.name());
             preparedStatement.setDate(2, new java.sql.Date(releasedIn.getTime()));
             preparedStatement.setString(3, room.getId());
             preparedStatement.executeUpdate();

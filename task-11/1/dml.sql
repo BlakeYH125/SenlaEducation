@@ -1,6 +1,6 @@
 INSERT INTO rooms (roomId, number, price, capacity, stars, status, releasedIn)
 VALUES 
-('r1', 101, 5000.00, 2, 4, 'OCCUPIED', '2026-01-12'),
+('r1', 101, 5000.00, 2, 4, 'OCCUPIED', '2026-01-14'),
 ('r2', 102, 8000.00, 3, 5, 'AVAILABLE', NULL),
 ('r3', 103, 2000.00, 1, 1, 'OCCUPIED', '2026-01-15');
 

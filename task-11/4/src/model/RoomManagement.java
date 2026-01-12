@@ -62,24 +62,16 @@ public class RoomManagement {
         roomDao.setAvailable(getRoom(id));
     }
 
-    public boolean setOccupied(String id, int daysCount) {
+    public boolean setStatus(String id, int daysCount, Status status) {
         if (isAllowChange) {
-            roomDao.setOccupied(getRoom(id), new java.sql.Date(System.currentTimeMillis() + daysCount * MSEC_IN_DAY));
+            roomDao.setStatus(getRoom(id), new java.sql.Date(System.currentTimeMillis() + daysCount * MSEC_IN_DAY), status);
             return true;
         }
         return false;
     }
 
     public void setOccupiedToSettle(String id, int daysCount) {
-        roomDao.setOccupied(getRoom(id), new java.sql.Date(System.currentTimeMillis() + daysCount * MSEC_IN_DAY));
-    }
-
-    public boolean setInService(String id, int daysCount) {
-        if (isAllowChange) {
-            roomDao.setInService(getRoom(id), new java.sql.Date(System.currentTimeMillis() + daysCount * MSEC_IN_DAY));
-            return true;
-        }
-        return false;
+        roomDao.setStatus(getRoom(id), new java.sql.Date(System.currentTimeMillis() + daysCount * MSEC_IN_DAY), Status.OCCUPIED);
     }
 
     public boolean isFree(String id) {
@@ -115,13 +107,7 @@ public class RoomManagement {
     }
 
     public int getFreeRoomsCount() {
-        int count = 0;
-        for (Room room : roomDao.findAll()) {
-            if (room.getStatus() == Status.AVAILABLE) {
-                count++;
-            }
-        }
-        return count;
+        return new ArrayList<>(getFreeRoomsByDate(new Date(System.currentTimeMillis()))).size();
     }
 
     public List<Room> getFreeRoomsByDate(Date date) {
