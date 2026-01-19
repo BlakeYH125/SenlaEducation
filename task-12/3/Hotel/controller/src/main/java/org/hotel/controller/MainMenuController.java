@@ -2,6 +2,7 @@ package org.hotel.controller;
 
 import org.hotel.annotations.Component;
 import org.hotel.annotations.Inject;
+import org.hotel.constants.CommandConstants;
 import org.hotel.model.Administrator;
 import org.hotel.view.Console;
 
@@ -50,26 +51,6 @@ public final class MainMenuController {
      */
     private boolean running = true;
 
-    /**
-     * Команда 0.
-     */
-    private static final int COMMAND_ZERO = 0;
-
-    /**
-     * Команда 1.
-     */
-    private static final int COMMAND_ONE = 1;
-
-    /**
-     * Команда 2.
-     */
-    private static final int COMMAND_TWO = 2;
-
-    /**
-     * Команда 3.
-     */
-    private static final int COMMAND_THREE = 3;
-
     public MainMenuController() { };
 
     public void init() {
@@ -85,18 +66,18 @@ public final class MainMenuController {
                 console.printMainMenu();
                 int command = console.readInt("Введите номер команды: ");
                 switch (command) {
-                    case COMMAND_ZERO:
+                    case CommandConstants.COMMAND_ZERO:
                         running = false;
                         break;
-                    case COMMAND_ONE:
+                    case CommandConstants.COMMAND_ONE:
                         roomController.run();
                         break;
 
-                    case COMMAND_TWO:
+                    case CommandConstants.COMMAND_TWO:
                         serviceController.run();
                         break;
 
-                    case COMMAND_THREE:
+                    case CommandConstants.COMMAND_THREE:
                         guestController.run();
                         break;
 

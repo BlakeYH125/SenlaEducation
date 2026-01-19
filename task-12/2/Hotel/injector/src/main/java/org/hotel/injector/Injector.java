@@ -6,32 +6,44 @@ import org.hotel.dao.GuestDao;
 import org.hotel.dao.RoomDao;
 import org.hotel.dao.ServiceDao;
 import org.hotel.dao.UsedServiceDao;
-import org.hotel.model.*;
+import org.hotel.model.GuestRepository;
+import org.hotel.model.RoomRepository;
+import org.hotel.model.ServiceRepository;
+import org.hotel.model.UsedServiceRepository;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Injector {
-    private static final Map<Class<?>, Object> instanceCache = new HashMap<>();
-    private static final Map<Class<?>, Class<?>> interfaceToImpl = new HashMap<>();
+public final class Injector {
+    /**
+     * Уже созданные экземпляры классов.
+     */
+    private static final Map<Class<?>, Object> INSTANCE_CACHE = new HashMap<>();
+
+    /**
+     * Интерфейсы и классы которые нужно внедрить вместо них.
+     */
+    private static final Map<Class<?>, Class<?>> INTERFACE_TO_IMLP = new HashMap<>();
 
     static {
-        interfaceToImpl.put(GuestRepository.class, GuestDao.class);
-        interfaceToImpl.put(RoomRepository.class, RoomDao.class);
-        interfaceToImpl.put(ServiceRepository.class, ServiceDao.class);
-        interfaceToImpl.put(UsedServiceRepository.class, UsedServiceDao.class);
+        INTERFACE_TO_IMLP.put(GuestRepository.class, GuestDao.class);
+        INTERFACE_TO_IMLP.put(RoomRepository.class, RoomDao.class);
+        INTERFACE_TO_IMLP.put(ServiceRepository.class, ServiceDao.class);
+        INTERFACE_TO_IMLP.put(UsedServiceRepository.class, UsedServiceDao.class);
     }
 
-    public static void injectDependencies(Object target) {
-        Class<?> clazz = target.getClass();
+    private Injector() { }
+
+    public static void injectDependencies(final Object targetP) {
+        Class<?> clazz = targetP.getClass();
         for (Field field : clazz.getDeclaredFields()) {
             if (field.isAnnotationPresent(Inject.class)) {
                 Class<?> dependencyType = field.getType();
                 Object dependencyInstance = getComponentInstance(dependencyType);
                 try {
                     field.setAccessible(true);
-                    field.set(target, dependencyInstance);
+                    field.set(targetP, dependencyInstance);
                 } catch (IllegalAccessException e) {
                     System.err.println("Ошибка внедрения зависимости " + dependencyType.getName() + " в поле " + field.getName());
                     e.printStackTrace();
@@ -40,33 +52,33 @@ public class Injector {
         }
     }
 
-    private static Object getComponentInstance(Class<?> componentType) {
-        if (componentType.isInterface()) {
-            Class<?> impl = interfaceToImpl.get(componentType);
+    private static Object getComponentInstance(final Class<?> componentTypeP) {
+        if (componentTypeP.isInterface()) {
+            Class<?> impl = INTERFACE_TO_IMLP.get(componentTypeP);
             if (impl == null) {
                 throw new RuntimeException(
-                        "Не найдена реализация для интерфейса " + componentType.getName()
+                        "Не найдена реализация для интерфейса " + componentTypeP.getName()
                 );
             }
             return getComponentInstance(impl);
         }
 
-        if (instanceCache.containsKey(componentType)) {
-            return instanceCache.get(componentType);
+        if (INSTANCE_CACHE.containsKey(componentTypeP)) {
+            return INSTANCE_CACHE.get(componentTypeP);
         }
 
-        if (!componentType.isAnnotationPresent(Component.class)) {
-            throw new RuntimeException("Класс " + componentType.getName() + " не помечен как @Component и не может быть внедрен.");
+        if (!componentTypeP.isAnnotationPresent(Component.class)) {
+            throw new RuntimeException("Класс " + componentTypeP.getName() + " не помечен как @Component и не может быть внедрен.");
         }
 
         try {
-            Object newInstance = componentType.getDeclaredConstructor().newInstance();
-            instanceCache.put(componentType, newInstance);
+            Object newInstance = componentTypeP.getDeclaredConstructor().newInstance();
+            INSTANCE_CACHE.put(componentTypeP, newInstance);
             injectDependencies(newInstance);
             return newInstance;
         } catch (Exception e) {
-            instanceCache.remove(componentType);
-            throw new RuntimeException("Не удалось создать экземпляр класса " + componentType.getName(), e);
+            INSTANCE_CACHE.remove(componentTypeP);
+            throw new RuntimeException("Не удалось создать экземпляр класса " + componentTypeP.getName(), e);
         }
     }
 }

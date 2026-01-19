@@ -1,5 +1,33 @@
 package org.hotel.model;
 
 public enum SortType {
-    PRICE(), CAPACITY(), STARS(), ALPHABET(), DATE(), SECTION();
+    /**
+     * Сортировка по цене.
+     */
+    PRICE(),
+
+    /**
+     * Сортировка по вместимости.
+     */
+    CAPACITY(),
+
+    /**
+     * Сортировка по количеству звезд.
+     */
+    STARS(),
+
+    /**
+     * Сортировка по алфавиту.
+     */
+    ALPHABET(),
+
+    /**
+     * Сортировка по дате.
+     */
+    DATE(),
+
+    /**
+     * Сортировка по категории услуги.
+     */
+    SECTION();
 }

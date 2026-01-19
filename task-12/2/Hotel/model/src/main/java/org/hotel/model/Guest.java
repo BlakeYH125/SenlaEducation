@@ -3,38 +3,65 @@ package org.hotel.model;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
-public class Guest {
+public final class Guest {
+    /**
+     * Уникальный id клиента.
+     */
     private String id;
+
+    /**
+     * Полное имя.
+     */
     private String fullName;
+
+    /**
+     * Возраст.
+     */
     private int age;
+
+    /**
+     * ID арендуемой комнаты.
+     */
     private String rentRoomId;
+
+    /**
+     * Дата заезда.
+     */
     private Date arriveDate;
+
+    /**
+     * Дата выезда.
+     */
     private Date departureDate;
+
+    /**
+     * Статус гостя.
+     */
     private GuestStatus status;
 
-    public Guest(String id, String fullName, int age) {
-        this.id = id;
-        this.fullName = fullName;
-        this.age = age;
+    public Guest(final String paramId, final String paramFullName, final int paramAge) {
+        this.id = paramId;
+        this.fullName = paramFullName;
+        this.age = paramAge;
         this.status = GuestStatus.SETTLED;
     }
 
-    public Guest() {}
+    public Guest() { }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setFullName(final String paramFullName) {
+        this.fullName = paramFullName;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setAge(final int paramAge) {
+        this.age = paramAge;
     }
 
     public GuestStatus getStatus() {
         return status;
     }
 
-    public void setStatus(GuestStatus status) {
-        this.status = status;
+    public void setStatus(final GuestStatus paramStatus) {
+        this.status = paramStatus;
     }
 
     public String getFullName() {
@@ -45,28 +72,28 @@ public class Guest {
         return age;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(final String paramId) {
+        this.id = paramId;
     }
 
     public Date getArriveDate() {
         return arriveDate;
     }
 
-    public void setArriveDate(Date arriveDate) {
-        this.arriveDate = arriveDate;
+    public void setArriveDate(final Date paramArriveDate) {
+        this.arriveDate = paramArriveDate;
     }
 
     public Date getDepartureDate() {
         return departureDate;
     }
 
-    public void setDepartureDate(Date departureDate) {
-        this.departureDate = departureDate;
+    public void setDepartureDate(final Date paramDepartureDate) {
+        this.departureDate = paramDepartureDate;
     }
 
-    public void setRentRoomId(String rentRoomId) {
-        this.rentRoomId = rentRoomId;
+    public void setRentRoomId(final String paramRentRoomId) {
+        this.rentRoomId = paramRentRoomId;
     }
 
     public String getId() {

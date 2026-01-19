@@ -4,6 +4,8 @@ import org.hotel.annotations.Component;
 import org.hotel.annotations.ConfigProperty;
 import org.hotel.annotations.Inject;
 import org.hotel.configurator.Configurator;
+import org.hotel.constants.GuestCountConstants;
+import org.hotel.constants.TimeConstants;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -15,16 +17,6 @@ import java.util.List;
 
 @Component
 public final class RoomManagement {
-    /**
-     * 3 гостя для метода.
-     */
-    private static final int THREE_GUESTS = 3;
-
-    /**
-     * Количество миллисекунд в дне.
-     */
-    private static final long MSEC_IN_DAY = 86400000;
-
     /**
      * Репозиторий для работы с комнатами в БД.
      */
@@ -86,14 +78,14 @@ public final class RoomManagement {
 
     public boolean setStatus(final String idP, final int daysCountP, final Status statusP) {
         if (isAllowChange) {
-            roomRepository.setStatus(getRoom(idP), new java.sql.Date(System.currentTimeMillis() + daysCountP * MSEC_IN_DAY), statusP);
+            roomRepository.setStatus(getRoom(idP), new java.sql.Date(System.currentTimeMillis() + daysCountP * TimeConstants.MSEC_IN_DAY), statusP);
             return true;
         }
         return false;
     }
 
     public void setOccupiedToSettle(final String idP, final int daysCountP) {
-        roomRepository.setStatus(getRoom(idP), new java.sql.Date(System.currentTimeMillis() + daysCountP * MSEC_IN_DAY), Status.OCCUPIED);
+        roomRepository.setStatus(getRoom(idP), new java.sql.Date(System.currentTimeMillis() + daysCountP * TimeConstants.MSEC_IN_DAY), Status.OCCUPIED);
     }
 
     public boolean isFree(final String idP) {
@@ -109,7 +101,7 @@ public final class RoomManagement {
     }
 
     public static long getMSecInDay() {
-        return MSEC_IN_DAY;
+        return TimeConstants.MSEC_IN_DAY;
     }
 
     public void setNewRoomPrice(final String idP, final BigDecimal newPriceP) {
@@ -117,14 +109,14 @@ public final class RoomManagement {
     }
 
     public List<Guest> getThreePrevRoomGuests(final String idP) {
-        return guestRepository.findPreviousGuests(getRoom(idP), Math.min(THREE_GUESTS, previousGuestsLimit));
+        return guestRepository.findPreviousGuests(getRoom(idP), Math.min(GuestCountConstants.THREE_GUESTS, previousGuestsLimit));
     }
 
     public BigDecimal getTotalRoomCost(final String idP) {
         Room room = getRoom(idP);
         List<Guest> guests = guestRepository.findCurrentGuestsInRoom(getRoom(idP));
         long millis = guests.get(0).getDepartureDate().getTime() - guests.get(0).getArriveDate().getTime();
-        BigDecimal days = BigDecimal.valueOf(millis).divide(BigDecimal.valueOf(MSEC_IN_DAY), 2, RoundingMode.HALF_UP);
+        BigDecimal days = BigDecimal.valueOf(millis).divide(BigDecimal.valueOf(TimeConstants.MSEC_IN_DAY), 2, RoundingMode.HALF_UP);
         return room.getPrice().multiply(days);
     }
 

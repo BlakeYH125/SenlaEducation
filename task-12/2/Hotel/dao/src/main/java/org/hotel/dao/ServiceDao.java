@@ -7,14 +7,37 @@ import org.hotel.model.ServiceRepository;
 import org.hotel.model.ServiceSection;
 
 import java.math.BigDecimal;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class ServiceDao implements ServiceRepository {
+public final class ServiceDao implements ServiceRepository {
+    /**
+     * Первый параметр.
+     */
+    private static final int FIRST_PARAMETER = 1;
+
+    /**
+     * Второй параметр.
+     */
+    private static final int SECOND_PARAMETER = 2;
+
+    /**
+     * Третий параметр.
+     */
+    private static final int THIRD_PARAMETER = 3;
+
+    /**
+     * Четвертый параметр.
+     */
+    private static final int FOURTH_PARAMETER = 4;
+
     @Override
-    public void save(Service service) {
+    public void save(final Service serviceP) {
         String sql = """
                 INSERT INTO services (serviceId, name, price, serviceSection)
                 VALUES (?, ?, ?, ?)
@@ -25,12 +48,11 @@ public class ServiceDao implements ServiceRepository {
                 """;
 
         try (PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql)) {
-            preparedStatement.setString(1, service.getId());
-            preparedStatement.setString(2, service.getName());
-            preparedStatement.setBigDecimal(3, service.getPrice());
-            preparedStatement.setString(4, service.getServiceSection().name());
+            preparedStatement.setString(FIRST_PARAMETER, serviceP.getId());
+            preparedStatement.setString(SECOND_PARAMETER, serviceP.getName());
+            preparedStatement.setBigDecimal(THIRD_PARAMETER, serviceP.getPrice());
+            preparedStatement.setString(FOURTH_PARAMETER, serviceP.getServiceSection().name());
             preparedStatement.executeUpdate();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -56,11 +78,11 @@ public class ServiceDao implements ServiceRepository {
     }
 
     @Override
-    public void setNewServicePrice(Service service, BigDecimal price) {
+    public void setNewServicePrice(final Service serviceP, final BigDecimal priceP) {
         String sql = "UPDATE services SET price = ? WHERE serviceId = ?";
         try (PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql)) {
-            preparedStatement.setBigDecimal(1, price);
-            preparedStatement.setString(2, service.getId());
+            preparedStatement.setBigDecimal(FIRST_PARAMETER, priceP);
+            preparedStatement.setString(SECOND_PARAMETER, serviceP.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -68,14 +90,14 @@ public class ServiceDao implements ServiceRepository {
     }
 
     @Override
-    public Service getService(String id) {
+    public Service getService(final String idP) {
         String sql = """
                 SELECT *
                 FROM services
                 WHERE serviceId = ?
                 """;
         try (PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql)) {
-            preparedStatement.setString(1, id);
+            preparedStatement.setString(FIRST_PARAMETER, idP);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 Service service = new Service();

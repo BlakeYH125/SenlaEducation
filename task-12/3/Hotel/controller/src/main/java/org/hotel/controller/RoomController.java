@@ -2,6 +2,9 @@ package org.hotel.controller;
 
 import org.hotel.annotations.Component;
 import org.hotel.annotations.Inject;
+import org.hotel.constants.CommandConstants;
+import org.hotel.constants.ParametersCount;
+import org.hotel.constants.StatusConstants;
 import org.hotel.model.Administrator;
 import org.hotel.model.Room;
 import org.hotel.model.RoomManagement;
@@ -58,106 +61,6 @@ public final class RoomController {
      */
     private RoomManagement roomManagement;
 
-    /**
-     * Команда 0.
-     */
-    private static final int COMMAND_ZERO = 0;
-
-    /**
-     * Команда 1.
-     */
-    private static final int COMMAND_ONE = 1;
-
-    /**
-     * Команда 2.
-     */
-    private static final int COMMAND_TWO = 2;
-
-    /**
-     * Команда 3.
-     */
-    private static final int COMMAND_THREE = 3;
-
-    /**
-     * Команда 4.
-     */
-    private static final int COMMAND_FOUR = 4;
-
-    /**
-     * Команда 5.
-     */
-    private static final int COMMAND_FIVE = 5;
-
-    /**
-     * Команда 6.
-     */
-    private static final int COMMAND_SIX = 6;
-
-    /**
-     * Команда 7.
-     */
-    private static final int COMMAND_SEVEN = 7;
-
-    /**
-     * Команда 8.
-     */
-    private static final int COMMAND_EIGHT = 8;
-
-    /**
-     * Команда 9.
-     */
-    private static final int COMMAND_NINE = 9;
-
-    /**
-     * Команда 10.
-     */
-    private static final int COMMAND_TEN = 10;
-
-    /**
-     * Команда 11.
-     */
-    private static final int COMMAND_ELEVEN = 11;
-
-    /**
-     * Команда 12.
-     */
-    private static final int COMMAND_TWELVE = 12;
-
-    /**
-     * Команда 13.
-     */
-    private static final int COMMAND_THIRTEEN = 13;
-
-    /**
-     * Команда 14.
-     */
-    private static final int COMMAND_FOURTEEN = 14;
-
-    /**
-     * Команда 15.
-     */
-    private static final int COMMAND_FIFTEEN = 15;
-
-    /**
-     * Код статуса "Успешно".
-     */
-    private static final int SUCCESS_STATUS = 0;
-
-    /**
-     * Код статуса "занята.".
-     */
-    private static final int OCCUPIED_STATUS = -2;
-
-    /**
-     * Код статуса "на обслуживании.".
-     */
-    private static final int IN_SERVICE_STATUS = -1;
-
-    /**
-     * Количество параметров".
-     */
-    private static final int PARAMETERS_COUNT = 6;
-
     public RoomController() { }
 
     public void init() {
@@ -170,67 +73,67 @@ public final class RoomController {
             console.printRoomMenu();
             int command = console.readInt("Введите номер команды: ");
             switch (command) {
-                case COMMAND_ZERO:
+                case CommandConstants.COMMAND_ZERO:
                     running = false;
                     break;
 
-                case COMMAND_ONE:
+                case CommandConstants.COMMAND_ONE:
                     addRoom();
                     break;
 
-                case COMMAND_TWO:
+                case CommandConstants.COMMAND_TWO:
                     changeRoomPrice();
                     break;
 
-                case COMMAND_THREE:
+                case CommandConstants.COMMAND_THREE:
                     showAllRooms();
                     break;
 
-                case COMMAND_FOUR:
+                case CommandConstants.COMMAND_FOUR:
                     showAllFreeRooms();
                     break;
 
-                case COMMAND_FIVE:
+                case CommandConstants.COMMAND_FIVE:
                     getFreeRoomsCount();
                     break;
 
-                case COMMAND_SIX:
+                case CommandConstants.COMMAND_SIX:
                     showFreeRoomsByDate();
                     break;
 
-                case COMMAND_SEVEN:
+                case CommandConstants.COMMAND_SEVEN:
                     getRoomDetails();
                     break;
 
-                case COMMAND_EIGHT:
+                case CommandConstants.COMMAND_EIGHT:
                     settle();
                     break;
 
-                case COMMAND_NINE:
+                case CommandConstants.COMMAND_NINE:
                     evict();
                     break;
 
-                case COMMAND_TEN:
+                case CommandConstants.COMMAND_TEN:
                     getThreePrevGuests();
                     break;
 
-                case COMMAND_ELEVEN:
+                case CommandConstants.COMMAND_ELEVEN:
                     setAvailable();
                     break;
 
-                case COMMAND_TWELVE:
+                case CommandConstants.COMMAND_TWELVE:
                     setOccupied();
                     break;
 
-                case COMMAND_THIRTEEN:
+                case CommandConstants.COMMAND_THIRTEEN:
                     setInService();
                     break;
 
-                case COMMAND_FOURTEEN:
+                case CommandConstants.COMMAND_FOURTEEN:
                     importRoomData();
                     break;
 
-                case COMMAND_FIFTEEN:
+                case CommandConstants.COMMAND_FIFTEEN:
                     exportRoomData();
                     break;
 
@@ -272,13 +175,13 @@ public final class RoomController {
             }
             int daysCount = console.readInt("Введите количество дней проживания: ");
             int status = administrator.settle(id, guests, daysCount);
-            if (status == SUCCESS_STATUS) {
+            if (status == StatusConstants.SUCCESS_STATUS) {
                 console.showMessage("Заселение успешно.");
                 LOGGER.info("Метод settle успешно завершил работу");
-            } else if (status == IN_SERVICE_STATUS) {
+            } else if (status == StatusConstants.IN_SERVICE_STATUS) {
                 console.showMessage("Комната на обслуживании.");
                 LOGGER.error("Ошибка при выполнении метода settle: Комната на обслуживании.");
-            } else if (status == OCCUPIED_STATUS) {
+            } else if (status == StatusConstants.OCCUPIED_STATUS) {
                 console.showMessage("Комната занята.");
                 LOGGER.error("Ошибка при выполнении метода settle: Комната занята.");
             } else {
@@ -468,11 +371,11 @@ public final class RoomController {
             LOGGER.info("Начало выполнения метода showAllRooms");
             console.showMessage("1. Цена;\n2. Вместимость;\n3. Количество звезд.");
             int sortType = console.readInt("Выберите вид сортировки: ");
-            if (sortType == COMMAND_ONE) {
+            if (sortType == CommandConstants.COMMAND_ONE) {
                 console.showRooms((List<Room>) roomManagement.getAllRoomsWithSort(SortType.PRICE));
-            } else if (sortType == COMMAND_TWO) {
+            } else if (sortType == CommandConstants.COMMAND_TWO) {
                 console.showRooms((List<Room>) roomManagement.getAllRoomsWithSort(SortType.CAPACITY));
-            } else if (sortType == COMMAND_THREE) {
+            } else if (sortType == CommandConstants.COMMAND_THREE) {
                 console.showRooms((List<Room>) roomManagement.getAllRoomsWithSort(SortType.STARS));
             } else {
                 throw new WrongCommandNumberException();
@@ -492,11 +395,11 @@ public final class RoomController {
             LOGGER.info("Начало выполнения метода showAllFreeRooms");
             console.showMessage("1. Цена;\n2. Вместимость;\n3. Количество звезд.");
             int sortType = console.readInt("Выберите вид сортировки: ");
-            if (sortType == COMMAND_ONE) {
+            if (sortType == CommandConstants.COMMAND_ONE) {
                 console.showRooms((List<Room>) roomManagement.getFreeRoomsWithSort(SortType.PRICE));
-            } else if (sortType == COMMAND_TWO) {
+            } else if (sortType == CommandConstants.COMMAND_TWO) {
                 console.showRooms((List<Room>) roomManagement.getFreeRoomsWithSort(SortType.CAPACITY));
-            } else if (sortType == COMMAND_THREE) {
+            } else if (sortType == CommandConstants.COMMAND_THREE) {
                 console.showRooms((List<Room>) roomManagement.getFreeRoomsWithSort(SortType.STARS));
             } else {
                 throw new WrongCommandNumberException();
@@ -561,8 +464,8 @@ public final class RoomController {
                 String str;
                 while ((str = br.readLine()) != null) {
                     String[] parts = str.split(";");
-                    if (parts.length == PARAMETERS_COUNT) {
-                        roomManagement.addNewRoom(new Room(parts[COMMAND_ZERO], Integer.parseInt(parts[COMMAND_ONE]), new BigDecimal(parts[COMMAND_TWO]), Status.valueOf(parts[COMMAND_THREE]), Integer.parseInt(parts[COMMAND_FOUR]), Integer.parseInt(parts[COMMAND_FIVE])));
+                    if (parts.length == ParametersCount.ROOM_PARAMETERS_COUNT) {
+                        roomManagement.addNewRoom(new Room(parts[CommandConstants.COMMAND_ZERO], Integer.parseInt(parts[CommandConstants.COMMAND_ONE]), new BigDecimal(parts[CommandConstants.COMMAND_TWO]), Status.valueOf(parts[CommandConstants.COMMAND_THREE]), Integer.parseInt(parts[CommandConstants.COMMAND_FOUR]), Integer.parseInt(parts[CommandConstants.COMMAND_FIVE])));
                         console.showMessage("Импорт завершен.");
                     } else {
                         console.showMessage("Ошибка при импорте, неверное количество параметров в записи.");
@@ -594,13 +497,13 @@ public final class RoomController {
                 try {
                     file.createNewFile();
                     Room room = roomManagement.getRoom(id);
-                    String[] data = new String[PARAMETERS_COUNT];
-                    data[COMMAND_ZERO] = id;
-                    data[COMMAND_ONE] = String.valueOf(room.getNumber());
-                    data[COMMAND_TWO] = String.valueOf(room.getPrice());
-                    data[COMMAND_THREE] = room.getStatus().name();
-                    data[COMMAND_FOURTEEN] = String.valueOf(room.getCapacity());
-                    data[COMMAND_FIVE] = String.valueOf(room.getStars());
+                    String[] data = new String[ParametersCount.ROOM_PARAMETERS_COUNT];
+                    data[CommandConstants.COMMAND_ZERO] = id;
+                    data[CommandConstants.COMMAND_ONE] = String.valueOf(room.getNumber());
+                    data[CommandConstants.COMMAND_TWO] = String.valueOf(room.getPrice());
+                    data[CommandConstants.COMMAND_THREE] = room.getStatus().name();
+                    data[CommandConstants.COMMAND_FOURTEEN] = String.valueOf(room.getCapacity());
+                    data[CommandConstants.COMMAND_FIVE] = String.valueOf(room.getStars());
                     String result = String.join(";", data);
                     try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
                         bw.write(result);

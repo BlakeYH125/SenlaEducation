@@ -4,24 +4,40 @@ import org.hotel.annotations.Component;
 import org.hotel.annotations.ConfigProperty;
 import org.hotel.annotations.Inject;
 import org.hotel.configurator.Configurator;
+import org.hotel.constants.GuestCountConstants;
+import org.hotel.constants.TimeConstants;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+
 
 @Component
-public class RoomManagement {
-    private static final long MSEC_IN_DAY = 86400000;
-
+public final class RoomManagement {
+    /**
+     * Репозиторий для работы с комнатами в БД.
+     */
     @Inject
-    RoomRepository roomRepository;
+    private RoomRepository roomRepository;
 
+    /**
+     * Репозиторий для работы с гостями в БД.
+     */
     @Inject
-    GuestRepository guestRepository;
+    private GuestRepository guestRepository;
 
+    /**
+     * Можно ли менять статус комнаты вручную.
+     */
     @ConfigProperty(propertyName = "hotel.room.status.changing")
     private boolean isAllowChange;
 
+    /**
+     * Лимит отображения предыдущих гостей комнаты.
+     */
     @ConfigProperty(propertyName = "hotel.room.history.limit")
     private int previousGuestsLimit;
 
@@ -33,74 +49,74 @@ public class RoomManagement {
         return roomRepository.findAll();
     }
 
-    public boolean isThereRoom(String id) {
-        if (roomRepository.getRoom(id) == null) {
+    public boolean isThereRoom(final String idP) {
+        if (roomRepository.getRoom(idP) == null) {
             return false;
         }
         return true;
     }
 
-    public Room getRoom(String id) {
-        return roomRepository.getRoom(id);
+    public Room getRoom(final String idP) {
+        return roomRepository.getRoom(idP);
     }
 
-    public void addNewRoom(Room room) {
-        roomRepository.save(room);
+    public void addNewRoom(final Room roomP) {
+        roomRepository.save(roomP);
     }
 
-    public boolean setAvailable(String id) {
+    public boolean setAvailable(final String idP) {
         if (isAllowChange) {
-            roomRepository.setAvailable(getRoom(id));
+            roomRepository.setAvailable(getRoom(idP));
             return true;
         }
         return false;
     }
 
-    public void setAvailableToEvict(String id) {
-        roomRepository.setAvailable(getRoom(id));
+    public void setAvailableToEvict(final String idP) {
+        roomRepository.setAvailable(getRoom(idP));
     }
 
-    public boolean setStatus(String id, int daysCount, Status status) {
+    public boolean setStatus(final String idP, final int daysCountP, final Status statusP) {
         if (isAllowChange) {
-            roomRepository.setStatus(getRoom(id), new java.sql.Date(System.currentTimeMillis() + daysCount * MSEC_IN_DAY), status);
+            roomRepository.setStatus(getRoom(idP), new java.sql.Date(System.currentTimeMillis() + daysCountP * TimeConstants.MSEC_IN_DAY), statusP);
             return true;
         }
         return false;
     }
 
-    public void setOccupiedToSettle(String id, int daysCount) {
-        roomRepository.setStatus(getRoom(id), new java.sql.Date(System.currentTimeMillis() + daysCount * MSEC_IN_DAY), Status.OCCUPIED);
+    public void setOccupiedToSettle(final String idP, final int daysCountP) {
+        roomRepository.setStatus(getRoom(idP), new java.sql.Date(System.currentTimeMillis() + daysCountP * TimeConstants.MSEC_IN_DAY), Status.OCCUPIED);
     }
 
-    public boolean isFree(String id) {
-        return getRoom(id).getStatus() == Status.AVAILABLE;
+    public boolean isFree(final String idP) {
+        return getRoom(idP).getStatus() == Status.AVAILABLE;
     }
 
-    public boolean isServicing(String id) {
-        return getRoom(id).getStatus() == Status.IN_SERVICE;
+    public boolean isServicing(final String idP) {
+        return getRoom(idP).getStatus() == Status.IN_SERVICE;
     }
 
-    public boolean isOccupied(String id) {
-        return getRoom(id).getStatus() == Status.OCCUPIED;
+    public boolean isOccupied(final String idP) {
+        return getRoom(idP).getStatus() == Status.OCCUPIED;
     }
 
     public static long getMSecInDay() {
-        return MSEC_IN_DAY;
+        return TimeConstants.MSEC_IN_DAY;
     }
 
-    public void setNewRoomPrice(String id, BigDecimal newPrice) {
-        roomRepository.setNewRoomPrice(getRoom(id), newPrice);
+    public void setNewRoomPrice(final String idP, final BigDecimal newPriceP) {
+        roomRepository.setNewRoomPrice(getRoom(idP), newPriceP);
     }
 
-    public List<Guest> getThreePrevRoomGuests(String id) {
-        return guestRepository.findPreviousGuests(getRoom(id), Math.min(3, previousGuestsLimit));
+    public List<Guest> getThreePrevRoomGuests(final String idP) {
+        return guestRepository.findPreviousGuests(getRoom(idP), Math.min(GuestCountConstants.THREE_GUESTS, previousGuestsLimit));
     }
 
-    public BigDecimal getTotalRoomCost(String id) {
-        Room room = getRoom(id);
-        List<Guest> guests = guestRepository.findCurrentGuestsInRoom(getRoom(id));
+    public BigDecimal getTotalRoomCost(final String idP) {
+        Room room = getRoom(idP);
+        List<Guest> guests = guestRepository.findCurrentGuestsInRoom(getRoom(idP));
         long millis = guests.get(0).getDepartureDate().getTime() - guests.get(0).getArriveDate().getTime();
-        BigDecimal days = BigDecimal.valueOf(millis).divide(BigDecimal.valueOf(MSEC_IN_DAY), 2, RoundingMode.HALF_UP);
+        BigDecimal days = BigDecimal.valueOf(millis).divide(BigDecimal.valueOf(TimeConstants.MSEC_IN_DAY), 2, RoundingMode.HALF_UP);
         return room.getPrice().multiply(days);
     }
 
@@ -108,40 +124,40 @@ public class RoomManagement {
         return new ArrayList<>(getFreeRoomsByDate(new Date(System.currentTimeMillis()))).size();
     }
 
-    public List<Room> getFreeRoomsByDate(Date date) {
-        return roomRepository.findFreeRoomsByDate(new java.sql.Date(date.getTime()));
+    public List<Room> getFreeRoomsByDate(final Date dateP) {
+        return roomRepository.findFreeRoomsByDate(new java.sql.Date(dateP.getTime()));
     }
 
-    public String getRoomDetails(String id) {
-        Room room = roomRepository.getRoom(id);
+    public String getRoomDetails(final String idP) {
+        Room room = roomRepository.getRoom(idP);
         return room.toString();
     }
 
-    public List<Room> getAllRoomsWithSort(SortType sortType) {
+    public List<Room> getAllRoomsWithSort(final SortType sortTypeP) {
         List<Room> listRooms = new ArrayList<>(getRooms());
-        if (sortType == SortType.PRICE) {
+        if (sortTypeP == SortType.PRICE) {
             listRooms.sort(Comparator.comparing(Room::getPrice));
-        } else if (sortType == SortType.CAPACITY) {
+        } else if (sortTypeP == SortType.CAPACITY) {
             listRooms.sort(Comparator.comparing(Room::getCapacity));
-        } else if (sortType == SortType.STARS) {
+        } else if (sortTypeP == SortType.STARS) {
             listRooms.sort(Comparator.comparing(Room::getStars));
         }
         return listRooms;
     }
 
-    public List<Room> getFreeRoomsWithSort(SortType sortType) {
+    public List<Room> getFreeRoomsWithSort(final SortType sortTypeP) {
         List<Room> listRooms = new ArrayList<>(getFreeRoomsByDate(new Date(System.currentTimeMillis())));
-        if (sortType == SortType.PRICE) {
+        if (sortTypeP == SortType.PRICE) {
             listRooms.sort(Comparator.comparing(Room::getPrice));
-        } else if (sortType == SortType.CAPACITY) {
+        } else if (sortTypeP == SortType.CAPACITY) {
             listRooms.sort(Comparator.comparing(Room::getCapacity));
-        } else if (sortType == SortType.STARS) {
+        } else if (sortTypeP == SortType.STARS) {
             listRooms.sort(Comparator.comparing(Room::getStars));
         }
         return listRooms;
     }
 
-    public List<Guest> getCurrentGuests(Room room) {
-        return guestRepository.findCurrentGuestsInRoom(room);
+    public List<Guest> getCurrentGuests(final Room roomP) {
+        return guestRepository.findCurrentGuestsInRoom(roomP);
     }
 }

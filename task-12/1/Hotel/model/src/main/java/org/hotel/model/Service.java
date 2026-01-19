@@ -2,20 +2,35 @@ package org.hotel.model;
 
 import java.math.BigDecimal;
 
-public class Service implements Priceable {
+public final class Service implements Priceable {
+    /**
+     * Уникальный ID услуги.
+     */
     private String id;
+
+    /**
+     * Название услуги.
+     */
     private String name;
+
+    /**
+     * Цена услуги.
+     */
     private BigDecimal price;
+
+    /**
+     * Раздел услуги.
+     */
     private ServiceSection serviceSection;
 
-    public Service(String id, String name, BigDecimal price, ServiceSection serviceSection) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.serviceSection = serviceSection;
+    public Service(final String idP, final String nameP, final BigDecimal priceP, final ServiceSection serviceSectionP) {
+        this.id = idP;
+        this.name = nameP;
+        this.price = priceP;
+        this.serviceSection = serviceSectionP;
     }
 
-    public Service() {}
+    public Service() { }
 
     public String getName() {
         return name;
@@ -30,24 +45,24 @@ public class Service implements Priceable {
         return serviceSection;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(final String nameP) {
+        this.name = nameP;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setPrice(final BigDecimal priceP) {
+        this.price = priceP;
     }
 
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(final String idP) {
+        this.id = idP;
     }
 
-    public void setServiceSection(ServiceSection serviceSection) {
-        this.serviceSection = serviceSection;
+    public void setServiceSection(final ServiceSection serviceSectionP) {
+        this.serviceSection = serviceSectionP;
     }
 
     @Override

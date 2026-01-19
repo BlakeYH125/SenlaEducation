@@ -7,10 +7,13 @@ import java.util.Comparator;
 import java.util.List;
 
 @Component
-public class GuestManagement {
+public final class GuestManagement {
 
+    /**
+     * Репозиторий для работы с гостями в БД.
+     */
     @Inject
-    GuestRepository guestRepository;
+    private GuestRepository guestRepository;
 
     public GuestManagement() {
     }
@@ -19,15 +22,15 @@ public class GuestManagement {
         return guestRepository.findCurrentGuestsInHotel().size();
     }
 
-    public void addGuest(Guest guest) {
+    public void addGuest(final Guest guest) {
         guestRepository.save(guest);
     }
 
-    public Guest getGuest(String id) {
+    public Guest getGuest(final String id) {
         return guestRepository.getGuest(id);
     }
 
-    public void setEvicted(String id) {
+    public void setEvicted(final String id) {
         guestRepository.setEvicted(getGuest(id));
     }
 
@@ -35,20 +38,20 @@ public class GuestManagement {
         return guestRepository.findCurrentGuestsInHotel();
     }
 
-    public void setGuests(List<Guest> guests) {
+    public void setGuests(final List<Guest> guests) {
         for (Guest guest : guests) {
             guestRepository.save(guest);
         }
     }
 
-    public boolean isThereGuest(String id) {
+    public boolean isThereGuest(final String id) {
         if (guestRepository.getGuest(id) == null) {
             return false;
         }
         return true;
     }
 
-    public List<Guest> getActualGuestsWithSort(SortType sortType) {
+    public List<Guest> getActualGuestsWithSort(final SortType sortType) {
         List<Guest> listGuests = guestRepository.findCurrentGuestsInHotel();
         if (sortType == SortType.ALPHABET) {
             listGuests.sort(Comparator.comparing(Guest::getFullName));

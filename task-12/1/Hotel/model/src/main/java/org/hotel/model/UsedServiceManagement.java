@@ -3,32 +3,35 @@ package org.hotel.model;
 import org.hotel.annotations.Component;
 import org.hotel.annotations.Inject;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 @Component
-public class UsedServiceManagement {
-
+public final class UsedServiceManagement {
+    /**
+     * Репозиторий для работы с использованными услугами в БД.
+     */
     @Inject
-    UsedServiceRepository usedServiceRepository;
+    private UsedServiceRepository usedServiceRepository;
 
-    public UsedServiceManagement() {
+    public UsedServiceManagement() { }
+
+    public void addUsedService(final UsedService usedServiceP) {
+        usedServiceRepository.save(usedServiceP);
     }
 
-    public void addUsedService(UsedService usedService) {
-        usedServiceRepository.save(usedService);
-    }
-
-    public List<UsedService> getUsedServicesByGuestWithSort(List<UsedService> usedServices, SortType sortType) {
-        List<UsedService> sortedList = new ArrayList<>(usedServices);
-        if (sortType == SortType.PRICE) {
+    public List<UsedService> getUsedServicesByGuestWithSort(final List<UsedService> usedServicesP, final SortType sortTypeP) {
+        List<UsedService> sortedList = new ArrayList<>(usedServicesP);
+        if (sortTypeP == SortType.PRICE) {
             sortedList.sort(Comparator.comparing(UsedService::getPrice));
-        } else if (sortType == SortType.DATE) {
+        } else if (sortTypeP == SortType.DATE) {
             sortedList.sort(Comparator.comparing(UsedService::getDate));
         }
         return sortedList;
     }
 
-    public List<UsedService> getUsedServices(Guest guest) {
-        return usedServiceRepository.findServicesUsedByGuest(guest);
+    public List<UsedService> getUsedServices(final Guest guestP) {
+        return usedServiceRepository.findServicesUsedByGuest(guestP);
     }
 }

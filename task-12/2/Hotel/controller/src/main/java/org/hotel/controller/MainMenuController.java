@@ -2,34 +2,56 @@ package org.hotel.controller;
 
 import org.hotel.annotations.Component;
 import org.hotel.annotations.Inject;
-import org.hotel.model.*;
-import org.hotel.view.*;
+import org.hotel.constants.CommandConstants;
+import org.hotel.model.Administrator;
+import org.hotel.view.Console;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Component
-public class MainMenuController {
-    private static final Logger logger = LogManager.getLogger(MainMenuController.class);
+public final class MainMenuController {
+    /**
+     * Логгер для фиксации логов.
+     */
+    private static final Logger LOGGER = LogManager.getLogger(MainMenuController.class);
 
+    /**
+     * Администратор.
+     */
     @Inject
     private Administrator administrator;
 
+    /**
+     * Вывод на консоль.
+     */
     @Inject
     private Console console;
 
+    /**
+     * Управление гостями.
+     */
     @Inject
     private GuestController guestController;
 
+    /**
+     * Управление комнатами.
+     */
     @Inject
     private RoomController roomController;
 
+    /**
+     * Управление услугами.
+     */
     @Inject
     private ServiceController serviceController;
 
+    /**
+     * Индикатор работы.
+     */
     private boolean running = true;
 
-    public MainMenuController() {};
+    public MainMenuController() { };
 
     public void init() {
         guestController.init();
@@ -39,23 +61,23 @@ public class MainMenuController {
 
     public void run() {
         try {
-            logger.info("Начало выполнения программы");
+            LOGGER.info("Начало выполнения программы");
             while (running) {
                 console.printMainMenu();
                 int command = console.readInt("Введите номер команды: ");
                 switch (command) {
-                    case 0:
+                    case CommandConstants.COMMAND_ZERO:
                         running = false;
                         break;
-                    case 1:
+                    case CommandConstants.COMMAND_ONE:
                         roomController.run();
                         break;
 
-                    case 2:
+                    case CommandConstants.COMMAND_TWO:
                         serviceController.run();
                         break;
 
-                    case 3:
+                    case CommandConstants.COMMAND_THREE:
                         guestController.run();
                         break;
 
@@ -63,9 +85,9 @@ public class MainMenuController {
                         console.showMessage("Введено некорректное значение! Попробуйте снова.");
                 }
             }
-            logger.info("Программа успешно завершила работу");
+            LOGGER.info("Программа успешно завершила работу");
         } catch (Exception e) {
-            logger.error("Ошибка при выполнении главной программы" + e.getMessage());
+            LOGGER.error("Ошибка при выполнении главной программы" + e.getMessage());
         }
     }
 }

@@ -9,10 +9,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-public class Configurator {
-    private static final Map<String, Properties> propertiesCache = new HashMap<>();
+public final class Configurator {
+    /**
+     * Кэш загруженных файлов properties, чтобы не читать их каждый раз.
+     */
+    private static final Map<String, Properties> PROPERTIES_CACHE = new HashMap<>();
 
-    public static void configure(Object target) {
+    private Configurator() {
+    }
+
+    public static void configure(final Object target) {
         Class<?> clazz = target.getClass();
         for (Field field : clazz.getDeclaredFields()) {
             if (field.isAnnotationPresent(ConfigProperty.class)) {
@@ -25,7 +31,7 @@ public class Configurator {
         }
     }
 
-    private static void injectValue(Object target, Field field) throws Exception {
+    private static void injectValue(final Object target, final Field field) throws Exception {
         ConfigProperty annotation = field.getAnnotation(ConfigProperty.class);
         String fileName = annotation.configFileName();
         String key = annotation.propertyName().trim();
@@ -45,9 +51,9 @@ public class Configurator {
         field.set(target, convertedValue);
     }
 
-    private static Properties getProperties(String fileName) throws Exception {
-        if (propertiesCache.containsKey(fileName)) {
-            return propertiesCache.get(fileName);
+    private static Properties getProperties(final String fileName) throws Exception {
+        if (PROPERTIES_CACHE.containsKey(fileName)) {
+            return PROPERTIES_CACHE.get(fileName);
         }
         Properties properties = new Properties();
 
@@ -62,11 +68,11 @@ public class Configurator {
             System.out.println("Файл с настройками '" + fileName + "' загружен из ресурсов.");
         }
 
-        propertiesCache.put(fileName, properties);
+        PROPERTIES_CACHE.put(fileName, properties);
         return properties;
     }
 
-    private static Object convert(String value, Class<?> fieldType, ConfigType explicitType) {
+    private static Object convert(final String value, final Class<?> fieldType, final ConfigType explicitType) {
         if (explicitType == ConfigType.STRING || fieldType == String.class) {
             return value;
         }

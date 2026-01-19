@@ -3,6 +3,8 @@ package org.hotel.model;
 import org.hotel.annotations.Component;
 import org.hotel.annotations.Inject;
 import org.hotel.database.DBConnection;
+import org.hotel.constants.StatusConstants;
+import org.hotel.constants.TimeConstants;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -14,26 +16,6 @@ import java.util.List;
 
 @Component
 public final class Administrator {
-    /**
-     * Количество миллисекунд в дне.
-     */
-    private static final long MSEC_IN_DAY = 86400000;
-
-    /**
-     * Код статуса "ошибка транзакции".
-     */
-    private static final int TRANSACTION_ERROR_STATUS = -3;
-
-    /**
-     * Код статуса "занята.".
-     */
-    private static final int OCCUPIED_STATUS = -2;
-
-    /**
-     * Код статуса "на обслуживании.".
-     */
-    private static final int IN_SERVICE_STATUS = -1;
-
     /**
      * Класс управления гостями.
      */
@@ -80,9 +62,9 @@ public final class Administrator {
     public int settle(final String id, final List<Guest> guests, final int daysCount) {
         Room room = roomManagement.getRoom(id);
         if (room.getStatus() == Status.OCCUPIED) {
-            return OCCUPIED_STATUS;
+            return StatusConstants.OCCUPIED_STATUS;
         } else if (room.getStatus() == Status.IN_SERVICE) {
-            return IN_SERVICE_STATUS;
+            return StatusConstants.IN_SERVICE_STATUS;
         } else {
             Connection connection = DBConnection.getInstance().getConnection();
             try {
@@ -91,7 +73,7 @@ public final class Administrator {
                 for (Guest guest : guests) {
                     guest.setRentRoomId(room.getId());
                     guest.setArriveDate(new Date(System.currentTimeMillis()));
-                    guest.setDepartureDate(new Date(System.currentTimeMillis() + daysCount * MSEC_IN_DAY));
+                    guest.setDepartureDate(new Date(System.currentTimeMillis() + daysCount * TimeConstants.MSEC_IN_DAY));
                     guestManagement.addGuest(guest);
                 }
                 guestManagement.setGuests(guests);
@@ -103,7 +85,7 @@ public final class Administrator {
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
-                return TRANSACTION_ERROR_STATUS;
+                return StatusConstants.TRANSACTION_ERROR_STATUS;
             } finally {
                 try {
                     connection.setAutoCommit(true);

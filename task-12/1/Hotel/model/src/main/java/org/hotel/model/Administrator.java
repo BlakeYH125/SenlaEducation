@@ -3,24 +3,40 @@ package org.hotel.model;
 import org.hotel.annotations.Component;
 import org.hotel.annotations.Inject;
 import org.hotel.database.DBConnection;
+import org.hotel.constants.StatusConstants;
+import org.hotel.constants.TimeConstants;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+
 
 @Component
-public class Administrator {
-    private static final long MSEC_IN_DAY = 86400000;
-
+public final class Administrator {
+    /**
+     * Класс управления гостями.
+     */
     @Inject
     private GuestManagement guestManagement;
 
+    /**
+     * Класс управления комнатами.
+     */
     @Inject
     private RoomManagement roomManagement;
 
+    /**
+     * Класс управления услугами.
+     */
     @Inject
     private ServiceManagement serviceManagement;
 
+    /**
+     * Класс управления использованными услугами.
+     */
     @Inject
     private UsedServiceManagement usedServiceManagement;
 
@@ -43,12 +59,12 @@ public class Administrator {
         return usedServiceManagement;
     }
 
-    public int settle(String id, List<Guest> guests, int daysCount) {
+    public int settle(final String id, final List<Guest> guests, final int daysCount) {
         Room room = roomManagement.getRoom(id);
         if (room.getStatus() == Status.OCCUPIED) {
-            return -2;
+            return StatusConstants.OCCUPIED_STATUS;
         } else if (room.getStatus() == Status.IN_SERVICE) {
-            return -1;
+            return StatusConstants.IN_SERVICE_STATUS;
         } else {
             Connection connection = DBConnection.getInstance().getConnection();
             try {
@@ -57,7 +73,7 @@ public class Administrator {
                 for (Guest guest : guests) {
                     guest.setRentRoomId(room.getId());
                     guest.setArriveDate(new Date(System.currentTimeMillis()));
-                    guest.setDepartureDate(new Date(System.currentTimeMillis() + daysCount * MSEC_IN_DAY));
+                    guest.setDepartureDate(new Date(System.currentTimeMillis() + daysCount * TimeConstants.MSEC_IN_DAY));
                     guestManagement.addGuest(guest);
                 }
                 guestManagement.setGuests(guests);
@@ -69,7 +85,7 @@ public class Administrator {
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
-                return -3;
+                return StatusConstants.TRANSACTION_ERROR_STATUS;
             } finally {
                 try {
                     connection.setAutoCommit(true);
@@ -80,7 +96,7 @@ public class Administrator {
         }
     }
 
-    public boolean evict(String id) {
+    public boolean evict(final String id) {
         Room room = roomManagement.getRoom(id);
         List<Guest> guests = roomManagement.getCurrentGuests(room);
         if (room.getStatus() == Status.AVAILABLE || room.getStatus() == Status.IN_SERVICE) {
@@ -102,7 +118,6 @@ public class Administrator {
                     ex.printStackTrace();
                 }
                 return false;
-
             } finally {
                 try {
                     connection.setAutoCommit(true);
@@ -113,7 +128,7 @@ public class Administrator {
         }
     }
 
-    public void useServiceByGuest(String guestId, String serviceId) {
+    public void useServiceByGuest(final String guestId, final String serviceId) {
         Connection connection = DBConnection.getInstance().getConnection();
         try {
             connection.setAutoCommit(false);
@@ -126,8 +141,7 @@ public class Administrator {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-        }
-        finally {
+        } finally {
             try {
                 connection.setAutoCommit(true);
             } catch (SQLException exe) {
@@ -136,7 +150,7 @@ public class Administrator {
         }
     }
 
-    public List<Priceable> getPriceOfRoomsAndServicesWithSort(SortType sortType) {
+    public List<Priceable> getPriceOfRoomsAndServicesWithSort(final SortType sortType) {
         List<Priceable> catalog = new ArrayList<>();
         if (sortType == SortType.PRICE) {
             catalog.addAll(roomManagement.getRooms());

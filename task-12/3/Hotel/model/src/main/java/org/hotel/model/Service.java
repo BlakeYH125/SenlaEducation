@@ -4,11 +4,6 @@ import java.math.BigDecimal;
 
 public final class Service implements Priceable {
     /**
-     * Количество миллисекунд в дне.
-     */
-    private static final long MSEC_IN_DAY = 86400000;
-
-    /**
      * Уникальный ID услуги.
      */
     private String id;

@@ -1,41 +1,59 @@
 package org.hotel.model;
 
-import javax.swing.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
-public class UsedService {
+public final class UsedService {
+    /**
+     * Уникальный ID использованной услуги.
+     */
     private String usedServiceId;
+
+    /**
+     * Уникальный ID услуги.
+     */
     private String serviceId;
+
+    /**
+     * Уникальный ID гостя.
+     */
     private String guestId;
+
+    /**
+     * Стоимость использованной услуги.
+     */
     private BigDecimal price;
+
+    /**
+     * Дата использования услуги.
+     */
     private Date date;
 
-    public UsedService(String usedServiceId, String serviceId, String guestId, BigDecimal price, Date date) {
-        this.usedServiceId = usedServiceId;
-        this.serviceId = serviceId;
-        this.guestId = guestId;
-        this.price = price;
-        this.date = date;
+    public UsedService(final String usedServiceIdP, final String serviceIdP, final String guestIdP, final BigDecimal priceP, final Date dateP) {
+        this.usedServiceId = usedServiceIdP;
+        this.serviceId = serviceIdP;
+        this.guestId = guestIdP;
+        this.price = priceP;
+        this.date = dateP;
     }
 
-    public UsedService() {}
+    public UsedService() { }
 
     public String getUsedServiceId() {
         return usedServiceId;
     }
 
-    public void setUsedServiceId(String usedServiceId) {
-        this.usedServiceId = usedServiceId;
+    public void setUsedServiceId(final String usedServiceIdP) {
+        this.usedServiceId = usedServiceIdP;
     }
 
     public String getGuestId() {
         return guestId;
     }
 
-    public void setGuestId(String guestId) {
-        this.guestId = guestId;
+    public void setGuestId(final String guestIdP) {
+        this.guestId = guestIdP;
     }
 
     public String getId() {
@@ -46,16 +64,16 @@ public class UsedService {
         return serviceId;
     }
 
-    public void setServiceId(String serviceId) {
-        this.serviceId = serviceId;
+    public void setServiceId(final String serviceIdP) {
+        this.serviceId = serviceIdP;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setPrice(final BigDecimal priceP) {
+        this.price = priceP;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDate(final Date dateP) {
+        this.date = dateP;
     }
 
     public BigDecimal getPrice() {

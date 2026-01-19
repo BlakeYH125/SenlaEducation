@@ -1,5 +1,13 @@
 package org.hotel.model;
 
 public enum GuestStatus {
-    SETTLED(), EVICTED()
+    /**
+     * Статус заселен.
+     */
+    SETTLED(),
+
+    /**
+     * Статус выселен.
+     */
+    EVICTED()
 }

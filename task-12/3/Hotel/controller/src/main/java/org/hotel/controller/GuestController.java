@@ -2,6 +2,8 @@ package org.hotel.controller;
 
 import org.hotel.annotations.Component;
 import org.hotel.annotations.Inject;
+import org.hotel.constants.CommandConstants;
+import org.hotel.constants.ParametersCount;
 import org.hotel.model.Administrator;
 import org.hotel.model.Guest;
 import org.hotel.model.GuestManagement;
@@ -58,50 +60,7 @@ public final class GuestController {
      */
     private GuestManagement guestManagement;
 
-    /**
-     * Команда 0.
-     */
-    private static final int COMMAND_ZERO = 0;
 
-    /**
-     * Команда 1.
-     */
-    private static final int COMMAND_ONE = 1;
-
-    /**
-     * Команда 2.
-     */
-    private static final int COMMAND_TWO = 2;
-
-    /**
-     * Команда 3.
-     */
-    private static final int COMMAND_THREE = 3;
-
-    /**
-     * Команда 4.
-     */
-    private static final int COMMAND_FOUR = 4;
-
-    /**
-     * Команда 5.
-     */
-    private static final int COMMAND_FIVE = 5;
-
-    /**
-     * Команда 6.
-     */
-    private static final int COMMAND_SIX = 6;
-
-    /**
-     * Команда 7.
-     */
-    private static final int COMMAND_SEVEN = 7;
-
-    /**
-     * Количество параметров.
-     */
-    private static final int PARAMETERS_COUNT = 3;
 
     public GuestController() {
     }
@@ -116,35 +75,35 @@ public final class GuestController {
             console.printGuestMenu();
             int command = console.readInt("Введите номер команды: ");
             switch (command) {
-                case COMMAND_ZERO:
+                case CommandConstants.COMMAND_ZERO:
                     running = false;
                     break;
 
-                case COMMAND_ONE:
+                case CommandConstants.COMMAND_ONE:
                     showGuests();
                     break;
 
-                case COMMAND_TWO:
+                case CommandConstants.COMMAND_TWO:
                     getGuestsCount();
                     break;
 
-                case COMMAND_THREE:
+                case CommandConstants.COMMAND_THREE:
                     getTotalCost();
                     break;
 
-                case COMMAND_FOUR:
+                case CommandConstants.COMMAND_FOUR:
                     useService();
                     break;
 
-                case COMMAND_FIVE:
+                case CommandConstants.COMMAND_FIVE:
                     showServicesUsedByGuest();
                     break;
 
-                case COMMAND_SIX:
+                case CommandConstants.COMMAND_SIX:
                     importGuestData();
                     break;
 
-                case COMMAND_SEVEN:
+                case CommandConstants.COMMAND_SEVEN:
                     exportGuestData();
                     break;
 
@@ -160,9 +119,9 @@ public final class GuestController {
             LOGGER.info("Начало выполнения метода showGuests");
             console.showMessage("1. Алфавит;\n2. Дата освобождения номера.");
             int sortType = console.readInt("Выберите вид сортировки: ");
-            if (sortType == COMMAND_ONE) {
+            if (sortType == CommandConstants.COMMAND_ONE) {
                 console.showGuests((List<Guest>) guestManagement.getActualGuestsWithSort(SortType.ALPHABET));
-            } else if (sortType == COMMAND_TWO) {
+            } else if (sortType == CommandConstants.COMMAND_TWO) {
                 console.showGuests((List<Guest>) guestManagement.getActualGuestsWithSort(SortType.DATE));
             } else {
                 throw new WrongCommandNumberException();
@@ -194,8 +153,8 @@ public final class GuestController {
                 String str;
                 while ((str = br.readLine()) != null) {
                     String[] parts = str.split(";");
-                    if (parts.length == PARAMETERS_COUNT) {
-                        guestManagement.addGuest(new Guest(parts[0], parts[1], Integer.parseInt(parts[2])));
+                    if (parts.length == ParametersCount.GUEST_PARAMETERS_COUNT) {
+                        guestManagement.addGuest(new Guest(parts[CommandConstants.COMMAND_ZERO], parts[CommandConstants.COMMAND_ONE], Integer.parseInt(parts[CommandConstants.COMMAND_TWO])));
                         LOGGER.info("Метод importGuestData успешно завершил работу");
                     } else {
                         console.showMessage("Ошибка при импорте, неверное количество параметров в записи.");
@@ -227,10 +186,10 @@ public final class GuestController {
                 try {
                     file.createNewFile();
                     Guest guest = guestManagement.getGuest(id);
-                    String[] data = new String[PARAMETERS_COUNT];
-                    data[0] = id;
-                    data[1] = guest.getFullName();
-                    data[2] = String.valueOf(guest.getAge());
+                    String[] data = new String[ParametersCount.GUEST_PARAMETERS_COUNT];
+                    data[CommandConstants.COMMAND_ZERO] = id;
+                    data[CommandConstants.COMMAND_ONE] = guest.getFullName();
+                    data[CommandConstants.COMMAND_TWO] = String.valueOf(guest.getAge());
                     String result = String.join(";", data);
                     try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
                         bw.write(result);
@@ -264,9 +223,9 @@ public final class GuestController {
                 List<UsedService> usedServices = usedServiceManagementP.getUsedServices(guestManagement.getGuest(guestId));
                 console.showMessage("1. Цена;\n2. Дата.");
                 int sortType = console.readInt("Выберите вид сортировки: ");
-                if (sortType == COMMAND_ONE) {
+                if (sortType == CommandConstants.COMMAND_ONE) {
                     console.showUsedServices(usedServiceManagementP.getUsedServicesByGuestWithSort(usedServices, SortType.PRICE));
-                } else if (sortType == COMMAND_TWO) {
+                } else if (sortType == CommandConstants.COMMAND_TWO) {
                     console.showUsedServices(usedServiceManagementP.getUsedServicesByGuestWithSort(usedServices, SortType.DATE));
                 } else {
                     throw new WrongCommandNumberException();

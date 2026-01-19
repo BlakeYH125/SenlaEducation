@@ -2,6 +2,8 @@ package org.hotel.controller;
 
 import org.hotel.annotations.Component;
 import org.hotel.annotations.Inject;
+import org.hotel.constants.CommandConstants;
+import org.hotel.constants.ParametersCount;
 import org.hotel.model.Administrator;
 import org.hotel.model.Priceable;
 import org.hotel.model.Service;
@@ -58,45 +60,7 @@ public final class ServiceController {
      */
     private ServiceManagement serviceManagement;
 
-    /**
-     * Команда 0.
-     */
-    private static final int COMMAND_ZERO = 0;
 
-    /**
-     * Команда 1.
-     */
-    private static final int COMMAND_ONE = 1;
-
-    /**
-     * Команда 2.
-     */
-    private static final int COMMAND_TWO = 2;
-
-    /**
-     * Команда 3.
-     */
-    private static final int COMMAND_THREE = 3;
-
-    /**
-     * Команда 4.
-     */
-    private static final int COMMAND_FOUR = 4;
-
-    /**
-     * Команда 5.
-     */
-    private static final int COMMAND_FIVE = 5;
-
-    /**
-     * Команда 6.
-     */
-    private static final int COMMAND_SIX = 6;
-
-    /**
-     * Количество параметров.
-     */
-    private static final int PARAMETERS_COUNT = 4;
 
     public ServiceController() {
     }
@@ -111,31 +75,31 @@ public final class ServiceController {
             console.printServiceMenu();
             int command = console.readInt("Введите номер команды: ");
             switch (command) {
-                case COMMAND_ZERO:
+                case CommandConstants.COMMAND_ZERO:
                     running = false;
                     break;
 
-                case COMMAND_ONE:
+                case CommandConstants.COMMAND_ONE:
                     addService();
                     break;
 
-                case COMMAND_TWO:
+                case CommandConstants.COMMAND_TWO:
                     changeServicePrice();
                     break;
 
-                case COMMAND_THREE:
+                case CommandConstants.COMMAND_THREE:
                     showServices();
                     break;
 
-                case COMMAND_FOUR:
+                case CommandConstants.COMMAND_FOUR:
                     showCatalog();
                     break;
 
-                case COMMAND_FIVE:
+                case CommandConstants.COMMAND_FIVE:
                     importServiceData();
                     break;
 
-                case COMMAND_SIX:
+                case CommandConstants.COMMAND_SIX:
                     exportServiceData();
                     break;
 
@@ -192,27 +156,27 @@ public final class ServiceController {
                 int sectionType = console.readInt("Введите номер типа услуги: ");
                 Service newService;
                 switch (sectionType) {
-                    case COMMAND_ONE:
+                    case CommandConstants.COMMAND_ONE:
                         newService = new Service(id, newServiceName, console.readBigDecimal("Введите стоимость услуги: "), ServiceSection.FOOD);
                         serviceManagement.addNewService(newService);
                         break;
-                    case COMMAND_TWO:
+                    case CommandConstants.COMMAND_TWO:
                         newService = new Service(id, newServiceName, console.readBigDecimal("Введите стоимость услуги: "), ServiceSection.PARKING);
                         serviceManagement.addNewService(newService);
                         break;
-                    case COMMAND_THREE:
+                    case CommandConstants.COMMAND_THREE:
                         newService = new Service(id, newServiceName, console.readBigDecimal("Введите стоимость услуги: "), ServiceSection.CLEANING);
                         serviceManagement.addNewService(newService);
                         break;
-                    case COMMAND_FOUR:
+                    case CommandConstants.COMMAND_FOUR:
                         newService = new Service(id, newServiceName, console.readBigDecimal("Введите стоимость услуги: "), ServiceSection.HEALTH);
                         serviceManagement.addNewService(newService);
                         break;
-                    case COMMAND_FIVE:
+                    case CommandConstants.COMMAND_FIVE:
                         newService = new Service(id, newServiceName, console.readBigDecimal("Введите стоимость услуги: "), ServiceSection.BUSINESS);
                         serviceManagement.addNewService(newService);
                         break;
-                    case COMMAND_SIX:
+                    case CommandConstants.COMMAND_SIX:
                         newService = new Service(id, newServiceName, console.readBigDecimal("Введите стоимость услуги: "), ServiceSection.KIDS);
                         serviceManagement.addNewService(newService);
                         break;
@@ -235,9 +199,9 @@ public final class ServiceController {
             LOGGER.info("Начало выполнения метода showServices");
             console.showMessage("1. Цена;\n2. Раздел.");
             int sortType = console.readInt("Выберите вид сортировки: ");
-            if (sortType == COMMAND_ONE) {
+            if (sortType == CommandConstants.COMMAND_ONE) {
                 console.showServices((List<Service>) serviceManagement.getServicesWithSort(SortType.PRICE));
-            } else if (sortType == COMMAND_TWO) {
+            } else if (sortType == CommandConstants.COMMAND_TWO) {
                 console.showServices((List<Service>) serviceManagement.getServicesWithSort(SortType.SECTION));
             } else {
                 throw new WrongCommandNumberException();
@@ -256,9 +220,9 @@ public final class ServiceController {
             LOGGER.info("Начало выполнения метода showCatalog");
             console.showMessage("1. Цена;\n2. Раздел.");
             int sortType = console.readInt("Выберите вид сортировки: ");
-            if (sortType == COMMAND_ONE) {
+            if (sortType == CommandConstants.COMMAND_ONE) {
                 console.showCatalog((List<Priceable>) administrator.getPriceOfRoomsAndServicesWithSort(SortType.PRICE));
-            } else if (sortType == COMMAND_TWO) {
+            } else if (sortType == CommandConstants.COMMAND_TWO) {
                 console.showCatalog((List<Priceable>) administrator.getPriceOfRoomsAndServicesWithSort(SortType.SECTION));
             } else {
                 throw new WrongCommandNumberException();
@@ -280,8 +244,8 @@ public final class ServiceController {
                 String str;
                 while ((str = br.readLine()) != null) {
                     String[] parts = str.split(";");
-                    if (parts.length == PARAMETERS_COUNT) {
-                        serviceManagement.addNewService(new Service(parts[COMMAND_ZERO], parts[COMMAND_ONE], new BigDecimal(parts[COMMAND_TWO]), ServiceSection.valueOf(parts[COMMAND_THREE])));
+                    if (parts.length == ParametersCount.SERVICE_PARAMETERS_COUNT) {
+                        serviceManagement.addNewService(new Service(parts[CommandConstants.COMMAND_ZERO], parts[CommandConstants.COMMAND_ONE], new BigDecimal(parts[CommandConstants.COMMAND_TWO]), ServiceSection.valueOf(parts[CommandConstants.COMMAND_THREE])));
                         console.showMessage("Импорт завершен.");
                         LOGGER.info("Метод importServiceData успешно завершил работу");
                     } else {
@@ -312,11 +276,11 @@ public final class ServiceController {
                 try {
                     file.createNewFile();
                     Service service = serviceManagement.getService(id);
-                    String[] data = new String[PARAMETERS_COUNT];
-                    data[COMMAND_ZERO] = id;
-                    data[COMMAND_ONE] = String.valueOf(service.getName());
-                    data[COMMAND_TWO] = String.valueOf(service.getPrice());
-                    data[COMMAND_THREE] = service.getServiceSection().name();
+                    String[] data = new String[ParametersCount.SERVICE_PARAMETERS_COUNT];
+                    data[CommandConstants.COMMAND_ZERO] = id;
+                    data[CommandConstants.COMMAND_ONE] = String.valueOf(service.getName());
+                    data[CommandConstants.COMMAND_TWO] = String.valueOf(service.getPrice());
+                    data[CommandConstants.COMMAND_THREE] = service.getServiceSection().name();
                     String result = String.join(";", data);
                     try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
                         bw.write(result);

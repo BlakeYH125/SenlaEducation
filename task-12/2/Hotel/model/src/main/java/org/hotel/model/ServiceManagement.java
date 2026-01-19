@@ -8,50 +8,51 @@ import java.util.Comparator;
 import java.util.List;
 
 @Component
-public class ServiceManagement {
-
+public final class ServiceManagement {
+    /**
+     * Репозиторий для работы с услугами в БД.
+     */
     @Inject
     private ServiceRepository serviceRepository;
 
-    public ServiceManagement() {
+    public ServiceManagement() { }
+
+    public void addNewService(final Service serviceP) {
+        serviceRepository.save(serviceP);
     }
 
-    public void addNewService(Service service) {
-        serviceRepository.save(service);
+    public Service getService(final String idP) {
+        return serviceRepository.getService(idP);
     }
 
-    public Service getService(String id) {
-        return serviceRepository.getService(id);
+    public String getServiceName(final String idP) {
+        return getService(idP).getName();
     }
 
-    public String getServiceName(String id) {
-        return getService(id).getName();
-    }
-
-    public BigDecimal getServicePrice(String id) {
-        return getService(id).getPrice();
+    public BigDecimal getServicePrice(final String idP) {
+        return getService(idP).getPrice();
     }
 
     public List<Service> getServices() {
         return serviceRepository.findAll();
     }
 
-    public void setNewServicePrice(String id, BigDecimal newPrice) {
-        serviceRepository.setNewServicePrice(getService(id), newPrice);
+    public void setNewServicePrice(final String idP, final BigDecimal newPriceP) {
+        serviceRepository.setNewServicePrice(getService(idP), newPriceP);
     }
 
-    public List<Service> getServicesWithSort(SortType sortType) {
+    public List<Service> getServicesWithSort(final SortType sortTypeP) {
         List<Service> listServices = getServices();
-        if (sortType == SortType.PRICE) {
+        if (sortTypeP == SortType.PRICE) {
             listServices.sort(Comparator.comparing(Service::getPrice));
-        } else if (sortType == SortType.SECTION) {
+        } else if (sortTypeP == SortType.SECTION) {
             listServices.sort(Comparator.comparing(Service::getServiceSection));
         }
         return listServices;
     }
 
-    public boolean isThereService(String id) {
-        if (getService(id) == null) {
+    public boolean isThereService(final String idP) {
+        if (getService(idP) == null) {
             return false;
         }
         return true;

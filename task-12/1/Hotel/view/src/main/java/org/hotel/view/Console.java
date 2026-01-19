@@ -7,18 +7,20 @@ import org.hotel.model.Service;
 import org.hotel.model.UsedService;
 import org.hotel.model.Priceable;
 
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Scanner;
 
 @Component
-public class Console {
+public final class Console {
+    /**
+     * Сканнер.
+     */
     private final Scanner scanner = new Scanner(System.in);
 
-    public Console() {}
+    public Console() { }
 
-    public int readInt(String message) {
+    public int readInt(final String message) {
         System.out.print(message);
         while (true) {
             try {
@@ -34,7 +36,7 @@ public class Console {
         }
     }
 
-    public double readDouble(String message) {
+    public double readDouble(final String message) {
         System.out.print(message);
         while (true) {
             try {
@@ -50,7 +52,7 @@ public class Console {
         }
     }
 
-    public BigDecimal readBigDecimal(String message) {
+    public BigDecimal readBigDecimal(final String message) {
         System.out.print(message);
         while (true) {
             try {
@@ -66,12 +68,12 @@ public class Console {
         }
     }
 
-    public String readString(String message) {
+    public String readString(final String message) {
         System.out.print(message);
         return scanner.nextLine();
     }
 
-    public void showMessage(String message) {
+    public void showMessage(final String message) {
         System.out.println(message);
     }
 
@@ -120,10 +122,9 @@ public class Console {
         System.out.println("5. Посмотреть список услуг, которыми воспользовался гость;");
         System.out.println("6. Сделать импорт данных об госте(ях);");
         System.out.println("7. Сделать экспорт данных об госте.\n");
-
     }
 
-    public void showRooms(List<Room> rooms) {
+    public void showRooms(final List<Room> rooms) {
         if (rooms == null || rooms.isEmpty()) {
             System.out.println("Список комнат пуст.");
         } else {
@@ -133,7 +134,7 @@ public class Console {
         }
     }
 
-    public void showGuests(List<Guest> guests) {
+    public void showGuests(final List<Guest> guests) {
         if (guests == null || guests.isEmpty()) {
             System.out.println("Список постояльцев пуст.");
         } else {
@@ -143,7 +144,7 @@ public class Console {
         }
     }
 
-    public void showCatalog(List<Priceable> catalog) {
+    public void showCatalog(final List<Priceable> catalog) {
         if (catalog == null || catalog.isEmpty()) {
             System.out.println("Каталог пуст.");
         } else {
@@ -153,7 +154,7 @@ public class Console {
         }
     }
 
-    public void showServices(List<Service> services) {
+    public void showServices(final List<Service> services) {
         if (services == null || services.isEmpty()) {
             System.out.println("Список услуг пуст.");
         } else {
@@ -163,7 +164,7 @@ public class Console {
         }
     }
 
-    public void showUsedServices(List<UsedService> usedServices) {
+    public void showUsedServices(final List<UsedService> usedServices) {
         if (usedServices == null || usedServices.isEmpty()) {
             System.out.println("Список использованных услуг пуст.");
         } else {

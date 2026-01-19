@@ -7,14 +7,53 @@ import org.hotel.model.GuestRepository;
 import org.hotel.model.GuestStatus;
 import org.hotel.model.Room;
 
-import java.sql.*;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class GuestDao implements GuestRepository {
+public final class GuestDao implements GuestRepository {
+    /**
+     * Первый параметр.
+     */
+    private static final int FIRST_PARAMETER = 1;
+
+    /**
+     * Второй параметр.
+     */
+    private static final int SECOND_PARAMETER = 2;
+
+    /**
+     * Третий параметр.
+     */
+    private static final int THIRD_PARAMETER = 3;
+
+    /**
+     * Четвертый параметр.
+     */
+    private static final int FOURTH_PARAMETER = 4;
+
+    /**
+     * Пятый параметр.
+     */
+    private static final int FIFTH_PARAMETER = 5;
+
+    /**
+     * Шестой параметр.
+     */
+    private static final int SIXTH_PARAMETER = 6;
+
+    /**
+     * Седьмой параметр.
+     */
+    private static final int SEVENTH_PARAMETER = 7;
+
     @Override
-    public void save(Guest guest) {
+    public void save(final Guest guestP) {
         String sql = """
             INSERT INTO guests (guestId, fullName, age, rentRoomId, arriveDate, departureDate, status)
             VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -27,18 +66,18 @@ public class GuestDao implements GuestRepository {
                 status = EXCLUDED.status
         """;
         try (PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql)) {
-            preparedStatement.setString(1, guest.getId());
-            preparedStatement.setString(2, guest.getFullName());
-            preparedStatement.setInt(3, guest.getAge());
-            preparedStatement.setString(4, guest.getRentRoomId());
-            if (guest.getArriveDate() != null) {
-                preparedStatement.setDate(5, new Date(guest.getArriveDate().getTime()));
-                preparedStatement.setDate(6, new Date(guest.getDepartureDate().getTime()));
+            preparedStatement.setString(FIFTH_PARAMETER, guestP.getId());
+            preparedStatement.setString(SECOND_PARAMETER, guestP.getFullName());
+            preparedStatement.setInt(THIRD_PARAMETER, guestP.getAge());
+            preparedStatement.setString(FOURTH_PARAMETER, guestP.getRentRoomId());
+            if (guestP.getArriveDate() != null) {
+                preparedStatement.setDate(FIFTH_PARAMETER, new Date(guestP.getArriveDate().getTime()));
+                preparedStatement.setDate(SIXTH_PARAMETER, new Date(guestP.getDepartureDate().getTime()));
             } else {
-                preparedStatement.setDate(5, null);
-                preparedStatement.setDate(6, null);
+                preparedStatement.setDate(FIRST_PARAMETER, null);
+                preparedStatement.setDate(SIXTH_PARAMETER, null);
             }
-            preparedStatement.setString(7, guest.getStatus().name());
+            preparedStatement.setString(SEVENTH_PARAMETER, guestP.getStatus().name());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -68,7 +107,7 @@ public class GuestDao implements GuestRepository {
     }
 
     @Override
-    public List<Guest> findCurrentGuestsInRoom(Room room) {
+    public List<Guest> findCurrentGuestsInRoom(final Room roomP) {
         List<Guest> guests = new ArrayList<>();
         String sql = """
                 SELECT g.*
@@ -77,8 +116,8 @@ public class GuestDao implements GuestRepository {
                 WHERE r.roomId = ? AND g.status = ?
                 """;
         try (PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql)) {
-            preparedStatement.setString(1, room.getId());
-            preparedStatement.setString(2, "SETTLED");
+            preparedStatement.setString(FIRST_PARAMETER, roomP.getId());
+            preparedStatement.setString(SECOND_PARAMETER, "SETTLED");
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Guest guest = new Guest();
@@ -106,7 +145,7 @@ public class GuestDao implements GuestRepository {
                 WHERE status = ?
                 """;
         try (PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql)) {
-            preparedStatement.setString(1, "SETTLED");
+            preparedStatement.setString(FIRST_PARAMETER, "SETTLED");
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Guest guest = new Guest();
@@ -126,14 +165,14 @@ public class GuestDao implements GuestRepository {
     }
 
     @Override
-    public Guest getGuest(String id) {
+    public Guest getGuest(final String idP) {
         String sql = """
                 SELECT *
                 FROM guests
                 WHERE guestId = ?
                 """;
         try (PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql)) {
-            preparedStatement.setString(1, id);
+            preparedStatement.setString(FIRST_PARAMETER, idP);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 Guest guest = new Guest();
@@ -153,7 +192,7 @@ public class GuestDao implements GuestRepository {
     }
 
     @Override
-    public List<Guest> findPreviousGuests(Room room, int limit) {
+    public List<Guest> findPreviousGuests(final Room roomP, final int limitP) {
         String sql = """
                 SELECT *
                 FROM GUESTS
@@ -162,9 +201,9 @@ public class GuestDao implements GuestRepository {
                 """;
         List<Guest> guests = new ArrayList<>();
         try (PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql)) {
-            preparedStatement.setString(1, room.getId());
-            preparedStatement.setString(2, "EVICTED");
-            preparedStatement.setInt(3, limit);
+            preparedStatement.setString(FIRST_PARAMETER, roomP.getId());
+            preparedStatement.setString(SECOND_PARAMETER, "EVICTED");
+            preparedStatement.setInt(THIRD_PARAMETER, limitP);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Guest guest = new Guest();
@@ -184,15 +223,15 @@ public class GuestDao implements GuestRepository {
     }
 
     @Override
-    public void setEvicted(Guest guest) {
+    public void setEvicted(final Guest guestP) {
         String sql = """
                     UPDATE guests
                     SET status = ?
                     WHERE guestId = ?;
                     """;
         try (PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql)) {
-            preparedStatement.setString(1, "EVICTED");
-            preparedStatement.setString(2, guest.getId());
+            preparedStatement.setString(FIRST_PARAMETER, "EVICTED");
+            preparedStatement.setString(SECOND_PARAMETER, guestP.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

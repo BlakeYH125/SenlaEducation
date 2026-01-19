@@ -6,49 +6,76 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
-public class Room implements Priceable {
+public final class Room implements Priceable {
+    /**
+     * Уникальный ID комнаты.
+     */
     private String id;
+
+    /**
+     * Номер комнаты.
+     */
     private int number;
+
+    /**
+     * Цена за комнату.
+     */
     private BigDecimal price;
+
+    /**
+     * Вместимость комнаты.
+     */
     private int capacity;
+
+    /**
+     * Количество звезд у комнаты.
+     */
     private int stars;
+
+    /**
+     * Статус комнаты.
+     */
     private Status status;
+
+    /**
+     * Дата освобождения комнаты.
+     */
     private Date releasedIn;
 
-    public Room(String id, int number, BigDecimal price, Status status, int capacity, int stars) {
+    public Room(final String idP, final int numberP, final BigDecimal priceP, final Status statusP, final int capacityP, final int starsP) {
         this.id = id;
-        this.number = number;
-        this.price = price;
-        this.capacity = capacity;
-        this.stars = stars;
-        this.status = status;
+        this.number = numberP;
+        this.price = priceP;
+        this.capacity = capacityP;
+        this.stars = starsP;
+        this.status = statusP;
         Configurator.configure(this);
     }
 
-    public Room() {}
+    public Room() { }
 
     public int getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setNumber(final int numberP) {
+        this.number = numberP;
     }
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
+    public void setCapacity(final int capacityP) {
+        this.capacity = capacityP;
     }
 
-    public void setStars(int stars) {
-        this.stars = stars;
+    public void setStars(final int starsP) {
+        this.stars = starsP;
     }
 
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(final String idP) {
+        this.id = idP;
     }
 
     @Override
@@ -56,8 +83,8 @@ public class Room implements Priceable {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setPrice(final BigDecimal priceP) {
+        this.price = priceP;
     }
 
     public int getCapacity() {
@@ -72,16 +99,16 @@ public class Room implements Priceable {
         return status;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setStatus(final Status statusP) {
+        this.status = statusP;
     }
 
     public Date getReleasedIn() {
         return releasedIn;
     }
 
-    public void setReleasedIn(Date releasedIn) {
-        this.releasedIn = releasedIn;
+    public void setReleasedIn(final Date releasedInP) {
+        this.releasedIn = releasedInP;
     }
 
     @Override
@@ -90,7 +117,6 @@ public class Room implements Priceable {
         if (releasedIn == null) {
             return "[" + id  + "] номер " + number + ", стоимость: " + price + ", вместимость: " + capacity + ", звезды: "
                     + stars + ", " + status.toString();
-
         }
         return "[" + id  + "] номер " + number + ", стоимость: " + price + ", вместимость: " + capacity + ", звезды: "
                 + stars + ", " + status.toString() + ", освободится " + sdf.format(releasedIn);

@@ -19,6 +19,7 @@
         <module>controller</module>
         <module>view</module>
         <module>app</module>
+        <module>constants</module>
     </modules>
 
     <properties>
