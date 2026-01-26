@@ -1,10 +1,10 @@
 package org.hotel.view;
 
 import org.hotel.annotations.Component;
-import org.hotel.model.Room;
-import org.hotel.model.Guest;
-import org.hotel.model.Service;
-import org.hotel.model.UsedService;
+import org.hotel.model.entities.Room;
+import org.hotel.model.entities.Guest;
+import org.hotel.model.entities.Service;
+import org.hotel.model.entities.UsedService;
 import org.hotel.model.Priceable;
 
 import java.math.BigDecimal;

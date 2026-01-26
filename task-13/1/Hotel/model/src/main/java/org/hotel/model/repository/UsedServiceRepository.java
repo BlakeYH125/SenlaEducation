@@ -1,6 +1,8 @@
-package org.hotel.model;
+package org.hotel.model.repository;
 
 import org.hotel.annotations.Component;
+import org.hotel.model.entities.Guest;
+import org.hotel.model.entities.UsedService;
 
 import java.util.List;
 

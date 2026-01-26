@@ -4,9 +4,9 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.hotel.annotations.Component;
 import org.hotel.database.HibernateUtil;
-import org.hotel.model.Guest;
-import org.hotel.model.UsedService;
-import org.hotel.model.UsedServiceRepository;
+import org.hotel.model.entities.Guest;
+import org.hotel.model.entities.UsedService;
+import org.hotel.model.repository.UsedServiceRepository;
 
 import java.util.List;
 

@@ -1,6 +1,7 @@
-package org.hotel.model;
+package org.hotel.model.repository;
 
 import org.hotel.annotations.Component;
+import org.hotel.model.entities.Service;
 
 import java.math.BigDecimal;
 import java.util.List;

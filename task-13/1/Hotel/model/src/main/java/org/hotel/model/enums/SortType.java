@@ -1,4 +1,4 @@
-package org.hotel.model;
+package org.hotel.model.enums;
 
 public enum SortType {
     /**

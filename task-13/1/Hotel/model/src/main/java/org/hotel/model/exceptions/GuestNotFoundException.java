@@ -1,4 +1,4 @@
-package org.hotel.model;
+package org.hotel.model.exceptions;
 
 public class GuestNotFoundException extends RuntimeException {
     public GuestNotFoundException() {

@@ -22,10 +22,10 @@
         <property name="show_sql">false</property> <!-- Show SQL in console -->
         <property name="format_sql">false</property> <!-- Show SQL formatted -->
 
-        <mapping class="org.hotel.model.Guest"/>
-        <mapping class="org.hotel.model.Room"/>
-        <mapping class="org.hotel.model.Service"/>
-        <mapping class="org.hotel.model.UsedService"/>
+        <mapping class="org.hotel.model.entities.Guest"/>
+        <mapping class="org.hotel.model.entities.Room"/>
+        <mapping class="org.hotel.model.entities.Service"/>
+        <mapping class="org.hotel.model.entities.UsedService"/>
 
     </session-factory>
 </hibernate-configuration>

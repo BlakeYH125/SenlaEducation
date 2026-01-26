@@ -4,9 +4,9 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.hotel.annotations.Component;
 import org.hotel.database.HibernateUtil;
-import org.hotel.model.Room;
-import org.hotel.model.RoomRepository;
-import org.hotel.model.Status;
+import org.hotel.model.entities.Room;
+import org.hotel.model.repository.RoomRepository;
+import org.hotel.model.enums.Status;
 
 import java.math.BigDecimal;
 import java.sql.Date;

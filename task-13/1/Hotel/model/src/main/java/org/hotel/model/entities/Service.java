@@ -1,4 +1,4 @@
-package org.hotel.model;
+package org.hotel.model.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -6,6 +6,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import org.hotel.model.Priceable;
+import org.hotel.model.enums.ServiceSection;
 
 import java.math.BigDecimal;
 

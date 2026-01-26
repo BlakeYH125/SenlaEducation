@@ -3,8 +3,8 @@ package org.hotel.dao;
 import org.hibernate.Session;
 import org.hotel.annotations.Component;
 import org.hotel.database.HibernateUtil;
-import org.hotel.model.Service;
-import org.hotel.model.ServiceRepository;
+import org.hotel.model.entities.Service;
+import org.hotel.model.repository.ServiceRepository;
 
 
 import java.math.BigDecimal;

@@ -1,6 +1,8 @@
-package org.hotel.model;
+package org.hotel.model.repository;
 
 import org.hotel.annotations.Component;
+import org.hotel.model.entities.Room;
+import org.hotel.model.enums.Status;
 
 import java.math.BigDecimal;
 import java.sql.Date;

@@ -1,4 +1,4 @@
-package org.hotel.model;
+package org.hotel.model.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,6 +8,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import org.hotel.model.enums.GuestStatus;
+
 import java.util.Date;
 import java.text.SimpleDateFormat;
 

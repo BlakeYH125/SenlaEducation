@@ -6,10 +6,10 @@ import org.hotel.dao.GuestDao;
 import org.hotel.dao.RoomDao;
 import org.hotel.dao.ServiceDao;
 import org.hotel.dao.UsedServiceDao;
-import org.hotel.model.GuestRepository;
-import org.hotel.model.RoomRepository;
-import org.hotel.model.ServiceRepository;
-import org.hotel.model.UsedServiceRepository;
+import org.hotel.model.repository.GuestRepository;
+import org.hotel.model.repository.RoomRepository;
+import org.hotel.model.repository.ServiceRepository;
+import org.hotel.model.repository.UsedServiceRepository;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;

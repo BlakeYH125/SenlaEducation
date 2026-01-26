@@ -1,9 +1,16 @@
-package org.hotel.model;
+package org.hotel.model.management;
 
 import org.hotel.annotations.Component;
 import org.hotel.annotations.Inject;
 import org.hotel.constants.StatusConstants;
 import org.hotel.constants.TimeConstants;
+import org.hotel.model.Priceable;
+import org.hotel.model.entities.Guest;
+import org.hotel.model.entities.Room;
+import org.hotel.model.entities.Service;
+import org.hotel.model.entities.UsedService;
+import org.hotel.model.enums.SortType;
+import org.hotel.model.enums.Status;
 
 import java.util.ArrayList;
 import java.util.Comparator;

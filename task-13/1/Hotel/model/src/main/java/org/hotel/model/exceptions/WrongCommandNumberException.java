@@ -1,4 +1,4 @@
-package org.hotel.model;
+package org.hotel.model.exceptions;
 
 public class WrongCommandNumberException extends RuntimeException {
     public WrongCommandNumberException() {

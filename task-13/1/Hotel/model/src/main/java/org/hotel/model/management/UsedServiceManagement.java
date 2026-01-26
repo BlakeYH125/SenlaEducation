@@ -1,7 +1,11 @@
-package org.hotel.model;
+package org.hotel.model.management;
 
 import org.hotel.annotations.Component;
 import org.hotel.annotations.Inject;
+import org.hotel.model.entities.Guest;
+import org.hotel.model.enums.SortType;
+import org.hotel.model.entities.UsedService;
+import org.hotel.model.repository.UsedServiceRepository;
 
 import java.util.ArrayList;
 import java.util.Comparator;

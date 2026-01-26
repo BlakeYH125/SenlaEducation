@@ -5,10 +5,10 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.hotel.annotations.Component;
 import org.hotel.database.HibernateUtil;
-import org.hotel.model.Guest;
-import org.hotel.model.GuestRepository;
-import org.hotel.model.GuestStatus;
-import org.hotel.model.Room;
+import org.hotel.model.entities.Guest;
+import org.hotel.model.repository.GuestRepository;
+import org.hotel.model.enums.GuestStatus;
+import org.hotel.model.entities.Room;
 
 import java.util.List;
 

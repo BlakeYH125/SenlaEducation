@@ -3,7 +3,7 @@ package org.hotel.controller;
 import org.hotel.annotations.Component;
 import org.hotel.annotations.Inject;
 import org.hotel.constants.CommandConstants;
-import org.hotel.model.Administrator;
+import org.hotel.model.management.Administrator;
 import org.hotel.view.Console;
 
 import org.apache.logging.log4j.LogManager;

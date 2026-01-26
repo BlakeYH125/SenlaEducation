@@ -3,7 +3,10 @@ package org.hotel.database;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public class HibernateUtil {
+public final class HibernateUtil {
+    /**
+     * Сессия.
+     */
     private static SessionFactory sessionFactory;
 
     static {
