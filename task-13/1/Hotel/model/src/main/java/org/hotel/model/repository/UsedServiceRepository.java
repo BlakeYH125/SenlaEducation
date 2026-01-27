@@ -1,0 +1,13 @@
+package org.hotel.model.repository;
+
+import org.hotel.annotations.Component;
+import org.hotel.model.entities.Guest;
+import org.hotel.model.entities.UsedService;
+
+import java.util.List;
+
+@Component
+public interface UsedServiceRepository {
+    void save(UsedService usedService);
+    List<UsedService> findServicesUsedByGuest(Guest guest);
+}
