@@ -9,7 +9,6 @@ public final class App {
     public static void main(final String[] args) {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
         MainMenuController controller = applicationContext.getBean(MainMenuController.class);
-        controller.init();
         controller.run();
         applicationContext.close();
     }

@@ -49,22 +49,19 @@ public final class RoomController {
     private final Console console;
 
     /**
+     * Управление комнатами.
+     */
+    private final RoomManagement roomManagement;
+
+    /**
      * Индикатор работы.
      */
     private boolean running = true;
 
-    /**
-     * Управление комнатами.
-     */
-    private RoomManagement roomManagement;
-
-    public RoomController(final Administrator administratorP, final Console consoleP) {
+    public RoomController(final Administrator administratorP, final Console consoleP, final RoomManagement roomManagementP) {
         this.administrator = administratorP;
         this.console = consoleP;
-    }
-
-    public void init() {
-        this.roomManagement = administrator.getRoomManagement();
+        this.roomManagement = roomManagementP;
     }
 
     public void run() {

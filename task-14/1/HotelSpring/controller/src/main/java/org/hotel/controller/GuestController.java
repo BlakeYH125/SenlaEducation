@@ -48,24 +48,19 @@ public final class GuestController {
     private final Console console;
 
     /**
+     * Управление гостями.
+     */
+    private final GuestManagement guestManagement;
+
+    /**
      * Индикатор работы.
      */
     private boolean running = true;
 
-    /**
-     * Управление гостями.
-     */
-    private GuestManagement guestManagement;
-
-
-
-    public GuestController(final Administrator administratorP, final Console consoleP) {
+    public GuestController(final Administrator administratorP, final Console consoleP, final GuestManagement guestManagementP) {
         this.administrator = administratorP;
         this.console = consoleP;
-    }
-
-    public void init() {
-        this.guestManagement = administrator.getGuestManagement();
+        this.guestManagement = guestManagementP;
     }
 
     public void run() {

@@ -48,24 +48,22 @@ public final class ServiceController {
     private final Console console;
 
     /**
+     * Управление услугами.
+     */
+    private final ServiceManagement serviceManagement;
+
+    /**
      * Индикатор работы.
      */
     private boolean running = true;
 
-    /**
-     * Управление услугами.
-     */
-    private ServiceManagement serviceManagement;
 
 
 
-    public ServiceController(final Administrator administratorP, final Console consoleP) {
+    public ServiceController(final Administrator administratorP, final Console consoleP, final ServiceManagement serviceManagementP) {
         this.administrator = administratorP;
         this.console = consoleP;
-    }
-
-    public void init() {
-        this.serviceManagement = administrator.getServiceManagement();
+        this.serviceManagement = serviceManagementP;
     }
 
     public void run() {

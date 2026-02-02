@@ -109,3 +109,60 @@ Offending resource: org.hotel.app.AppConfig
 [INFO ] 2026-01-30 02:05:06.154 [main] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@74f4a2ba] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
 [INFO ] 2026-01-30 02:05:06.635 [main] GuestController - Метод showAllRooms успешно завершил работу
 [INFO ] 2026-01-30 02:05:08.866 [main] MainMenuController - Программа успешно завершила работу
+[INFO ] 2026-01-30 02:22:10.510 [main] MainMenuController - Начало выполнения программы
+[INFO ] 2026-01-30 02:22:12.010 [main] GuestController - Начало выполнения метода showAllRooms
+[INFO ] 2026-01-30 02:22:12.550 [main] Version - HHH000412: Hibernate ORM core version 6.4.0.Final
+[INFO ] 2026-01-30 02:22:12.906 [main] RegionFactoryInitiator - HHH000026: Second-level cache disabled
+[WARN ] 2026-01-30 02:22:13.126 [main] pooling - HHH10001002: Using built-in connection pool (not intended for production use)
+[INFO ] 2026-01-30 02:22:13.131 [main] pooling - HHH10001005: Loaded JDBC driver class: org.postgresql.Driver
+[INFO ] 2026-01-30 02:22:13.131 [main] pooling - HHH10001012: Connecting with JDBC URL [jdbc:postgresql://localhost:5432/hotel_db]
+[INFO ] 2026-01-30 02:22:13.131 [main] pooling - HHH10001001: Connection properties: {user=postgres, password=****}
+[INFO ] 2026-01-30 02:22:13.131 [main] pooling - HHH10001003: Autocommit mode: false
+[INFO ] 2026-01-30 02:22:13.134 [main] pooling - HHH10001115: Connection pool size: 20 (min=1)
+[WARN ] 2026-01-30 02:22:13.553 [main] deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+[INFO ] 2026-01-30 02:22:14.979 [main] JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[INFO ] 2026-01-30 02:22:15.031 [main] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@505d2bac] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 2026-01-30 02:22:15.526 [main] GuestController - Метод showAllRooms успешно завершил работу
+[INFO ] 2026-01-30 02:22:20.738 [main] GuestController - Начало выполнения метода setOccupied
+[ERROR] 2026-01-30 02:22:22.872 [main] GuestController - Ошибка при выполнении метода setOccupied: Включен запрет на смену статуса у номера.
+[INFO ] 2026-01-30 02:22:25.402 [main] GuestController - Начало выполнения метода showAllRooms
+[INFO ] 2026-01-30 02:22:25.637 [main] GuestController - Метод showAllRooms успешно завершил работу
+[INFO ] 2026-01-30 02:22:28.406 [main] MainMenuController - Программа успешно завершила работу
+[INFO ] 2026-02-33 19:22:41.654 [main] MainMenuController - Начало выполнения программы
+[INFO ] 2026-02-33 19:23:45.304 [main] MainMenuController - Начало выполнения программы
+[INFO ] 2026-02-33 19:23:51.113 [main] GuestController - Начало выполнения метода showAllRooms
+[INFO ] 2026-02-33 19:23:51.693 [main] Version - HHH000412: Hibernate ORM core version 6.4.0.Final
+[INFO ] 2026-02-33 19:23:52.227 [main] RegionFactoryInitiator - HHH000026: Second-level cache disabled
+[WARN ] 2026-02-33 19:23:52.527 [main] pooling - HHH10001002: Using built-in connection pool (not intended for production use)
+[INFO ] 2026-02-33 19:23:52.533 [main] pooling - HHH10001005: Loaded JDBC driver class: org.postgresql.Driver
+[INFO ] 2026-02-33 19:23:52.533 [main] pooling - HHH10001012: Connecting with JDBC URL [jdbc:postgresql://localhost:5432/hotel_db]
+[INFO ] 2026-02-33 19:23:52.533 [main] pooling - HHH10001001: Connection properties: {user=postgres, password=****}
+[INFO ] 2026-02-33 19:23:52.534 [main] pooling - HHH10001003: Autocommit mode: false
+[INFO ] 2026-02-33 19:23:52.540 [main] pooling - HHH10001115: Connection pool size: 20 (min=1)
+[WARN ] 2026-02-33 19:23:53.248 [main] deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+[INFO ] 2026-02-33 19:23:54.999 [main] JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[INFO ] 2026-02-33 19:23:55.050 [main] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@11d2714a] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 2026-02-33 19:23:55.829 [main] GuestController - Метод showAllRooms успешно завершил работу
+[INFO ] 2026-02-33 19:24:00.808 [main] GuestController - Начало выполнения метода addRoom
+[INFO ] 2026-02-33 19:24:09.576 [main] GuestController - Метод addRoom успешно завершил работу
+[INFO ] 2026-02-33 19:24:10.936 [main] GuestController - Начало выполнения метода showAllRooms
+[INFO ] 2026-02-33 19:24:11.264 [main] GuestController - Метод showAllRooms успешно завершил работу
+[INFO ] 2026-02-33 19:24:14.971 [main] GuestController - Начало выполнения метода changeRoomPrice
+[INFO ] 2026-02-33 19:24:18.556 [main] GuestController - Метод changeRoomPrice успешно завершил работу
+[INFO ] 2026-02-33 19:24:19.486 [main] GuestController - Начало выполнения метода showAllRooms
+[INFO ] 2026-02-33 19:24:19.820 [main] GuestController - Метод showAllRooms успешно завершил работу
+[INFO ] 2026-02-33 19:24:25.232 [main] GuestController - Начало выполнения метода settle
+[INFO ] 2026-02-33 19:24:35.113 [main] GuestController - Метод settle успешно завершил работу
+[INFO ] 2026-02-33 19:24:37.503 [main] GuestController - Начало выполнения метода showAllRooms
+[INFO ] 2026-02-33 19:24:37.712 [main] GuestController - Метод showAllRooms успешно завершил работу
+[INFO ] 2026-02-33 19:26:05.935 [main] GuestController - Начало выполнения метода showServices
+[INFO ] 2026-02-33 19:26:06.709 [main] GuestController - Метод showServices успешно завершил работу
+[INFO ] 2026-02-33 19:26:13.474 [main] GuestController - Начало выполнения метода showGuests
+[INFO ] 2026-02-33 19:26:13.840 [main] GuestController - Метод showGuests успешно завершил работу
+[INFO ] 2026-02-33 19:26:21.419 [main] GuestController - Начало выполнения метода getGuestsCount
+[INFO ] 2026-02-33 19:26:21.424 [main] GuestController - Метод getGuestsCount успешно завершил работу
+[INFO ] 2026-02-33 19:26:23.056 [main] GuestController - Начало выполнения метода getTotalCost
+[ERROR] 2026-02-33 19:26:26.720 [main] GuestController - Ошибка при выполнении метода getTotalCost: Комнаты с таким id нет.
+[INFO ] 2026-02-33 19:26:30.941 [main] GuestController - Начало выполнения метода getTotalCost
+[INFO ] 2026-02-33 19:26:32.073 [main] GuestController - Метод getTotalCost успешно завершил работу
+[INFO ] 2026-02-33 19:26:41.247 [main] MainMenuController - Программа успешно завершила работу

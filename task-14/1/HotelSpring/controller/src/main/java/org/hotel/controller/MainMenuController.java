@@ -53,12 +53,6 @@ public final class MainMenuController {
         this.serviceController = serviceControllerP;
     };
 
-    public void init() {
-        guestController.init();
-        roomController.init();
-        serviceController.init();
-    }
-
     public void run() {
         try {
             LOGGER.info("Начало выполнения программы");
