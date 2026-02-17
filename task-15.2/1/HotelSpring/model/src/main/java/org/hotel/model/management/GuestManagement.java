@@ -1,0 +1,65 @@
+package org.hotel.model.management;
+
+import org.hotel.model.entities.Guest;
+import org.hotel.model.repository.GuestRepository;
+import org.hotel.model.enums.SortType;
+import org.springframework.stereotype.Service;
+
+import java.util.Comparator;
+import java.util.List;
+
+@Service
+public final class GuestManagement {
+
+    /**
+     * Репозиторий для работы с гостями в БД.
+     */
+    private final GuestRepository guestRepository;
+
+    public GuestManagement(final GuestRepository guestRepositoryP) {
+        this.guestRepository = guestRepositoryP;
+    }
+
+    public int getGuestsCount() {
+        return guestRepository.findCurrentGuestsInHotel().size();
+    }
+
+    public void addGuest(final Guest guest) {
+        guestRepository.save(guest);
+    }
+
+    public Guest getGuest(final String id) {
+        return guestRepository.getGuest(id);
+    }
+
+    public void setEvicted(final String id) {
+        guestRepository.setEvicted(getGuest(id));
+    }
+
+    public List<Guest> getActualGuests() {
+        return guestRepository.findCurrentGuestsInHotel();
+    }
+
+    public void setGuests(final List<Guest> guests) {
+        for (Guest guest : guests) {
+            guestRepository.save(guest);
+        }
+    }
+
+    public boolean isThereGuest(final String id) {
+        if (guestRepository.getGuest(id) == null) {
+            return false;
+        }
+        return true;
+    }
+
+    public List<Guest> getActualGuestsWithSort(final SortType sortType) {
+        List<Guest> listGuests = guestRepository.findCurrentGuestsInHotel();
+        if (sortType == SortType.ALPHABET) {
+            listGuests.sort(Comparator.comparing(Guest::getFullName));
+        } else if (sortType == SortType.DATE) {
+            listGuests.sort(Comparator.comparing(Guest::getDepartureDate));
+        }
+        return listGuests;
+    }
+}
