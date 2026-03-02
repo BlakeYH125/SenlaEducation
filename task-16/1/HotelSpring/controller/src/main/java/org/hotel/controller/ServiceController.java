@@ -139,10 +139,10 @@ public final class ServiceController {
         return ResponseEntity.ok().headers(httpHeaders).body(csvData);
     }
 
-    @GetMapping("/used/{id}")
-    public ResponseEntity<List<UsedServiceDto>> showServicesUsedByGuest(@PathVariable("id") String id, @RequestParam(required = false, defaultValue = "DATE") String sort) {
+    @GetMapping("/used/{guestId}")
+    public ResponseEntity<List<UsedServiceDto>> showServicesUsedByGuest(@PathVariable("guestId") String guestId, @RequestParam(required = false, defaultValue = "DATE") String sort) {
         LOGGER.info("Начат процесс вывода услуг, использованных гостем");
-        List<UsedService> usedServices = usedServiceService.getUsedServices(id);
+        List<UsedService> usedServices = usedServiceService.getUsedServices(guestId);
         SortType sortType;
         if (sort.equalsIgnoreCase("DATE")) {
             sortType = SortType.DATE;

@@ -5,7 +5,6 @@ import org.hotel.model.entities.Service;
 import java.math.BigDecimal;
 import java.util.List;
 
-@org.springframework.stereotype.Service
 public interface ServiceRepository {
     void save(Service service);
 

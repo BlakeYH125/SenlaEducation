@@ -2,11 +2,9 @@ package org.hotel.model.repository;
 
 import org.hotel.model.entities.Guest;
 import org.hotel.model.entities.Room;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public interface GuestRepository {
     void save(Guest guest);
     List<Guest> findAll();

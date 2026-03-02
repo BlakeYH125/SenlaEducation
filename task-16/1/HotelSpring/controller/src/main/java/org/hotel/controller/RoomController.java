@@ -78,7 +78,7 @@ public final class RoomController {
         return ResponseEntity.ok("Выселение успешно");
     }
 
-    @PostMapping("/{id}/available")
+    @PostMapping("/{id}/set-available")
     public ResponseEntity<String> setAvailable(@PathVariable("id") String idP) {
         LOGGER.info("Начат процесс установки статуса 'доступна' для комнаты " + idP);
         roomService.setAvailable(idP);
@@ -86,7 +86,7 @@ public final class RoomController {
         return ResponseEntity.ok("Установка статуса успешна");
     }
 
-    @PostMapping("/{id}/occupied")
+    @PostMapping("/{id}/set-occupied")
     public ResponseEntity<String> setOccupied(@PathVariable("id") String idP, @RequestParam("daysCount") int daysCount) {
         LOGGER.info("Начат процесс установки статуса 'занята' для комнаты: " + idP);
         roomService.setOccupied(idP, daysCount);
@@ -94,7 +94,7 @@ public final class RoomController {
         return ResponseEntity.ok("Установка статуса успешна");
     }
 
-    @PostMapping("/{id}/in-service")
+    @PostMapping("/{id}/set-in-service")
     public ResponseEntity<String> setInService(@PathVariable("id") String idP, @RequestParam("daysCount") int daysCount) {
         LOGGER.info("Начат процесс установки статуса 'на обслуживании' для комнаты: " + idP);
         roomService.setInService(idP, daysCount);
@@ -102,10 +102,10 @@ public final class RoomController {
         return ResponseEntity.ok("Установка статуса успешна");
     }
 
-    @PatchMapping("/{id}/price")
-    public ResponseEntity<String> changeRoomPrice(@PathVariable("id") String idP, @RequestParam("price") BigDecimal price) {
+    @PatchMapping("/{id}/setNewPrice")
+    public ResponseEntity<String> changeRoomPrice(@PathVariable("id") String idP, @RequestParam("newPrice") BigDecimal newPrice) {
         LOGGER.info("Начат процесс изменения цены для комнаты " + idP);
-        roomService.setNewRoomPrice(idP, price);
+        roomService.setNewRoomPrice(idP, newPrice);
         LOGGER.info("Смена цены успешна");
         return ResponseEntity.ok("Смена цены успешна");
     }

@@ -2,13 +2,11 @@ package org.hotel.model.repository;
 
 import org.hotel.model.entities.Room;
 import org.hotel.model.enums.RoomStatus;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 
-@Service
 public interface RoomRepository {
     void save(Room room);
     List<Room> findAll();
