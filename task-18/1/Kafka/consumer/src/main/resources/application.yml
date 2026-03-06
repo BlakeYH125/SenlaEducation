@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bank_db
+    username: postgres
+    password: 15492815
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  kafka:
+    bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
+    consumer:
+      group-id: bank-consumer-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      max-poll-records: 20
+      enable-auto-commit: false
+      properties:
+        spring.json.trusted.packages: "*"
+        isolation.level: read_committed
+        spring.json.use.type.headers: false
+        spring.json.value.default.type: org.kafka.consumer.entity.Transfer
+    listener:
+      type: batch
+      ack-mode: manual
