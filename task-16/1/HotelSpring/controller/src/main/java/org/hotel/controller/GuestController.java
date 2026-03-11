@@ -1,0 +1,109 @@
+package org.hotel.controller;
+
+import org.hotel.model.dto.GuestDto;
+import org.hotel.model.mapper.DtoMapper;
+import org.hotel.model.services.AdministratorService;
+import org.hotel.model.services.GuestService;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+
+@RestController
+@RequestMapping("/hotel/guests")
+public final class GuestController {
+    /**
+     * Логгер для фиксации логов.
+     */
+    private static final Logger LOGGER = LogManager.getLogger(GuestController.class);
+
+    /**
+     * Администратор.
+     */
+    private final AdministratorService administratorService;
+
+    /**
+     * Управление гостями.
+     */
+    private final GuestService guestService;
+
+
+    /**
+     * Преобразователь в DTO.
+     */
+    private final DtoMapper dtoMapper;
+
+    public GuestController(final AdministratorService administratorServiceP, final GuestService guestServiceP, final DtoMapper dtoMapperP) {
+        this.administratorService = administratorServiceP;
+        this.guestService = guestServiceP;
+        this.dtoMapper = dtoMapperP;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<GuestDto>> showGuests() {
+        LOGGER.info("Начат процесс вывода всех гостей");
+        List<GuestDto> guestDtos = guestService.getActualGuests().stream()
+                .map(dtoMapper::toGuestDto)
+                .toList();
+        LOGGER.info("Процесс вывода всех гостей успешен");
+        return ResponseEntity.ok(guestDtos);
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Integer> getGuestsCount() {
+        LOGGER.info("Начат процесс вывода количества гостей");
+        int count = guestService.getGuestsCount();
+        LOGGER.info("Метод getGuestsCount успешно завершил работу");
+        return ResponseEntity.ok(count);
+    }
+
+    @PostMapping("/import")
+    public ResponseEntity<String> importGuestData(@RequestParam MultipartFile multipartFile) throws IOException {
+        LOGGER.info("Начат процесс импорта данных о госте из csv файла");
+        if (multipartFile.isEmpty()) {
+            return ResponseEntity.badRequest().body("Файл пуст.");
+        }
+        String report = guestService.importGuests(multipartFile);
+        LOGGER.info(report);
+        return ResponseEntity.ok(report);
+    }
+
+    @GetMapping("/export")
+    public ResponseEntity<String> exportGuestData() {
+        LOGGER.info("Начат процесс экспорта гостей");
+        String csvData = guestService.exportGuests();
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=guest_export.csv");
+        httpHeaders.add(HttpHeaders.CONTENT_TYPE, "text/csv; charset=UTF-8");
+        LOGGER.info("Процесс экспорта успешен");
+        return ResponseEntity.ok().headers(httpHeaders).body(csvData);
+    }
+
+    @GetMapping("/{rent-room-id}/total-cost")
+    public ResponseEntity<BigDecimal> getTotalCost(@PathVariable("rent-room-id") String rentRoomId) {
+        LOGGER.info("Начат процесс вывода суммы которую должен заплатить гость");
+        BigDecimal totalCost = guestService.getTotalCost(rentRoomId);
+        LOGGER.info("Процесс вывода суммы успешен.");
+        return ResponseEntity.ok(totalCost);
+    }
+
+    @PostMapping("/{gId}/use-service/{sId}")
+    public ResponseEntity<String> useService(@PathVariable("gId") String gId, @PathVariable("sId") String sId) {
+        LOGGER.info("Начат процесс использования услуги гостем");
+        administratorService.useServiceByGuest(gId, sId);
+        LOGGER.info("Процесс использования услуги гостем успешен");
+        return ResponseEntity.ok("Процесс использования услуги гостем успешен");
+    }
+}
