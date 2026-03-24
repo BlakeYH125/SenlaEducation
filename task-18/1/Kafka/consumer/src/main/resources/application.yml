@@ -21,6 +21,8 @@ spring:
         isolation.level: read_committed
         spring.json.use.type.headers: false
         spring.json.value.default.type: org.kafka.consumer.entity.Transfer
+        fetch.max.wait.ms: 4000
+        fetch.min.bytes: 1000
     listener:
       type: batch
       ack-mode: manual
