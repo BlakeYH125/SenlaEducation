@@ -3,6 +3,7 @@ package org.hotel.model.services;
 import jakarta.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.sql.ast.tree.expression.Star;
 import org.hotel.constants.CommandConstants;
 import org.hotel.constants.GuestCountConstants;
 import org.hotel.constants.ParametersConstants;
@@ -116,9 +117,6 @@ public class RoomService {
         if (isAvailable(idP)) {
             throw new RoomAlreadyAvailableException();
         }
-        if (isServicing(idP)) {
-            throw new RoomAlreadyInServiceException();
-        }
         roomRepository.setAvailable(getRoom(idP));
     }
 
@@ -205,6 +203,9 @@ public class RoomService {
     }
 
     public List<Room> getAllRoomsWithSort(final SortType sortTypeP) {
+        if (sortTypeP != SortType.PRICE && sortTypeP != SortType.CAPACITY && sortTypeP != SortType.STARS) {
+            throw new IllegalArgumentException();
+        }
         List<Room> listRooms = new ArrayList<>(getRooms());
         if (sortTypeP == SortType.PRICE) {
             listRooms.sort(Comparator.comparing(Room::getPrice));
@@ -217,6 +218,9 @@ public class RoomService {
     }
 
     public List<Room> getFreeRoomsWithSort(final SortType sortTypeP) {
+        if (sortTypeP != SortType.PRICE && sortTypeP != SortType.CAPACITY && sortTypeP != SortType.STARS) {
+            throw new IllegalArgumentException();
+        }
         List<Room> listRooms = new ArrayList<>(getFreeRoomsByDate(new Date(System.currentTimeMillis())));
         if (sortTypeP == SortType.PRICE) {
             listRooms.sort(Comparator.comparing(Room::getPrice));
@@ -266,7 +270,7 @@ public class RoomService {
                     errorCount++;
                 }
             }
-            return "Импорт завершен. Количество ошибок: " + errorCount + ", количество успешно считанных строк:  " + successCount;
+            return "Импорт завершен. Количество ошибок: " + errorCount + ", количество успешно считанных строк: " + successCount;
         }
     }
 

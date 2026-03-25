@@ -1,16 +1,6 @@
 package org.hotel.controller;
 
-import org.hotel.model.exceptions.ChangeStatusBannedException;
-import org.hotel.model.exceptions.GuestNotFoundException;
-import org.hotel.model.exceptions.RoomAlreadyAvailableException;
-import org.hotel.model.exceptions.RoomAlreadyExistsException;
-import org.hotel.model.exceptions.RoomAlreadyInServiceException;
-import org.hotel.model.exceptions.RoomAlreadyOccupiedException;
-import org.hotel.model.exceptions.RoomNotOccupiedException;
-import org.hotel.model.exceptions.RoomNotFoundException;
-import org.hotel.model.exceptions.ServiceAlreadyExistsException;
-import org.hotel.model.exceptions.ServiceNotFoundException;
-import org.hotel.model.exceptions.WrongSortTypeException;
+import org.hotel.model.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -70,7 +60,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Map<String, String>> handleAccessDeniedException(AccessDeniedException e) {
         Map<String, String> response = new HashMap<>();
-        response.put("error", "У вас нет прав на выполнение данной операции (403 Forbidden)");
+        response.put("error", "У вас нет прав на выполнение данной операции");
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
     }
@@ -78,5 +68,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<Map<String, String>> handleMethodNotSupported(HttpRequestMethodNotSupportedException e) {
         return buildResponse(HttpStatus.METHOD_NOT_ALLOWED, "Метод " + e.getMethod() + " не поддерживается для этого адреса.", e);
+    }
+
+    @ExceptionHandler({WrongPasswordException.class, UserNotFoundException.class})
+    public ResponseEntity<Map<String, String>> handle(RuntimeException e) {
+        return buildResponse(HttpStatus.UNAUTHORIZED, e.getMessage(), e);
+    }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<Map<String, String>> handle(UserAlreadyExistsException e) {
+        return buildResponse(HttpStatus.CONFLICT, "Ошибка при регистрации: пользователь уже существует", e);
     }
 }

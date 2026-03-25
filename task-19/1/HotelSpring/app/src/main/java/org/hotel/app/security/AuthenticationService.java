@@ -2,8 +2,12 @@ package org.hotel.app.security;
 
 import org.hotel.model.entities.User;
 import org.hotel.model.enums.Role;
+import org.hotel.model.exceptions.UserAlreadyExistsException;
+import org.hotel.model.exceptions.UserNotFoundException;
+import org.hotel.model.exceptions.WrongPasswordException;
 import org.hotel.model.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -44,6 +48,10 @@ public class AuthenticationService {
 
     @Transactional
     public String register(String username, String password, Role role) {
+        if (userRepository.findByUsername(username).isPresent()) {
+            throw new UserAlreadyExistsException();
+        }
+
         User user = new User();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
@@ -56,11 +64,13 @@ public class AuthenticationService {
 
     @Transactional(readOnly = true)
     public String authenticate(String username, String password) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, password)
-        );
-
-        User user = userRepository.findByUsername(username).orElseThrow();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(UserNotFoundException::new);
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        } catch (BadCredentialsException e) {
+            throw new WrongPasswordException();
+        }
         return jwtService.generateToken(user);
     }
 }

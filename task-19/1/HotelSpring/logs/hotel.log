@@ -17,3 +17,184 @@
 [INFO ] 2026-03-20 19:50:24.917 [http-nio-8080-exec-2] DispatcherServlet - Completed initialization in 1 ms
 [INFO ] 2026-03-20 19:50:28.274 [http-nio-8080-exec-3] RoomController - Начат процесс вывода всех комнат
 [INFO ] 2026-03-20 19:50:28.313 [http-nio-8080-exec-3] RoomController - Вывод комнат успешен
+[INFO ] 2026-03-21 08:20:52.798 [main] App - Starting App using Java 17.0.18 with PID 1 (/application/app.war started by root in /application)
+[INFO ] 2026-03-21 08:20:52.846 [main] App - No active profile set, falling back to 1 default profile: "default"
+[INFO ] 2026-03-21 08:20:55.618 [main] TomcatWebServer - Tomcat initialized with port 8080 (http)
+[INFO ] 2026-03-21 08:20:55.913 [main] ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2947 ms
+[INFO ] 2026-03-21 08:20:56.713 [main] FlywayExecutor - Database: jdbc:postgresql://db:5432/hotel_db (PostgreSQL 15.17)
+[INFO ] 2026-03-21 08:20:56.837 [main] DbValidate - Successfully validated 2 migrations (execution time 00:00.064s)
+[INFO ] 2026-03-21 08:20:56.883 [main] DbMigrate - Current version of schema "public": 2
+[INFO ] 2026-03-21 08:20:56.893 [main] DbMigrate - Schema "public" is up to date. No migration necessary.
+[INFO ] 2026-03-21 08:20:57.164 [main] Version - HHH000412: Hibernate ORM core version 6.4.0.Final
+[INFO ] 2026-03-21 08:20:58.222 [main] RegionFactoryInitiator - HHH000026: Second-level cache disabled
+[WARN ] 2026-03-21 08:20:58.407 [main] deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+[INFO ] 2026-03-21 08:20:59.492 [main] JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[INFO ] 2026-03-21 08:21:01.402 [main] DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2f2a5064, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@43a72f0f, org.springframework.security.web.context.SecurityContextHolderFilter@3ec6f3f1, org.springframework.security.web.header.HeaderWriterFilter@495e1ad1, org.springframework.web.filter.CorsFilter@6fe33512, org.springframework.security.web.authentication.logout.LogoutFilter@61d4155b, org.hotel.app.security.JwtAuthenticationFilter@17c72ffa, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@57859e2c, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3e7da4cb, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1fa77770, org.springframework.security.web.session.SessionManagementFilter@427c2c96, org.springframework.security.web.access.ExceptionTranslationFilter@818a514, org.springframework.security.web.access.intercept.AuthorizationFilter@6ff87203]
+[INFO ] 2026-03-21 08:21:02.374 [main] TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+[INFO ] 2026-03-21 08:21:02.393 [main] App - Started App in 10.371 seconds (process running for 14.469)
+[INFO ] 2026-03-21 08:22:55.363 [http-nio-8080-exec-2] DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[INFO ] 2026-03-21 08:22:55.368 [http-nio-8080-exec-2] DispatcherServlet - Completed initialization in 3 ms
+[INFO ] 2026-03-21 08:24:12.533 [http-nio-8080-exec-1] RoomController - Начат процесс добавления новой комнаты
+[INFO ] 2026-03-21 08:24:12.620 [http-nio-8080-exec-1] RoomController - Добавление новой комнаты успешно
+[INFO ] 2026-03-21 08:24:18.895 [http-nio-8080-exec-2] RoomController - Начат процесс вывода всех комнат
+[INFO ] 2026-03-21 08:24:18.918 [http-nio-8080-exec-2] RoomController - Вывод комнат успешен
+[INFO ] 2026-03-21 08:25:33.952 [http-nio-8080-exec-6] ServiceController - Начат процесс добавления новой услуги
+[INFO ] 2026-03-21 08:25:33.982 [http-nio-8080-exec-6] ServiceController - Процесс добавления новой услуги успешен
+[INFO ] 2026-03-21 08:25:41.878 [http-nio-8080-exec-8] ServiceController - Начат процесс вывода всех услуг
+[INFO ] 2026-03-21 08:25:41.900 [http-nio-8080-exec-8] ServiceController - Процесс вывода всех услуг успешен
+[INFO ] 2026-03-21 08:25:56.428 [http-nio-8080-exec-10] ServiceController - Начат процесс вывода каталога
+[INFO ] 2026-03-21 08:25:56.454 [http-nio-8080-exec-10] ServiceController - Процесс вывода каталога успешен
+[INFO ] 2026-03-21 08:26:48.857 [http-nio-8080-exec-3] RoomController - Начат процесс заселения в комнату 205
+[INFO ] 2026-03-21 08:26:48.913 [http-nio-8080-exec-3] RoomController - Заселение успешно
+[INFO ] 2026-03-21 08:27:07.171 [http-nio-8080-exec-6] RoomController - Начат процесс вывода данных о комнате 205
+[INFO ] 2026-03-21 08:27:07.194 [http-nio-8080-exec-6] RoomController - Вывод данных о комнате успешен
+[INFO ] 2026-03-21 08:27:14.800 [http-nio-8080-exec-7] RoomController - Начат процесс вывода данных о комнате 205
+[INFO ] 2026-03-21 08:27:14.824 [http-nio-8080-exec-7] RoomController - Вывод данных о комнате успешен
+[INFO ] 2026-03-21 08:27:47.946 [http-nio-8080-exec-1] RoomController - Начат процесс выселения из комнаты 205
+[INFO ] 2026-03-21 08:27:48.006 [http-nio-8080-exec-1] RoomController - Выселение успешно
+[INFO ] 2026-03-21 08:27:53.239 [http-nio-8080-exec-2] RoomController - Начат процесс вывода данных о комнате 205
+[INFO ] 2026-03-21 08:27:53.261 [http-nio-8080-exec-2] RoomController - Вывод данных о комнате успешен
+[INFO ] 2026-03-21 08:28:09.186 [http-nio-8080-exec-4] RoomController - Начат процесс установки статуса 'доступна' для комнаты 205
+[INFO ] 2026-03-21 08:30:07.455 [http-nio-8080-exec-3] RoomController - Начат процесс установки статуса 'на обслуживании' для комнаты: 205
+[INFO ] 2026-03-21 08:30:07.483 [http-nio-8080-exec-3] RoomController - Установка статуса успешна.
+[INFO ] 2026-03-21 08:30:14.537 [http-nio-8080-exec-4] RoomController - Начат процесс установки статуса 'доступна' для комнаты 205
+[INFO ] 2026-03-21 08:30:14.565 [http-nio-8080-exec-4] RoomController - Метод setAvailable успешно завершил работу
+[INFO ] 2026-03-21 08:30:48.369 [http-nio-8080-exec-5] RoomController - Начат процесс подсчета свободных комнат
+[INFO ] 2026-03-21 08:30:48.407 [http-nio-8080-exec-5] RoomController - Подсчет комнат успешен
+[INFO ] 2026-03-21 08:31:05.069 [http-nio-8080-exec-7] RoomController - Начат процесс вывода последних трех или меньше гостей комнаты 205
+[INFO ] 2026-03-21 08:31:05.098 [http-nio-8080-exec-7] RoomController - Вывод успешен
+[INFO ] 2026-03-24 17:31:31.954 [main] App - Starting App using Java 17.0.18 with PID 1 (/application/app.war started by root in /application)
+[INFO ] 2026-03-24 17:31:32.004 [main] App - No active profile set, falling back to 1 default profile: "default"
+[INFO ] 2026-03-24 17:31:35.029 [main] TomcatWebServer - Tomcat initialized with port 8080 (http)
+[INFO ] 2026-03-24 17:31:35.435 [main] ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3299 ms
+[INFO ] 2026-03-24 17:31:36.523 [main] FlywayExecutor - Database: jdbc:postgresql://db:5432/hotel_db (PostgreSQL 15.17)
+[INFO ] 2026-03-24 17:31:36.704 [main] DbValidate - Successfully validated 2 migrations (execution time 00:00.096s)
+[INFO ] 2026-03-24 17:31:36.769 [main] DbMigrate - Current version of schema "public": 2
+[INFO ] 2026-03-24 17:31:36.785 [main] DbMigrate - Schema "public" is up to date. No migration necessary.
+[INFO ] 2026-03-24 17:31:37.079 [main] Version - HHH000412: Hibernate ORM core version 6.4.0.Final
+[INFO ] 2026-03-24 17:31:38.266 [main] RegionFactoryInitiator - HHH000026: Second-level cache disabled
+[WARN ] 2026-03-24 17:31:38.516 [main] deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+[INFO ] 2026-03-24 17:31:39.774 [main] JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[INFO ] 2026-03-24 17:31:41.978 [main] DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@923bf67, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@938e54a, org.springframework.security.web.context.SecurityContextHolderFilter@3c39c739, org.springframework.security.web.header.HeaderWriterFilter@6fc03cf6, org.springframework.web.filter.CorsFilter@220d7eb7, org.springframework.security.web.authentication.logout.LogoutFilter@44103266, org.hotel.app.security.JwtAuthenticationFilter@7c59cf66, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2e8eafb2, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7a3f3bc4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@a165c11, org.springframework.security.web.session.SessionManagementFilter@eef6e, org.springframework.security.web.access.ExceptionTranslationFilter@ab3b54, org.springframework.security.web.access.intercept.AuthorizationFilter@6c38f4de]
+[INFO ] 2026-03-24 17:31:42.935 [main] TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+[INFO ] 2026-03-24 17:31:42.952 [main] App - Started App in 11.82 seconds (process running for 15.934)
+[INFO ] 2026-03-24 17:34:27.936 [main] App - Starting App using Java 17.0.18 with PID 1 (/application/app.war started by root in /application)
+[INFO ] 2026-03-24 17:34:27.979 [main] App - No active profile set, falling back to 1 default profile: "default"
+[INFO ] 2026-03-24 17:34:30.739 [main] TomcatWebServer - Tomcat initialized with port 8080 (http)
+[INFO ] 2026-03-24 17:34:31.095 [main] ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3004 ms
+[INFO ] 2026-03-24 17:34:31.948 [main] FlywayExecutor - Database: jdbc:postgresql://db:5432/hotel_db (PostgreSQL 15.17)
+[INFO ] 2026-03-24 17:34:32.080 [main] DbValidate - Successfully validated 2 migrations (execution time 00:00.070s)
+[INFO ] 2026-03-24 17:34:32.134 [main] DbMigrate - Current version of schema "public": 2
+[INFO ] 2026-03-24 17:34:32.145 [main] DbMigrate - Schema "public" is up to date. No migration necessary.
+[INFO ] 2026-03-24 17:34:32.371 [main] Version - HHH000412: Hibernate ORM core version 6.4.0.Final
+[INFO ] 2026-03-24 17:34:33.403 [main] RegionFactoryInitiator - HHH000026: Second-level cache disabled
+[WARN ] 2026-03-24 17:34:33.599 [main] deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+[INFO ] 2026-03-24 17:34:34.804 [main] JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[INFO ] 2026-03-24 17:34:36.636 [main] DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@308e465b, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6e7d9d0, org.springframework.security.web.context.SecurityContextHolderFilter@2ced7cf, org.springframework.security.web.header.HeaderWriterFilter@91c11b6, org.springframework.web.filter.CorsFilter@2b0d818d, org.springframework.security.web.authentication.logout.LogoutFilter@2f2a5064, org.hotel.app.security.JwtAuthenticationFilter@7602c65d, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@604e8a6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5bc44d78, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7212b28e, org.springframework.security.web.session.SessionManagementFilter@5d00e30e, org.springframework.security.web.access.ExceptionTranslationFilter@427c2c96, org.springframework.security.web.access.intercept.AuthorizationFilter@56bf6f1e]
+[INFO ] 2026-03-24 17:34:37.639 [main] TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+[INFO ] 2026-03-24 17:34:37.669 [main] App - Started App in 10.462 seconds (process running for 13.973)
+[INFO ] 2026-03-24 17:35:56.519 [main] App - Starting App using Java 17.0.18 with PID 1 (/application/app.war started by root in /application)
+[INFO ] 2026-03-24 17:35:56.571 [main] App - No active profile set, falling back to 1 default profile: "default"
+[INFO ] 2026-03-24 17:35:59.891 [main] TomcatWebServer - Tomcat initialized with port 8080 (http)
+[INFO ] 2026-03-24 17:36:00.211 [main] ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3528 ms
+[INFO ] 2026-03-24 17:36:01.206 [main] FlywayExecutor - Database: jdbc:postgresql://db:5432/hotel_db (PostgreSQL 15.17)
+[INFO ] 2026-03-24 17:36:01.380 [main] DbValidate - Successfully validated 2 migrations (execution time 00:00.117s)
+[INFO ] 2026-03-24 17:36:01.447 [main] DbMigrate - Current version of schema "public": 2
+[INFO ] 2026-03-24 17:36:01.457 [main] DbMigrate - Schema "public" is up to date. No migration necessary.
+[INFO ] 2026-03-24 17:36:01.715 [main] Version - HHH000412: Hibernate ORM core version 6.4.0.Final
+[INFO ] 2026-03-24 17:36:02.816 [main] RegionFactoryInitiator - HHH000026: Second-level cache disabled
+[WARN ] 2026-03-24 17:36:03.005 [main] deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+[INFO ] 2026-03-24 17:36:04.162 [main] JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[INFO ] 2026-03-24 17:36:05.885 [main] DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@193792e6, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@21f9a305, org.springframework.security.web.context.SecurityContextHolderFilter@419ece7a, org.springframework.security.web.header.HeaderWriterFilter@2bf2523f, org.springframework.web.filter.CorsFilter@6ff87203, org.springframework.security.web.authentication.logout.LogoutFilter@5390862e, org.hotel.app.security.JwtAuthenticationFilter@5a8835c6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@238d27ef, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@91c11b6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@aaf4375, org.springframework.security.web.session.SessionManagementFilter@7a3f3bc4, org.springframework.security.web.access.ExceptionTranslationFilter@3514df8d, org.springframework.security.web.access.intercept.AuthorizationFilter@1eda12b3]
+[INFO ] 2026-03-24 17:36:06.666 [main] TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+[INFO ] 2026-03-24 17:36:06.680 [main] App - Started App in 10.946 seconds (process running for 13.558)
+[INFO ] 2026-03-24 17:44:44.751 [http-nio-8080-exec-1] DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[INFO ] 2026-03-24 17:44:44.772 [http-nio-8080-exec-1] DispatcherServlet - Completed initialization in 15 ms
+[INFO ] 2026-03-25 18:27:43.091 [main] App - Starting App using Java 17.0.18 with PID 1 (/application/app.war started by root in /application)
+[INFO ] 2026-03-25 18:27:43.129 [main] App - No active profile set, falling back to 1 default profile: "default"
+[INFO ] 2026-03-25 18:27:46.697 [main] TomcatWebServer - Tomcat initialized with port 8080 (http)
+[INFO ] 2026-03-25 18:27:47.059 [main] ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3810 ms
+[INFO ] 2026-03-25 18:27:48.308 [main] FlywayExecutor - Database: jdbc:postgresql://db:5432/hotel_db (PostgreSQL 15.17)
+[INFO ] 2026-03-25 18:27:48.480 [main] DbValidate - Successfully validated 2 migrations (execution time 00:00.096s)
+[INFO ] 2026-03-25 18:27:48.565 [main] DbMigrate - Current version of schema "public": 2
+[INFO ] 2026-03-25 18:27:48.581 [main] DbMigrate - Schema "public" is up to date. No migration necessary.
+[INFO ] 2026-03-25 18:27:48.878 [main] Version - HHH000412: Hibernate ORM core version 6.4.0.Final
+[INFO ] 2026-03-25 18:27:50.274 [main] RegionFactoryInitiator - HHH000026: Second-level cache disabled
+[WARN ] 2026-03-25 18:27:50.530 [main] deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+[INFO ] 2026-03-25 18:27:51.925 [main] JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[INFO ] 2026-03-25 18:27:54.302 [main] DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@308e465b, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6e7d9d0, org.springframework.security.web.context.SecurityContextHolderFilter@2ced7cf, org.springframework.security.web.header.HeaderWriterFilter@91c11b6, org.springframework.web.filter.CorsFilter@2b0d818d, org.springframework.security.web.authentication.logout.LogoutFilter@2f2a5064, org.hotel.app.security.JwtAuthenticationFilter@7602c65d, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@604e8a6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5bc44d78, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7212b28e, org.springframework.security.web.session.SessionManagementFilter@5d00e30e, org.springframework.security.web.access.ExceptionTranslationFilter@427c2c96, org.springframework.security.web.access.intercept.AuthorizationFilter@56bf6f1e]
+[INFO ] 2026-03-25 18:27:55.905 [main] TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+[INFO ] 2026-03-25 18:27:55.945 [main] App - Started App in 13.719 seconds (process running for 20.248)
+[INFO ] 2026-03-25 18:28:08.086 [http-nio-8080-exec-1] DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[INFO ] 2026-03-25 18:28:08.089 [http-nio-8080-exec-1] DispatcherServlet - Completed initialization in 2 ms
+[INFO ] 2026-03-25 18:29:59.438 [main] App - Starting App using Java 17.0.18 with PID 1 (/application/app.war started by root in /application)
+[INFO ] 2026-03-25 18:29:59.485 [main] App - No active profile set, falling back to 1 default profile: "default"
+[INFO ] 2026-03-25 18:30:02.721 [main] TomcatWebServer - Tomcat initialized with port 8080 (http)
+[INFO ] 2026-03-25 18:30:03.201 [main] ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3603 ms
+[INFO ] 2026-03-25 18:30:04.681 [main] FlywayExecutor - Database: jdbc:postgresql://db:5432/hotel_db (PostgreSQL 15.17)
+[INFO ] 2026-03-25 18:30:04.826 [main] DbValidate - Successfully validated 2 migrations (execution time 00:00.086s)
+[INFO ] 2026-03-25 18:30:04.922 [main] DbMigrate - Current version of schema "public": 2
+[INFO ] 2026-03-25 18:30:04.932 [main] DbMigrate - Schema "public" is up to date. No migration necessary.
+[INFO ] 2026-03-25 18:30:05.149 [main] Version - HHH000412: Hibernate ORM core version 6.4.0.Final
+[INFO ] 2026-03-25 18:30:06.258 [main] RegionFactoryInitiator - HHH000026: Second-level cache disabled
+[WARN ] 2026-03-25 18:30:06.685 [main] deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+[INFO ] 2026-03-25 18:30:08.014 [main] JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[INFO ] 2026-03-25 18:30:10.367 [main] DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@85b9f9c, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@26a004ed, org.springframework.security.web.context.SecurityContextHolderFilter@56fc2cea, org.springframework.security.web.header.HeaderWriterFilter@6779af40, org.springframework.web.filter.CorsFilter@2b6a4da7, org.springframework.security.web.authentication.logout.LogoutFilter@52b77d5e, org.hotel.app.security.JwtAuthenticationFilter@1af6d656, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2ffaa711, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3abb6aa, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@75b6bd41, org.springframework.security.web.session.SessionManagementFilter@4cc28ad0, org.springframework.security.web.access.ExceptionTranslationFilter@362e6fe, org.springframework.security.web.access.intercept.AuthorizationFilter@1013aa94]
+[INFO ] 2026-03-25 18:30:11.463 [main] TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+[INFO ] 2026-03-25 18:30:11.495 [main] App - Started App in 12.819 seconds (process running for 15.125)
+[INFO ] 2026-03-25 18:30:12.265 [http-nio-8080-exec-1] DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[INFO ] 2026-03-25 18:30:12.267 [http-nio-8080-exec-1] DispatcherServlet - Completed initialization in 1 ms
+[WARN ] 2026-03-25 18:32:23.876 [http-nio-8080-exec-7] SqlExceptionHelper - SQL Error: 0, SQLState: 23505
+[ERROR] 2026-03-25 18:32:23.878 [http-nio-8080-exec-7] SqlExceptionHelper - ERROR: duplicate key value violates unique constraint "users_username_key"
+  Detail: Key (username)=(USER1) already exists.
+[INFO ] 2026-03-25 18:52:00.204 [main] App - Starting App using Java 17.0.18 with PID 1 (/application/app.war started by root in /application)
+[INFO ] 2026-03-25 18:52:00.254 [main] App - No active profile set, falling back to 1 default profile: "default"
+[INFO ] 2026-03-25 18:52:04.583 [main] TomcatWebServer - Tomcat initialized with port 8080 (http)
+[INFO ] 2026-03-25 18:52:05.417 [main] ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 5010 ms
+[INFO ] 2026-03-25 18:52:07.295 [main] FlywayExecutor - Database: jdbc:postgresql://db:5432/hotel_db (PostgreSQL 15.17)
+[INFO ] 2026-03-25 18:52:07.448 [main] DbValidate - Successfully validated 2 migrations (execution time 00:00.088s)
+[INFO ] 2026-03-25 18:52:07.518 [main] DbMigrate - Current version of schema "public": 2
+[INFO ] 2026-03-25 18:52:07.529 [main] DbMigrate - Schema "public" is up to date. No migration necessary.
+[INFO ] 2026-03-25 18:52:07.830 [main] Version - HHH000412: Hibernate ORM core version 6.4.0.Final
+[INFO ] 2026-03-25 18:52:09.061 [main] RegionFactoryInitiator - HHH000026: Second-level cache disabled
+[WARN ] 2026-03-25 18:52:09.292 [main] deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+[INFO ] 2026-03-25 18:52:10.459 [main] JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[INFO ] 2026-03-25 18:52:12.772 [main] DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@33ce081a, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@d8751de, org.springframework.security.web.context.SecurityContextHolderFilter@609edb55, org.springframework.security.web.header.HeaderWriterFilter@e30a8ef, org.springframework.web.filter.CorsFilter@6e21c6ed, org.springframework.security.web.authentication.logout.LogoutFilter@2b6a4da7, org.hotel.app.security.JwtAuthenticationFilter@5d08a65c, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@13d1653, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3533d790, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@75c30a4f, org.springframework.security.web.session.SessionManagementFilter@29ebaf2f, org.springframework.security.web.access.ExceptionTranslationFilter@28f081ad, org.springframework.security.web.access.intercept.AuthorizationFilter@1d5fc340]
+[INFO ] 2026-03-25 18:52:13.903 [main] TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+[INFO ] 2026-03-25 18:52:13.940 [main] App - Started App in 14.656 seconds (process running for 17.022)
+[INFO ] 2026-03-25 18:52:14.574 [http-nio-8080-exec-1] DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[INFO ] 2026-03-25 18:52:14.576 [http-nio-8080-exec-1] DispatcherServlet - Completed initialization in 1 ms
+[INFO ] 2026-03-25 18:57:48.937 [main] App - Starting App using Java 17.0.18 with PID 1 (/application/app.war started by root in /application)
+[INFO ] 2026-03-25 18:57:48.995 [main] App - No active profile set, falling back to 1 default profile: "default"
+[INFO ] 2026-03-25 18:57:52.835 [main] TomcatWebServer - Tomcat initialized with port 8080 (http)
+[INFO ] 2026-03-25 18:57:53.449 [main] ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 4334 ms
+[INFO ] 2026-03-25 18:57:54.807 [main] FlywayExecutor - Database: jdbc:postgresql://db:5432/hotel_db (PostgreSQL 15.17)
+[INFO ] 2026-03-25 18:57:55.032 [main] DbValidate - Successfully validated 2 migrations (execution time 00:00.134s)
+[INFO ] 2026-03-25 18:57:55.135 [main] DbMigrate - Current version of schema "public": 2
+[INFO ] 2026-03-25 18:57:55.146 [main] DbMigrate - Schema "public" is up to date. No migration necessary.
+[INFO ] 2026-03-25 18:57:55.381 [main] Version - HHH000412: Hibernate ORM core version 6.4.0.Final
+[INFO ] 2026-03-25 18:57:56.826 [main] RegionFactoryInitiator - HHH000026: Second-level cache disabled
+[WARN ] 2026-03-25 18:57:57.064 [main] deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+[INFO ] 2026-03-25 18:57:58.528 [main] JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[INFO ] 2026-03-25 18:58:01.083 [main] DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2b6a4da7, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@75b6bd41, org.springframework.security.web.context.SecurityContextHolderFilter@2ffaa711, org.springframework.security.web.header.HeaderWriterFilter@68303aad, org.springframework.web.filter.CorsFilter@21457b14, org.springframework.security.web.authentication.logout.LogoutFilter@594965c9, org.hotel.app.security.JwtAuthenticationFilter@6ffa8126, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@34074149, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3f7bf0f6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7e484bd, org.springframework.security.web.session.SessionManagementFilter@28f081ad, org.springframework.security.web.access.ExceptionTranslationFilter@6779af40, org.springframework.security.web.access.intercept.AuthorizationFilter@85b9f9c]
+[INFO ] 2026-03-25 18:58:02.104 [main] TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+[INFO ] 2026-03-25 18:58:02.155 [main] App - Started App in 13.946 seconds (process running for 16.261)
+[INFO ] 2026-03-25 18:58:02.531 [http-nio-8080-exec-2] DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[INFO ] 2026-03-25 18:58:02.534 [http-nio-8080-exec-2] DispatcherServlet - Completed initialization in 1 ms
+[INFO ] 2026-03-25 19:02:46.359 [main] App - Starting App using Java 17.0.18 with PID 1 (/application/app.war started by root in /application)
+[INFO ] 2026-03-25 19:02:46.404 [main] App - No active profile set, falling back to 1 default profile: "default"
+[INFO ] 2026-03-25 19:02:49.248 [main] TomcatWebServer - Tomcat initialized with port 8080 (http)
+[INFO ] 2026-03-25 19:02:49.582 [main] ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3067 ms
+[INFO ] 2026-03-25 19:02:50.712 [main] FlywayExecutor - Database: jdbc:postgresql://db:5432/hotel_db (PostgreSQL 15.17)
+[INFO ] 2026-03-25 19:02:50.839 [main] DbValidate - Successfully validated 2 migrations (execution time 00:00.078s)
+[INFO ] 2026-03-25 19:02:50.927 [main] DbMigrate - Current version of schema "public": 2
+[INFO ] 2026-03-25 19:02:50.949 [main] DbMigrate - Schema "public" is up to date. No migration necessary.
+[INFO ] 2026-03-25 19:02:51.155 [main] Version - HHH000412: Hibernate ORM core version 6.4.0.Final
+[INFO ] 2026-03-25 19:02:52.154 [main] RegionFactoryInitiator - HHH000026: Second-level cache disabled
+[WARN ] 2026-03-25 19:02:52.372 [main] deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+[INFO ] 2026-03-25 19:02:53.680 [main] JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[INFO ] 2026-03-25 19:02:55.427 [main] DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6e3acd7, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@55b78dad, org.springframework.security.web.context.SecurityContextHolderFilter@193c810, org.springframework.security.web.header.HeaderWriterFilter@29ebaf2f, org.springframework.web.filter.CorsFilter@47f4dc8d, org.springframework.security.web.authentication.logout.LogoutFilter@1d5fc340, org.hotel.app.security.JwtAuthenticationFilter@1c65ec63, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@57edfa89, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6c0bf8f4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@689fcf08, org.springframework.security.web.session.SessionManagementFilter@dc24732, org.springframework.security.web.access.ExceptionTranslationFilter@2c02cf78, org.springframework.security.web.access.intercept.AuthorizationFilter@1d01fa0c]
+[INFO ] 2026-03-25 19:02:56.525 [main] TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+[INFO ] 2026-03-25 19:02:56.555 [main] App - Started App in 10.929 seconds (process running for 12.997)
+[INFO ] 2026-03-25 19:03:27.669 [http-nio-8080-exec-2] DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[INFO ] 2026-03-25 19:03:27.671 [http-nio-8080-exec-2] DispatcherServlet - Completed initialization in 1 ms

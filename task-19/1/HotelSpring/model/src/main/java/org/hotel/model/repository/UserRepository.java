@@ -1,6 +1,7 @@
 package org.hotel.model.repository;
 
 import org.hotel.model.entities.User;
+
 import java.util.Optional;
 
 public interface UserRepository {

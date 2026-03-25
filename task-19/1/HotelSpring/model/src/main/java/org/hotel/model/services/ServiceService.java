@@ -20,6 +20,9 @@ import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;
 
+import static org.hotel.model.enums.SortType.PRICE;
+import static org.hotel.model.enums.SortType.SECTION;
+
 @org.springframework.stereotype.Service
 @Transactional
 public class ServiceService {
@@ -80,8 +83,11 @@ public class ServiceService {
     }
 
     public List<Service> getServicesWithSort(final SortType sortTypeP) {
+        if (sortTypeP != PRICE && sortTypeP != SECTION) {
+            throw new IllegalArgumentException();
+        }
         List<Service> listServices = getServices();
-        if (sortTypeP == SortType.PRICE) {
+        if (sortTypeP == PRICE) {
             listServices.sort(Comparator.comparing(Service::getPrice));
         } else if (sortTypeP == SortType.SECTION) {
             listServices.sort(Comparator.comparing(Service::getServiceSection));
@@ -111,9 +117,10 @@ public class ServiceService {
                     }
                 } else {
                     LOGGER.error("Ошибка при импорте. Неверное количество параметров");
+                    errorCount++;
                 }
             }
-            return "Импорт завершен. Количество ошибок: " + errorCount + ", количество успешно считанных строк:  " + successCount;
+            return "Импорт завершен. Количество ошибок: " + errorCount + ", количество успешно считанных строк: " + successCount;
         }
     }
 

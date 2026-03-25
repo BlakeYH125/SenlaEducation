@@ -71,17 +71,6 @@ public class GuestService {
         return guestRepository.getGuest(id) != null;
     }
 
-    public List<Guest> getActualGuestsWithSort(final SortType sortType) {
-        List<Guest> listGuests = guestRepository.findCurrentGuestsInHotel();
-        if (sortType == SortType.ALPHABET) {
-            listGuests.sort(Comparator.comparing(Guest::getFullName));
-        } else if (sortType == SortType.DATE) {
-            listGuests.sort(Comparator.comparing(Guest::getDepartureDate));
-        }
-        return listGuests;
-    }
-
-
     public String importGuests(MultipartFile multipartFile) throws IOException {
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(multipartFile.getInputStream()))) {
             String line;
