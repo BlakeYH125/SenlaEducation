@@ -52,26 +52,28 @@ public class ProducerService {
         }
     }
 
-    @Scheduled(fixedDelay = 200)
+    @Scheduled(fixedDelay = 1000)
     public void generateAndSendTransfer() {
         if (localAccounts.size() < 2) return;
 
         List<Long> accountIds = new ArrayList<>(localAccounts.keySet());
 
-        Long fromAccountId = accountIds.get(random.nextInt(accountIds.size()));
-        Long toAccountId = accountIds.get(random.nextInt(accountIds.size()));
-        while (fromAccountId.equals(toAccountId)) {
-            toAccountId = accountIds.get(random.nextInt(accountIds.size()));
+        for (int i = 0; i < 5; i++) {
+            Long fromAccountId = accountIds.get(random.nextInt(accountIds.size()));
+            Long toAccountId = accountIds.get(random.nextInt(accountIds.size()));
+            while (fromAccountId.equals(toAccountId)) {
+                toAccountId = accountIds.get(random.nextInt(accountIds.size()));
+            }
+
+            String transferId = UUID.randomUUID().toString();
+            BigDecimal amount = new BigDecimal(random.nextInt(5000) + 1);
+
+            Transfer transfer = new Transfer(transferId, fromAccountId, toAccountId, amount, "создан");
+
+            log.info("Перевод {} на сумму {} руб. (Счет {} -> Счет {})",
+                    transferId, amount, fromAccountId, toAccountId);
+
+            kafkaTemplate.send(TOPIC, transferId, transfer);
         }
-
-        String transferId = UUID.randomUUID().toString();
-        BigDecimal amount = new BigDecimal(random.nextInt(5000) + 1);
-
-        Transfer transfer = new Transfer(transferId, fromAccountId, toAccountId, amount, "создан");
-
-        log.info("Отправка в Kafka: Перевод {} на сумму {} руб. (Счет {} -> Счет {})",
-                transferId, amount, fromAccountId, toAccountId);
-
-        kafkaTemplate.send(TOPIC, transferId, transfer);
     }
 }

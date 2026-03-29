@@ -15,3 +15,5 @@ spring:
       acks: all
       properties:
         enable.idempotence: true
+        linger.ms: 100
+        batch.size: 16384
