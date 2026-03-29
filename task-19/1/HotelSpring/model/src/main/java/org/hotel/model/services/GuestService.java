@@ -8,11 +8,13 @@ import org.hotel.constants.ParametersConstants;
 import org.hotel.constants.TimeConstants;
 import org.hotel.model.entities.Guest;
 import org.hotel.model.entities.Room;
-import org.hotel.model.exceptions.GuestNotFoundException;
+import org.hotel.model.enums.GuestStatus;
 import org.hotel.model.exceptions.RoomNotFoundException;
 import org.hotel.model.exceptions.RoomNotOccupiedException;
+import org.hotel.model.exceptions.GuestAlreadyExistsException;
+import org.hotel.model.exceptions.GuestNotFoundException;
+import org.hotel.model.exceptions.GuestAlreadyEvictedException;
 import org.hotel.model.repository.GuestRepository;
-import org.hotel.model.enums.SortType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,7 +23,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -52,15 +53,26 @@ public class GuestService {
     }
 
     public void addGuest(final Guest guest) {
+        if (isThereGuest(guest.getId())) {
+            throw new GuestAlreadyExistsException();
+        }
         guestRepository.save(guest);
     }
 
     public Guest getGuest(final String id) {
+        if (!isThereGuest(id)) {
+            throw new GuestNotFoundException();
+        }
         return guestRepository.getGuest(id);
     }
 
     public void setEvicted(final String id) {
-        guestRepository.setEvicted(getGuest(id));
+        Guest guest = getGuest(id);
+
+        if (guest.getStatus() == GuestStatus.EVICTED) {
+            throw new GuestAlreadyEvictedException();
+        }
+        guestRepository.setEvicted(guest);
     }
 
     public List<Guest> getActualGuests() {
@@ -88,6 +100,7 @@ public class GuestService {
                     }
                 } else {
                     LOGGER.error("Ошибка при импорте. Неверное количество параметров");
+                    errorCount++;
                 }
             }
             return "Импорт успешен. Количество ошибок: " + errorCount + ", количество успешно считанных строк: " + successCount;
@@ -123,5 +136,16 @@ public class GuestService {
             stringBuilder.append(result).append("\n");
         }
         return stringBuilder.toString();
+    }
+
+    public boolean isRoomBelongsToUser(String username, String roomId) {
+        if (!roomService.isThereRoom(roomId) || !roomService.isOccupied(roomId)) {
+            return false;
+        }
+
+        Room room = roomService.getRoom(roomId);
+
+        List<Guest> guests = guestRepository.findCurrentGuestsInRoom(room);
+        return guests.stream().anyMatch(guest -> guest.getUser() != null && guest.getUser().getUsername().equals(username));
     }
 }

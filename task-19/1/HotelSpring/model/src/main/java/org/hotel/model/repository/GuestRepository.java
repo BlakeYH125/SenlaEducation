@@ -13,4 +13,5 @@ public interface GuestRepository {
     List<Guest> findCurrentGuestsInHotel();
     List<Guest> findCurrentGuestsInRoom(Room room);
     List<Guest> findPreviousGuests(Room room, int limit);
+
 }

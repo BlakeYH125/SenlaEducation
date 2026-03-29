@@ -9,6 +9,7 @@ import org.hotel.model.entities.Service;
 import org.hotel.model.enums.ServiceSection;
 import org.hotel.model.exceptions.ServiceAlreadyExistsException;
 import org.hotel.model.exceptions.ServiceNotFoundException;
+import org.hotel.model.exceptions.WrongSortTypeException;
 import org.hotel.model.repository.ServiceRepository;
 import org.hotel.model.enums.SortType;
 import org.springframework.web.multipart.MultipartFile;
@@ -84,7 +85,7 @@ public class ServiceService {
 
     public List<Service> getServicesWithSort(final SortType sortTypeP) {
         if (sortTypeP != PRICE && sortTypeP != SECTION) {
-            throw new IllegalArgumentException();
+            throw new WrongSortTypeException();
         }
         List<Service> listServices = getServices();
         if (sortTypeP == PRICE) {

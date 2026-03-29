@@ -35,4 +35,12 @@ public class UserDao implements UserRepository {
                 .setParameter("usernameP", usernameP)
                 .uniqueResultOptional();
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean isOwner(String username, String guestId) {
+        String hql = "SELECT count(g) FROM Guest g WHERE g.id = :gId AND g.user.username = :uname";
+        Long count = sessionFactory.getCurrentSession().createQuery(hql, Long.class).setParameter("gId", guestId).setParameter("uname", username).uniqueResult();
+        return count != null && count > 0;
+    }
 }

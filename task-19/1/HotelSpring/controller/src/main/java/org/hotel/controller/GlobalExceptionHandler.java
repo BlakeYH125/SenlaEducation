@@ -1,9 +1,25 @@
 package org.hotel.controller;
 
-import org.hotel.model.exceptions.*;
+import org.hotel.model.exceptions.RoomNotOccupiedException;
+import org.hotel.model.exceptions.RoomAlreadyExistsException;
+import org.hotel.model.exceptions.RoomNotFoundException;
+import org.hotel.model.exceptions.RoomAlreadyInServiceException;
+import org.hotel.model.exceptions.ServiceNotFoundException;
+import org.hotel.model.exceptions.ServiceAlreadyExistsException;
+import org.hotel.model.exceptions.GuestNotFoundException;
+import org.hotel.model.exceptions.GuestAlreadyExistsException;
+import org.hotel.model.exceptions.GuestAlreadyEvictedException;
+import org.hotel.model.exceptions.UserAlreadyExistsException;
+import org.hotel.model.exceptions.WrongSortTypeException;
+import org.hotel.model.exceptions.WrongPasswordException;
+import org.hotel.model.exceptions.RoomAlreadyOccupiedException;
+import org.hotel.model.exceptions.RoomAlreadyAvailableException;
+import org.hotel.model.exceptions.ChangeStatusBannedException;
+import org.hotel.model.exceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
@@ -36,7 +52,9 @@ public class GlobalExceptionHandler {
             RoomAlreadyAvailableException.class,
             RoomAlreadyExistsException.class,
             ServiceAlreadyExistsException.class,
-            RoomNotOccupiedException.class})
+            RoomNotOccupiedException.class,
+            GuestAlreadyExistsException.class,
+            GuestAlreadyEvictedException.class})
     public ResponseEntity<Map<String, String>> handleConflictExceptions(RuntimeException e) {
         return buildResponse(HttpStatus.CONFLICT, e.getMessage(), e);
     }
@@ -78,5 +96,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<Map<String, String>> handle(UserAlreadyExistsException e) {
         return buildResponse(HttpStatus.CONFLICT, "Ошибка при регистрации: пользователь уже существует", e);
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<String> handleMissingParams(MissingServletRequestParameterException ex) {
+        String errorMessage = "Отсутствует параметр " + ex.getParameterName();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
 }

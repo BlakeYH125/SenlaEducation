@@ -3,7 +3,6 @@ package org.hotel.model.services;
 import jakarta.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.sql.ast.tree.expression.Star;
 import org.hotel.constants.CommandConstants;
 import org.hotel.constants.GuestCountConstants;
 import org.hotel.constants.ParametersConstants;
@@ -12,12 +11,13 @@ import org.hotel.model.entities.Guest;
 import org.hotel.model.entities.Room;
 import org.hotel.model.enums.RoomStatus;
 import org.hotel.model.enums.SortType;
-import org.hotel.model.exceptions.ChangeStatusBannedException;
+import org.hotel.model.exceptions.RoomNotFoundException;
+import org.hotel.model.exceptions.RoomAlreadyOccupiedException;
 import org.hotel.model.exceptions.RoomAlreadyAvailableException;
 import org.hotel.model.exceptions.RoomAlreadyExistsException;
 import org.hotel.model.exceptions.RoomAlreadyInServiceException;
-import org.hotel.model.exceptions.RoomAlreadyOccupiedException;
-import org.hotel.model.exceptions.RoomNotFoundException;
+import org.hotel.model.exceptions.ChangeStatusBannedException;
+import org.hotel.model.exceptions.WrongSortTypeException;
 import org.hotel.model.repository.GuestRepository;
 import org.hotel.model.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -204,7 +204,7 @@ public class RoomService {
 
     public List<Room> getAllRoomsWithSort(final SortType sortTypeP) {
         if (sortTypeP != SortType.PRICE && sortTypeP != SortType.CAPACITY && sortTypeP != SortType.STARS) {
-            throw new IllegalArgumentException();
+            throw new WrongSortTypeException();
         }
         List<Room> listRooms = new ArrayList<>(getRooms());
         if (sortTypeP == SortType.PRICE) {
@@ -219,7 +219,7 @@ public class RoomService {
 
     public List<Room> getFreeRoomsWithSort(final SortType sortTypeP) {
         if (sortTypeP != SortType.PRICE && sortTypeP != SortType.CAPACITY && sortTypeP != SortType.STARS) {
-            throw new IllegalArgumentException();
+            throw new WrongSortTypeException();
         }
         List<Room> listRooms = new ArrayList<>(getFreeRoomsByDate(new Date(System.currentTimeMillis())));
         if (sortTypeP == SortType.PRICE) {

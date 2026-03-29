@@ -64,8 +64,7 @@ public class AuthenticationService {
 
     @Transactional(readOnly = true)
     public String authenticate(String username, String password) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (BadCredentialsException e) {

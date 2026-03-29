@@ -49,8 +49,7 @@ public final class UsedService {
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    public UsedService(final Long usedServiceIdP, final String serviceIdP, final String guestIdP, final BigDecimal priceP, final Date dateP) {
-        this.usedServiceId = usedServiceIdP;
+    public UsedService(final String serviceIdP, final String guestIdP, final BigDecimal priceP, final Date dateP) {
         this.serviceId = serviceIdP;
         this.guestId = guestIdP;
         this.price = priceP;

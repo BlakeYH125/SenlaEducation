@@ -124,7 +124,7 @@ public class ServiceController {
 
     @PostMapping("/import")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<String> importServiceData(@RequestParam MultipartFile multipartFile) throws IOException {
+    public ResponseEntity<String> importServiceData(@RequestParam("file") MultipartFile multipartFile) throws IOException {
         LOGGER.info("Начат процесс импорта из csv файла");
         if (multipartFile.isEmpty()) {
             return ResponseEntity.badRequest().body("Файл пуст.");
