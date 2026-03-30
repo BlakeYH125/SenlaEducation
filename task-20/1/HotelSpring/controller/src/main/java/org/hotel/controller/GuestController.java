@@ -8,8 +8,10 @@ import org.hotel.model.services.GuestService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -97,7 +99,19 @@ public class GuestController {
 
     @GetMapping("/{rent-room-id}/total-cost")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
-    public ResponseEntity<BigDecimal> getTotalCost(@PathVariable("rent-room-id") String rentRoomId) {
+    public ResponseEntity<BigDecimal> getTotalCost(@PathVariable("rent-room-id") String rentRoomId, Authentication authentication) {
+        String currentUsername = authentication.getName();
+
+        boolean isAdmin = authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+        if (!isAdmin) {
+            boolean isOwner = guestService.isRoomBelongsToUser(currentUsername, rentRoomId);
+            if (!isOwner) {
+                LOGGER.warn("Пользователь {} пытался получить счет для чужой комнаты {}", currentUsername, rentRoomId);
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
+        }
+
         LOGGER.info("Начат процесс вывода суммы которую должен заплатить гость");
         BigDecimal totalCost = guestService.getTotalCost(rentRoomId);
         LOGGER.info("Процесс вывода суммы успешен.");
@@ -106,7 +120,16 @@ public class GuestController {
 
     @PostMapping("/{gId}/use-service/{sId}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
-    public ResponseEntity<String> useService(@PathVariable("gId") String gId, @PathVariable("sId") String sId) {
+    public ResponseEntity<String> useService(@PathVariable("gId") String gId, @PathVariable("sId") String sId, Authentication authentication) {
+        String currentUsername = authentication.getName();
+        boolean isAdmin = authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+        if (!isAdmin) {
+            boolean isOwner = administratorService.isUserOwnerOfGuest(currentUsername, gId);
+            if (!isOwner) {
+                LOGGER.warn("Пользователь {} пытался заказать услугу для чужого профиля {}", currentUsername, gId);
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Вы не можете управлять чужими услугами.");
+            }
+        }
         LOGGER.info("Начат процесс использования услуги гостем");
         administratorService.useServiceByGuest(gId, sId);
         LOGGER.info("Процесс использования услуги гостем успешен");

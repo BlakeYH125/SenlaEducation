@@ -4,14 +4,18 @@ import jakarta.transaction.Transactional;
 import org.hotel.constants.TimeConstants;
 import org.hotel.model.Priceable;
 import org.hotel.model.entities.Guest;
-import org.hotel.model.entities.Room;
 import org.hotel.model.entities.Service;
+import org.hotel.model.entities.Room;
 import org.hotel.model.entities.UsedService;
+import org.hotel.model.entities.User;
 import org.hotel.model.enums.GuestStatus;
+import org.hotel.model.enums.Role;
 import org.hotel.model.enums.SortType;
 import org.hotel.model.exceptions.GuestNotFoundException;
 import org.hotel.model.exceptions.ServiceNotFoundException;
+import org.hotel.model.exceptions.UserNotFoundException;
 import org.hotel.model.exceptions.WrongSortTypeException;
+import org.hotel.model.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -42,14 +46,21 @@ public class AdministratorService {
      */
     private final UsedServiceService usedServiceService;
 
-    public AdministratorService(final GuestService guestServiceP, final RoomService roomServiceP, final ServiceService serviceServiceP, final UsedServiceService usedServiceServiceP) {
+    /**
+     * Класс управления пользователями.
+     */
+    private final UserRepository userRepository;
+
+    public AdministratorService(final GuestService guestServiceP, final RoomService roomServiceP, final ServiceService serviceServiceP, final UsedServiceService usedServiceServiceP, UserRepository userRepositoryP) {
         this.guestService = guestServiceP;
         this.roomService = roomServiceP;
         this.serviceService = serviceServiceP;
         this.usedServiceService = usedServiceServiceP;
+        this.userRepository = userRepositoryP;
     }
 
-    public void settle(final String roomIdP, final List<Guest> guests, final int daysCount) {
+    public void settle(final String roomIdP, final List<Guest> guests, final int daysCount, String username) {
+        User currentUser = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException());
         roomService.setOccupiedToSettle(roomIdP, daysCount);
         Date arriveDate = new Date(System.currentTimeMillis());
         Date departureDate = new Date(System.currentTimeMillis() + daysCount * TimeConstants.MSEC_IN_DAY);
@@ -58,6 +69,9 @@ public class AdministratorService {
             guest.setArriveDate(arriveDate);
             guest.setDepartureDate(departureDate);
             guest.setStatus(GuestStatus.SETTLED);
+            if (currentUser.getRole() == Role.ROLE_USER) {
+                guest.setUser(currentUser);
+            }
             guestService.addGuest(guest);
         }
     }
@@ -69,6 +83,10 @@ public class AdministratorService {
         for (Guest guest : guests) {
             guestService.setEvicted(guest.getId());
         }
+    }
+
+    public boolean isUserOwnerOfGuest(String username, String guestId) {
+        return userRepository.isOwner(username, guestId);
     }
 
     public void useServiceByGuest(final String guestId, final String serviceId) {

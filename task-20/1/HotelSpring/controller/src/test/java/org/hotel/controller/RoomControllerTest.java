@@ -68,8 +68,8 @@ public class RoomControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    @WithMockUser(authorities = "ROLE_ADMIN")
-    void settle_ShouldReturn200_WhenRequestIsCorrect() throws Exception {
+    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
+    void settle_ShouldReturn200_WhenRequestIsCorrectAndAdmin() throws Exception {
         SettleRequestDto settleRequestDto = new SettleRequestDto();
         settleRequestDto.setRoomId("r1");
         settleRequestDto.setDaysCount(5);
@@ -91,26 +91,38 @@ public class RoomControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string("Заселение успешно."));
 
-        verify(administratorService, times(1)).settle(eq("r1"), anyList(), eq(5));
+        verify(administratorService, times(1)).settle(eq("r1"), anyList(), eq(5), eq("admin"));
     }
 
     @Test
-    @WithMockUser(authorities = "ROLE_USER")
-    void settle_ShouldReturn403Forbidden_WhenUserRequests() throws Exception {
+    @WithMockUser(username = "user123", authorities = "ROLE_USER")
+    void settle_ShouldReturn200_WhenUserRequests() throws Exception {
         SettleRequestDto settleRequestDto = new SettleRequestDto();
         settleRequestDto.setRoomId("r1");
         settleRequestDto.setDaysCount(5);
+        GuestDto guestDto = new GuestDto();
+        guestDto.setFullName("Ivan Petrov");
+        settleRequestDto.setGuests(List.of(guestDto));
+
+        Guest mappedGuest = new Guest();
+        mappedGuest.setId("g1");
+
+        when(dtoMapper.toGuestEntity(any(GuestDto.class))).thenReturn(mappedGuest);
+
         String json = objectMapper.writeValueAsString(settleRequestDto);
 
         mockMvc.perform(post("/hotel/rooms/settle")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isOk())
+                .andExpect(content().string("Заселение успешно."));
+
+        verify(administratorService, times(1)).settle(eq("r1"), anyList(), eq(5), eq("user123"));
     }
 
     @Test
-    void settle_ShouldReturn401Or403_WhenUnauthenticated() throws Exception {
+    void settle_ShouldReturn401_WhenUnauthenticated() throws Exception {
         SettleRequestDto requestDto = new SettleRequestDto();
         requestDto.setRoomId("r1");
         requestDto.setDaysCount(5);
@@ -124,15 +136,15 @@ public class RoomControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = "ROLE_ADMIN")
-    void settle_ShouldReturnErrorStatus_WhenServiceThrowsException() throws Exception {
+    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
+    void settle_ShouldReturnErrorStatus_WhenRoomNotFound() throws Exception {
         SettleRequestDto requestDto = new SettleRequestDto();
         requestDto.setRoomId("r1");
         requestDto.setDaysCount(5);
         requestDto.setGuests(List.of(new GuestDto()));
         String json = objectMapper.writeValueAsString(requestDto);
 
-        doThrow(new RoomNotFoundException()).when(administratorService).settle(eq("r1"), anyList(), eq(5));
+        doThrow(new RoomNotFoundException()).when(administratorService).settle(eq("r1"), anyList(), eq(5), eq("admin"));
 
         mockMvc.perform(post("/hotel/rooms/settle")
                         .with(csrf())
@@ -142,7 +154,7 @@ public class RoomControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = "ROLE_ADMIN")
+    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void settle_ShouldReturnConflictStatus_WhenRoomOccupied() throws Exception {
         SettleRequestDto requestDto = new SettleRequestDto();
         requestDto.setRoomId("r1");
@@ -150,7 +162,7 @@ public class RoomControllerTest {
         requestDto.setGuests(List.of(new GuestDto()));
         String json = objectMapper.writeValueAsString(requestDto);
 
-        doThrow(new RoomAlreadyOccupiedException()).when(administratorService).settle(eq("r1"), anyList(), eq(5));
+        doThrow(new RoomAlreadyOccupiedException()).when(administratorService).settle(eq("r1"), anyList(), eq(5), eq("admin"));
 
         mockMvc.perform(post("/hotel/rooms/settle")
                         .with(csrf())

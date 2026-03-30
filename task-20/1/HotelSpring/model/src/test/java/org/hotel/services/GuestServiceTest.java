@@ -3,6 +3,7 @@ package org.hotel.services;
 import org.hotel.constants.TimeConstants;
 import org.hotel.model.entities.Guest;
 import org.hotel.model.entities.Room;
+import org.hotel.model.entities.User;
 import org.hotel.model.enums.GuestStatus;
 import org.hotel.model.enums.RoomStatus;
 import org.hotel.model.exceptions.GuestNotFoundException;
@@ -359,5 +360,42 @@ public class GuestServiceTest {
         verify(roomService, times(1)).isThereRoom("r1");
         verify(roomService, times(1)).isOccupied("r1");
         verify(roomService, times(1)).getRoom("r1");
+    }
+
+    @Test
+    void isRoomBelongsToUser_ShouldReturnTrue_WhenUserOwnsGuestInRoom() {
+        String username = "testUser";
+        String roomId = "r1";
+
+        Room room = new Room();
+        room.setId(roomId);
+
+        User user = new User();
+        user.setUsername(username);
+
+        Guest guest = new Guest();
+        guest.setId("g1");
+        guest.setUser(user);
+
+        when(roomService.isThereRoom(roomId)).thenReturn(true);
+        when(roomService.isOccupied(roomId)).thenReturn(true);
+        when(roomService.getRoom(roomId)).thenReturn(room);
+        when(guestRepository.findCurrentGuestsInRoom(room)).thenReturn(new ArrayList<>(List.of(guest)));
+
+        boolean actual = guestService.isRoomBelongsToUser(username, roomId);
+
+        assertTrue(actual);
+    }
+
+    @Test
+    void isRoomBelongsToUser_ShouldReturnFalse_WhenRoomDoesNotExistsOrNotOccupied() {
+        String username = "testUser";
+        String roomId = "r1";
+
+        when(roomService.isThereRoom(roomId)).thenReturn(false);
+
+        boolean actual = guestService.isRoomBelongsToUser(username, roomId);
+
+        assertFalse(actual);
     }
 }

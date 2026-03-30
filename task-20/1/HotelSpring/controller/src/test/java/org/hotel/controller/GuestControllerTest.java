@@ -203,7 +203,7 @@ public class GuestControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = "ROLE_ADMIN")
+    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void getTotalCost_ShouldReturn200_WhenAdminRequests() throws Exception {
         String rentRoomId = "r1";
         BigDecimal cost = new BigDecimal(5000);
@@ -218,11 +218,12 @@ public class GuestControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = "ROLE_USER")
-    void getTotalCost_ShouldReturn200_WhenUserRequests() throws Exception {
+    @WithMockUser(username = "ownerUser", authorities = "ROLE_USER")
+    void getTotalCost_ShouldReturn200_WhenUserIsOwner() throws Exception {
         String rentRoomId = "r1";
         BigDecimal cost = new BigDecimal(5000);
 
+        when(guestService.isRoomBelongsToUser("ownerUser", rentRoomId)).thenReturn(true);
         when(guestService.getTotalCost(rentRoomId)).thenReturn(cost);
 
         mockMvc.perform(get("/hotel/guests/{rent-room-id}/total-cost", rentRoomId))
@@ -233,13 +234,24 @@ public class GuestControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "otherUser", authorities = "ROLE_USER")
+    void getTotalCost_ShouldReturn403_WhenUserIsNotOwner() throws Exception {
+        String rentRoomId = "r1";
+
+        when(guestService.isRoomBelongsToUser("otherUser", rentRoomId)).thenReturn(false);
+
+        mockMvc.perform(get("/hotel/guests/{rent-room-id}/total-cost", rentRoomId))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
     void getTotalCost_ShouldReturn401_WhenNoNameRequests() throws Exception {
         mockMvc.perform(get("/hotel/guests/{rent-room-id}/total-cost", "r1"))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
-    @WithMockUser(authorities = "ROLE_ADMIN")
+    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void useService_ShouldReturn200_WhenAdminRequests() throws Exception {
         String gId = "g1";
         String sId = "s1";
@@ -253,10 +265,12 @@ public class GuestControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = "ROLE_USER")
-    void useService_ShouldReturn200_WhenUserRequests() throws Exception {
+    @WithMockUser(username = "ownerUser", authorities = "ROLE_USER")
+    void useService_ShouldReturn200_WhenUserIsOwner() throws Exception {
         String gId = "g1";
         String sId = "s1";
+
+        when(administratorService.isUserOwnerOfGuest("ownerUser", gId)).thenReturn(true);
 
         mockMvc.perform(post("/hotel/guests/{gId}/use-service/{sId}", gId, sId)
                         .with(csrf()))
@@ -264,6 +278,20 @@ public class GuestControllerTest {
                 .andExpect(content().string("Процесс использования услуги гостем успешен"));
 
         verify(administratorService, times(1)).useServiceByGuest(gId, sId);
+    }
+
+    @Test
+    @WithMockUser(username = "otherUser", authorities = "ROLE_USER")
+    void useService_ShouldReturn403_WhenUserIsNotOwner() throws Exception {
+        String gId = "g1";
+        String sId = "s1";
+
+        when(administratorService.isUserOwnerOfGuest("otherUser", gId)).thenReturn(false);
+
+        mockMvc.perform(post("/hotel/guests/{gId}/use-service/{sId}", gId, sId)
+                        .with(csrf()))
+                .andExpect(status().isForbidden())
+                .andExpect(content().string("Вы не можете управлять чужими услугами."));
     }
 
     @Test

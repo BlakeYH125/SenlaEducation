@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
@@ -61,13 +62,13 @@ public class RoomController {
     }
 
     @PostMapping("/settle")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<String> settle(@RequestBody SettleRequestDto settleRequestDto) {
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
+    public ResponseEntity<String> settle(@RequestBody SettleRequestDto settleRequestDto, Principal principal) {
         LOGGER.info("Начат процесс заселения в комнату " + settleRequestDto.getRoomId());
         List<Guest> guests = settleRequestDto.getGuests().stream()
                 .map(dtoMapper::toGuestEntity)
                 .toList();
-        administratorService.settle(settleRequestDto.getRoomId(), guests, settleRequestDto.getDaysCount());
+        administratorService.settle(settleRequestDto.getRoomId(), guests, settleRequestDto.getDaysCount(), principal.getName());
         LOGGER.info("Заселение успешно");
         return ResponseEntity.ok("Заселение успешно.");
     }

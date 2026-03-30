@@ -137,4 +137,15 @@ public class GuestService {
         }
         return stringBuilder.toString();
     }
+
+    public boolean isRoomBelongsToUser(String username, String roomId) {
+        if (!roomService.isThereRoom(roomId) || !roomService.isOccupied(roomId)) {
+            return false;
+        }
+
+        Room room = roomService.getRoom(roomId);
+
+        List<Guest> guests = guestRepository.findCurrentGuestsInRoom(room);
+        return guests.stream().anyMatch(guest -> guest.getUser() != null && guest.getUser().getUsername().equals(username));
+    }
 }

@@ -2,12 +2,14 @@ package org.hotel.model.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Id;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 import org.hotel.model.enums.GuestStatus;
 
 import java.util.Date;
@@ -61,6 +63,13 @@ public final class Guest {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private GuestStatus status;
+
+    /**
+     * Аккаунт гостя.
+     */
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Guest(final String paramId, final String paramFullName, final int paramAge) {
         this.id = paramId;
@@ -125,6 +134,14 @@ public final class Guest {
 
     public String getRentRoomId() {
         return rentRoomId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User userP) {
+        this.user = userP;
     }
 
     @Override
